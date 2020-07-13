@@ -4,6 +4,8 @@ import com.finance.pojo.user.UserFundProduct;
 import com.finance.pojo.user.UserFundProductExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
 
 public interface UserFundProductMapper {
     /**

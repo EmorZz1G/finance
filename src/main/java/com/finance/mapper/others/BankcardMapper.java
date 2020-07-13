@@ -4,6 +4,7 @@ import com.finance.pojo.others.Bankcard;
 import com.finance.pojo.others.BankcardExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 public interface BankcardMapper {
     /**
