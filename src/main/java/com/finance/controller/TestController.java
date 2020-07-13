@@ -15,7 +15,7 @@ public class TestController {
 
 
     // 我写了一个GPL
-
+    // TEST
     @Resource
     BankcardMapper bankcardMapper;
 
