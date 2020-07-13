@@ -11,7 +11,7 @@
                         password="123321pp">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.finance.pojo"
+        <javaModelGenerator targetPackage="com.finance.pojo.user"
                             targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
 
@@ -20,12 +20,14 @@
                          targetProject="./src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.user"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
+
         <!--<table tableName="finance.admin" domainObjectName="Admin"/>-->
         <!--<table tableName="finance.admin_permissions" domainObjectName="AdminPermissions"/>-->
+
         <!--<table tableName="finance.bank" domainObjectName="Bank"/>-->
         <!--<table tableName="finance.bankcard" domainObjectName="Bankcard"/>-->
         <!--<table tableName="finance.change_money" domainObjectName="ChangeMoney"/>-->
@@ -37,6 +39,8 @@
         <!--<table tableName="finance.pay_money" domainObjectName="PayMoney"/>-->
         <!--<table tableName="finance.permissions" domainObjectName="Permissions"/>-->
         <!--<table tableName="finance.term_financial" domainObjectName="TermFinancial"/>-->
+
+
         <!--<table tableName="finance.user" domainObjectName="User"/>-->
         <!--<table tableName="finance.user_change_money" domainObjectName="UserChangeMoney"/>-->
         <!--<table tableName="finance.user_fund_product" domainObjectName="UserFundProduct"/>-->
