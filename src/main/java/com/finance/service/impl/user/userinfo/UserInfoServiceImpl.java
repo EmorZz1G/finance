@@ -39,4 +39,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     public int insertUser(User user) {
         return userMapper.insertSelective(user);
     }
+
+    @Override
+    public int updateUserStatusById(int id) {
+        User user = new User();
+        user.setId(id);
+        user.setStatus(0);
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
 }

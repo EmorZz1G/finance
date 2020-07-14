@@ -14,4 +14,6 @@ public interface UserInfoService {
     int deleteUserById(int id);
 
     int insertUser(User user);
+
+    int updateUserStatusById(int id);
 }

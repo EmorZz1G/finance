@@ -60,6 +60,17 @@ public class UserInfoController {
         }
     }
 
+    @PutMapping("/user/updateUserStatus/{id}")
+    @ResponseBody
+    public Result updateUserStatus(@PathVariable("id")int id){
+        int i = userInfoService.updateUserStatusById(id);
+        if(i==1){
+            return Result.success();
+        }else {
+            return Result.failure();
+        }
+    }
+
     @RequestMapping("/admin/userinfo/toUserInfo.html")
     public ModelAndView toUserInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {

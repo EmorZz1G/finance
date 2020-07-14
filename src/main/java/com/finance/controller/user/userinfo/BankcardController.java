@@ -2,21 +2,68 @@ package com.finance.controller.user.userinfo;
 
 
 import com.finance.common.Result;
+import com.finance.pojo.others.Bankcard;
+import com.finance.service.user.userinfo.BankcardService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class BankcardController {
 
-//    @Autowired
+
+    @Autowired
+    BankcardService bankcardService;
 
 
-//    @GetMapping("/user/getBankCardById/{id}")
-//    @ResponseBody
-//    public Result getBankCardById(@PathVariable("id")int id){
-//        return null;
-//    }
+    @GetMapping("/admin/userinfo/toBankCard.html")
+    public String toBankCard(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                             @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+                             Model model){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Bankcard> bankcards = bankcardService.selectBankCards();
+        PageInfo<Bankcard> bankcardPageInfo = new PageInfo<>(bankcards);
+        model.addAttribute("bankcardPageInfo", bankcardPageInfo);
+        model.addAttribute("bankcardList", bankcards);
+        return "admin/userinfo/bankcard";
+    }
+    @GetMapping("/user/getBankCardById/{id}")
+    @ResponseBody
+    public Result getBankCardById(@PathVariable("id") int id){
+        Bankcard bankCardById = bankcardService.getBankCardById(id);
+        if (bankCardById!=null){
+            return Result.success().add("bankcard",bankCardById);
+        }else {
+            return Result.failure();
+        }
+    }
+
+    @PutMapping("/user/updateBankCard/{id}")
+    @ResponseBody
+    public Result updateBankCard(@PathVariable("id") int id,
+                                 Bankcard bankcard){
+        bankcard.setId(id);
+        int i = bankcardService.updateBankCard(bankcard);
+        if(i==1){
+            return Result.success().add("bankcard", bankcard);
+        }else {
+            return Result.failure();
+        }
+    }
+
+    @DeleteMapping("/user/deleteBankCard/{id}")
+    @ResponseBody
+    public Result deleteBankCard(@PathVariable("id") int id){
+        int i = bankcardService.deleteBankCardById(id);
+        if(i==1){
+            return Result.success();
+        }else {
+            return Result.failure();
+        }
+    }
 }
