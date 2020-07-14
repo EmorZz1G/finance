@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -25,20 +26,19 @@ public class LoginController {
     @Autowired
     UserInfoService userInfoService;
 
-
     @GetMapping({"/"})
     public String toLogin() {
         return "login";
     }
 
-    @GetMapping("/toUserMain")
+    @GetMapping("/user/toUserMain")
     public String toUserMain() {
         return "user/main";
     }
 
 
-    @GetMapping(value = {"/toAdminMain",
-                         "/admin/index.html"})
+    @GetMapping(value = {"/admin/toAdminMain",
+            "/admin/index.html"})
     public String toAdminMain(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
                               Model model) {
@@ -64,17 +64,21 @@ public class LoginController {
     @GetMapping("/login/verifyLogin")
     @ResponseBody
     public Result verifyLogin(@RequestParam("username") String username,
-                              @RequestParam("password") String password) {
+                              @RequestParam("password") String password,
+                              HttpSession session) {
         User user = loginService.loginForUser(username, password);
         if (user != null) {
+            session.setAttribute("loginAdmin",user);
+            loginService.status2online(user);
             Result success = Result.success();
-            success.add("url", "toUserMain");
+            success.add("url", "/user/toUserMain");
             return success;
         }
         Admin admin = loginService.loginForAdmin(username, password);
         if (admin != null) {
+            session.setAttribute("loginAdmin",admin);
             Result success = Result.success();
-            success.add("url", "toAdminMain");
+            success.add("url", "/admin/toAdminMain");
             return success;
         }
         return Result.failure();

@@ -9,4 +9,8 @@ public interface LoginService {
     User loginForUser(String username, String password);
 
     Admin loginForAdmin(String username, String password);
+
+    int status2online(User user);
+
+    int status2Disconnected(User user);
 }

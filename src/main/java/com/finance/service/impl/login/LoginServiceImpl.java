@@ -62,4 +62,16 @@ public class LoginServiceImpl implements LoginService {
             return null;
         }
     }
+
+    @Override
+    public int status2online(User user) {
+        user.setStatus(1);
+        return userMapper.insertSelective(user);
+    }
+
+    @Override
+    public int status2Disconnected(User user) {
+        user.setStatus(0);
+        return userMapper.insertSelective(user);
+    }
 }
