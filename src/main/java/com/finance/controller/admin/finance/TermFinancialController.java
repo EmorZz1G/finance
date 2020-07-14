@@ -56,7 +56,7 @@ public class TermFinancialController {
 
 
     @RequestMapping(value = "/admin/addTermFinancial",
-    method = RequestMethod.POST)
+            method = RequestMethod.POST)
     @ResponseBody
     public Result addTermFinancial(TermFinancial termFinancial) {
         int i = termFinancialService.insertTermFinancial(termFinancial);
@@ -69,7 +69,7 @@ public class TermFinancialController {
 
 
     @RequestMapping(value = "/admin/finance/toTermFinancial.html",
-    method = RequestMethod.GET)
+            method = RequestMethod.GET)
     public ModelAndView toTermFinancial(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                         @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         ModelAndView modelAndView = new ModelAndView("admin/finance/termfinancial.html");
