@@ -47,4 +47,5 @@ public class UserInfoServiceImpl implements UserInfoService {
         user.setStatus(0);
         return userMapper.updateByPrimaryKeySelective(user);
     }
+
 }
