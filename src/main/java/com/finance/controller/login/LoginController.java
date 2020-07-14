@@ -26,7 +26,7 @@ public class LoginController {
     @Autowired
     UserInfoService userInfoService;
 
-    @GetMapping({"/"})
+    @GetMapping({"/","/login"})
     public String toLogin() {
         return "login";
     }
@@ -54,11 +54,14 @@ public class LoginController {
     @ResponseBody
     public Result loginVerifyUsername(@PathVariable("username") String username) {
         Admin admin = loginService.loginVerifyUsername(username);
-        if (admin == null) {
-            return Result.failure();
-        } else {
+        if(admin!=null){
             return Result.success();
         }
+        User user = loginService.loginVerifyUsernameForUser(username);
+        if(user!=null){
+            return Result.success();
+        }
+        return Result.failure();
     }
 
     @GetMapping("/login/verifyLogin")
@@ -68,7 +71,7 @@ public class LoginController {
                               HttpSession session) {
         User user = loginService.loginForUser(username, password);
         if (user != null) {
-            session.setAttribute("loginAdmin",user);
+            session.setAttribute("loginUser",user);
             loginService.status2online(user);
             Result success = Result.success();
             success.add("url", "/user/toUserMain");

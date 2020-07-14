@@ -36,6 +36,19 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+    public User loginVerifyUsernameForUser(String username) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUsernameLike(username);
+        List<User> admins = userMapper.selectByExample(userExample);
+        if (admins!=null&&admins.size()==1){
+            return admins.get(0);
+        }else {
+            return null;
+        }
+    }
+
+    @Override
     public User loginForUser(String username, String password) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();

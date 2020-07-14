@@ -6,6 +6,8 @@ import com.finance.pojo.user.User;
 public interface LoginService {
     Admin loginVerifyUsername(String username);
 
+    User loginVerifyUsernameForUser(String username);
+
     User loginForUser(String username, String password);
 
     Admin loginForAdmin(String username, String password);

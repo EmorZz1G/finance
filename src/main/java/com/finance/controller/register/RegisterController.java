@@ -21,7 +21,7 @@ public class RegisterController {
     public Result doRegister(User user){
         boolean register = registerService.register(user);
         if(register){
-            return Result.success();
+            return Result.success().add("url", "/login");
         }else {
             return Result.failure();
         }
