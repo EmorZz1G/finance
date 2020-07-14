@@ -2,20 +2,21 @@ package com.finance.controller.user.userinfo;
 
 
 import com.finance.common.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BankcardController {
 
-    @PutMapping("/user/updateUserProfile/{id}")
-    public String updateUserProfile(){
+//    @Autowired
 
-    }
 
-    @GetMapping("/user/getUserById/{id}")
-    public Result getUserById(){
-
-    }
+//    @GetMapping("/user/getBankCardById/{id}")
+//    @ResponseBody
+//    public Result getBankCardById(@PathVariable("id")int id){
+//        return null;
+//    }
 }
