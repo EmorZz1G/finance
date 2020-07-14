@@ -22,30 +22,36 @@ public class LoginServiceImpl implements LoginService {
     @Resource
     AdminMapper adminMapper;
 
+
+    public Object getObject(Object example){
+        if(example instanceof AdminExample){
+            List<Admin> objs = adminMapper.selectByExample((AdminExample)example);
+            if (objs!=null&&objs.size()==1){
+                return objs.get(0);
+            }
+        }else if (example instanceof UserExample){
+            List<User> objs = userMapper.selectByExample((UserExample)example);
+            if (objs!=null&&objs.size()==1){
+                return objs.get(0);
+            }
+        }
+        return null;
+    }
+
     @Override
     public Admin loginVerifyUsername(String username) {
         AdminExample adminExample = new AdminExample();
         AdminExample.Criteria criteria = adminExample.createCriteria();
-        criteria.andUsernameLike(username);
-        List<Admin> admins = adminMapper.selectByExample(adminExample);
-        if (admins!=null&&admins.size()==1){
-            return admins.get(0);
-        }else {
-            return null;
-        }
+        criteria.andUsernameEqualTo(username);
+        return (Admin) getObject(adminExample);
     }
 
     @Override
     public User loginVerifyUsernameForUser(String username) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
-        criteria.andUsernameLike(username);
-        List<User> admins = userMapper.selectByExample(userExample);
-        if (admins!=null&&admins.size()==1){
-            return admins.get(0);
-        }else {
-            return null;
-        }
+        criteria.andUsernameEqualTo(username);
+        return (User) getObject(userExample);
     }
 
     @Override
@@ -54,12 +60,7 @@ public class LoginServiceImpl implements LoginService {
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(username);
         criteria.andPasswordEqualTo(password);
-        List<User> users = userMapper.selectByExample(userExample);
-        if(users!=null&&users.size()==1){
-            return users.get(0);
-        }else {
-            return null;
-        }
+        return (User) getObject(userExample);
     }
 
     @Override
@@ -68,23 +69,18 @@ public class LoginServiceImpl implements LoginService {
         AdminExample.Criteria criteria = adminExample.createCriteria();
         criteria.andUsernameLike(username);
         criteria.andPasswordEqualTo(password);
-        List<Admin> admins = adminMapper.selectByExample(adminExample);
-        if (admins!=null&&admins.size()==1){
-            return admins.get(0);
-        }else {
-            return null;
-        }
+        return (Admin) getObject(adminExample);
     }
 
     @Override
     public int status2online(User user) {
         user.setStatus(1);
-        return userMapper.insertSelective(user);
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
     public int status2Disconnected(User user) {
         user.setStatus(0);
-        return userMapper.insertSelective(user);
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 }

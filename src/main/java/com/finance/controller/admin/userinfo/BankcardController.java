@@ -1,4 +1,4 @@
-package com.finance.controller.user.userinfo;
+package com.finance.controller.admin.userinfo;
 
 
 import com.finance.common.Result;
@@ -32,6 +32,7 @@ public class BankcardController {
         model.addAttribute("bankcardList", bankcards);
         return "admin/userinfo/bankcard";
     }
+    
     @GetMapping("/user/getBankCardById/{id}")
     @ResponseBody
     public Result getBankCardById(@PathVariable("id") int id){

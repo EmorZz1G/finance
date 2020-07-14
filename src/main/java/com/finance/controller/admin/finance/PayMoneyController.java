@@ -66,8 +66,7 @@ public class PayMoneyController {
         }
     }
 
-    @RequestMapping(value = "/admin/finance/toPayMoney.html",
-    method = RequestMethod.GET)
+    @GetMapping("/admin/finance/toPayMoney.html")
     public ModelAndView toPayMoney(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         ModelAndView modelAndView = new ModelAndView("admin/finance/paymoney.html");

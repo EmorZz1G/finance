@@ -1,4 +1,4 @@
-package com.finance.controller.user.userinfo;
+package com.finance.controller.admin.userinfo;
 
 
 import com.finance.pojo.user.User;
@@ -19,7 +19,7 @@ public class ReputationController {
     @Autowired
     ReputationService reputationService;
 
-    @GetMapping("admin/userinfo/toReputation.html")
+/*    @GetMapping("admin/userinfo/toReputation.html")
     public ModelAndView toReputation(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         ModelAndView modelAndView = new ModelAndView("admin/userinfo/reputation.html");
@@ -29,5 +29,5 @@ public class ReputationController {
         modelAndView.addObject("userList", users);
         modelAndView.addObject("userPageInfo", userPageInfo);
         return modelAndView;
-    }
+    }*/
 }

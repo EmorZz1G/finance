@@ -26,14 +26,9 @@ public class LoginController {
     @Autowired
     UserInfoService userInfoService;
 
-    @GetMapping({"/","/login"})
+    @GetMapping({"/", "/login"})
     public String toLogin() {
         return "login";
-    }
-
-    @GetMapping("/user/toUserMain")
-    public String toUserMain() {
-        return "user/main";
     }
 
 
@@ -54,11 +49,11 @@ public class LoginController {
     @ResponseBody
     public Result loginVerifyUsername(@PathVariable("username") String username) {
         Admin admin = loginService.loginVerifyUsername(username);
-        if(admin!=null){
+        if (admin != null) {
             return Result.success();
         }
         User user = loginService.loginVerifyUsernameForUser(username);
-        if(user!=null){
+        if (user != null) {
             return Result.success();
         }
         return Result.failure();
@@ -71,7 +66,7 @@ public class LoginController {
                               HttpSession session) {
         User user = loginService.loginForUser(username, password);
         if (user != null) {
-            session.setAttribute("loginUser",user);
+            session.setAttribute("loginUser", user);
             loginService.status2online(user);
             Result success = Result.success();
             success.add("url", "/user/toUserMain");
@@ -79,11 +74,23 @@ public class LoginController {
         }
         Admin admin = loginService.loginForAdmin(username, password);
         if (admin != null) {
-            session.setAttribute("loginAdmin",admin);
+            session.setAttribute("loginAdmin", admin);
             Result success = Result.success();
             success.add("url", "/admin/toAdminMain");
             return success;
         }
         return Result.failure();
+    }
+
+    @GetMapping("/logout")
+    public String logout(@RequestParam(value = "logout", defaultValue = "") String logoutType,
+                         HttpSession session) {
+        if ("adminLogout".equals(logoutType)) {
+            session.invalidate();
+        }else if("userLogout".equals(logoutType)){
+            loginService.status2Disconnected((User) session.getAttribute("loginUser"));
+            session.invalidate();
+        }
+        return "login";
     }
 }

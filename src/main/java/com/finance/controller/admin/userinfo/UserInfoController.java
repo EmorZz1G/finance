@@ -1,4 +1,4 @@
-package com.finance.controller.user.userinfo;
+package com.finance.controller.admin.userinfo;
 
 import com.finance.common.Result;
 import com.finance.pojo.user.User;
@@ -71,7 +71,8 @@ public class UserInfoController {
         }
     }
 
-    @RequestMapping("/admin/userinfo/toUserInfo.html")
+    @RequestMapping({"/admin/userinfo/toUserInfo.html",
+                    "admin/userinfo/toReputation.html"})
     public ModelAndView toUserInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         ModelAndView modelAndView = new ModelAndView("admin/userinfo/userinfo.html");
