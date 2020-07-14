@@ -49,7 +49,7 @@
                                         </thead>
                                         <tbody>
                                         <tr th:each="finance:${financeList}">
-                                            <td th:text="${(finacnePageInfo.pageNum - 1) * finacnePageInfo.pageSize+financeStat.index+1}"></td>
+                                            <td th:text="${(financePageInfo.pageNum - 1) * financePageInfo.pageSize+financeStat.index+1}"></td>
                                             <td th:text="${finance.name}"></td>
                                             <td th:text="${#numbers.formatDecimal(finance.annualincome*100,1,3)}+'%'"></td>
                                             <td th:text="${#numbers.formatDecimal(finance.peiincome,1,2)}+'元'"></td>
@@ -87,7 +87,7 @@
                                             <span>页次：</span>
                                         </button>
                                         <button class="btn btn-default">
-                                            <span th:text="${finacnePageInfo.pageNum}+'/'+${finacnePageInfo.pages}+'页'"></span>
+                                            <span th:text="${financePageInfo.pageNum}+'/'+${financePageInfo.pages}+'页'"></span>
                                         </button>
                                         <button class="btn btn-default">
                                             <span>每页显示：</span>
@@ -97,13 +97,13 @@
                                                     class="btn btn-default dropdown-toggle"
                                                     data-toggle="dropdown" aria-haspopup="true"
                                                     aria-expanded="false"><span
-                                                    th:text="${finacnePageInfo.pageSize}"></span>
+                                                    th:text="${financePageInfo.pageSize}"></span>
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li th:each="i:${#numbers.sequence(1,10)}">
                                                     <a th:text="${i}"
-                                                       th:href="@{/admin/finance/toChangeMoney.html(pageNum=${finacnePageInfo.pageNum},pageSize=${i})}"></a>
+                                                       th:href="@{/admin/finance/toChangeMoney.html(pageNum=${financePageInfo.pageNum},pageSize=${i})}"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -114,7 +114,7 @@
                                             <span>总记录数：</span>
                                         </button>
                                         <button class="btn btn-default">
-                                            <span th:text="${finacnePageInfo.total}+'条'"></span>
+                                            <span th:text="${financePageInfo.total}+'条'"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -125,33 +125,33 @@
                                         <ul class="pagination pagination-lg pull-right"
                                             style="margin-top: 0">
                                             <li>
-                                                <a th:href="@{/admin/finance/toChangeMoney.html(pageNum=1,pageSize=${finacnePageInfo.pageSize})}">首页</a>
+                                                <a th:href="@{/admin/finance/toChangeMoney.html(pageNum=1,pageSize=${financePageInfo.pageSize})}">首页</a>
                                             </li>
 
-                                            <li th:if="${finacnePageInfo.hasPreviousPage }"><a
-                                                    th:href="@{/admin/finance/toChangeMoney.html(pageNum=${finacnePageInfo.pageNum}-1,pageSize=${finacnePageInfo.pageSize})}"
+                                            <li th:if="${financePageInfo.hasPreviousPage }"><a
+                                                    th:href="@{/admin/finance/toChangeMoney.html(pageNum=${financePageInfo.pageNum}-1,pageSize=${financePageInfo.pageSize})}"
                                                     aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
                                             </a></li>
 
-                                            <li th:each="page_Num:${finacnePageInfo.navigatepageNums }"
-                                                th:class="${page_Num == finacnePageInfo.pageNum?'active':''}">
-                                                <a th:if="${page_Num == finacnePageInfo.pageNum}"
+                                            <li th:each="page_Num:${financePageInfo.navigatepageNums }"
+                                                th:class="${page_Num == financePageInfo.pageNum?'active':''}">
+                                                <a th:if="${page_Num == financePageInfo.pageNum}"
                                                    th:text="${page_Num}"
                                                    th:href="@{#}">
                                                 </a>
                                                 <a th:text="${page_Num}"
-                                                   th:if="${page_Num != finacnePageInfo.pageNum}"
-                                                   th:href="@{/admin/finance/toChangeMoney.html(pageNum=${page_Num},pageSize=${finacnePageInfo.pageSize})}">
+                                                   th:if="${page_Num != financePageInfo.pageNum}"
+                                                   th:href="@{/admin/finance/toChangeMoney.html(pageNum=${page_Num},pageSize=${financePageInfo.pageSize})}">
                                                 </a>
                                             </li>
 
-                                            <li th:if="${finacnePageInfo.hasNextPage }"><a
-                                                    th:href="@{/admin/finance/toChangeMoney.html(pageNum=${finacnePageInfo.pageNum}+1,pageSize=${finacnePageInfo.pageSize})}"
+                                            <li th:if="${financePageInfo.hasNextPage }"><a
+                                                    th:href="@{/admin/finance/toChangeMoney.html(pageNum=${financePageInfo.pageNum}+1,pageSize=${financePageInfo.pageSize})}"
                                                     aria-label="Next"> <span aria-hidden="true">&raquo;</span>
                                             </a></li>
 
                                             <li><a
-                                                    th:href="@{/admin/finance/toChangeMoney.html(pageNum=${finacnePageInfo.pages},pageSize=${finacnePageInfo.pageSize})}">末页</a>
+                                                    th:href="@{/admin/finance/toChangeMoney.html(pageNum=${financePageInfo.pages},pageSize=${financePageInfo.pageSize})}">末页</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -452,8 +452,8 @@
                     $("#addModal").modal('hide');
                     $.alert('零钱理财产品新增成功！');
                     setTimeout(function () {
-                        var pageNum = [[${finacnePageInfo.pages}]];
-                        var pageSize = [[${finacnePageInfo.pageSize}]];
+                        var pageNum = [[${financePageInfo.pages}]];
+                        var pageSize = [[${financePageInfo.pageSize}]];
                         location.href = "/admin/finance/toChangeMoney.html?pageNum=" + pageNum + "&pageSize=" + pageSize;
                     }, 1000);
                 } else {
@@ -577,8 +577,8 @@
                     $("#updateModal").modal('hide');
                     $.alert('零钱理财产品信息修改成功！');
                     setTimeout(function () {
-                        var pageNum = [[${finacnePageInfo.pageNum}]];
-                        var pageSize = [[${finacnePageInfo.pageSize}]];
+                        var pageNum = [[${financePageInfo.pageNum}]];
+                        var pageSize = [[${financePageInfo.pageSize}]];
                         location.href = "/admin/finance/toChangeMoney.html?pageNum=" + pageNum + "&pageSize=" + pageSize;
                     }, 1000);
                 } else {
@@ -608,8 +608,8 @@
                                 if (result.code === 100) {
                                     $.alert('删除该零钱理财产品成功！');
                                     setTimeout(function () {
-                                        var pageNum = [[${finacnePageInfo.pageNum}]];
-                                        var pageSize = [[${finacnePageInfo.pageSize}]];
+                                        var pageNum = [[${financePageInfo.pageNum}]];
+                                        var pageSize = [[${financePageInfo.pageSize}]];
                                         location.href = "/admin/finance/toChangeMoney.html?pageNum=" + pageNum + "&pageSize=" + pageSize;
                                     }, 1000);
                                 } else {

@@ -77,7 +77,7 @@ public class TermFinancialController {
         List<TermFinancial> termFinancialList = termFinancialService.selectAllTermFinancial();
         PageInfo<TermFinancial> termFinancialPageInfo = new PageInfo<>(termFinancialList);
         modelAndView.addObject("financeList", termFinancialList);
-        modelAndView.addObject("finacnePageInfo", termFinancialPageInfo);
+        modelAndView.addObject("financePageInfo", termFinancialPageInfo);
         return modelAndView;
     }
 }
