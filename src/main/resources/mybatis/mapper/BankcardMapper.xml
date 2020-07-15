@@ -12,6 +12,11 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="cardNum" jdbcType="VARCHAR" property="cardNum" />
     <result column="userId" jdbcType="INTEGER" property="userId" />
+    <association property="user"
+                 column="userId"
+                 javaType="com.finance.pojo.user.User"
+                 select="com.finance.mapper.user.UserMapper.selectByPrimaryKey">
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--

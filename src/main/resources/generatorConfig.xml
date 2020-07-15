@@ -11,7 +11,7 @@
                         password="123321pp">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.finance.pojo.others"
+        <javaModelGenerator targetPackage="com.finance.pojo.user"
                             targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
 
@@ -20,7 +20,7 @@
                          targetProject="./src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.others"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.user"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
@@ -32,7 +32,7 @@
                     <property name="useActualColumnNames" value="true"/>
                 </table>-->
 
-        <table tableName="bank" domainObjectName="Bank">
+        <!--<table tableName="bank" domainObjectName="Bank">
             <property name="useActualColumnNames" value="true"/>
         </table>
         <table tableName="bankcard" domainObjectName="Bankcard">
@@ -64,10 +64,10 @@
         </table>
         <table tableName="term_financial" domainObjectName="TermFinancial">
             <property name="useActualColumnNames" value="true"/>
-        </table>
+        </table>-->
 
 
-        <!-- <table tableName="user" domainObjectName="User">
+         <table tableName="user" domainObjectName="User">
          <property name="useActualColumnNames" value="true"/>
          </table>
          <table tableName="user_change_money" domainObjectName="UserChangeMoney">
@@ -81,6 +81,6 @@
          </table>
          <table tableName="user_permissions" domainObjectName="UserPermissions">
          <property name="useActualColumnNames" value="true"/>
-         </table>-->
+         </table>
     </context>
 </generatorConfiguration>
