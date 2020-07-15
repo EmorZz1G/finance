@@ -14,6 +14,11 @@
     <result column="averYield" jdbcType="DECIMAL" property="averYield" />
     <result column="profit" jdbcType="DECIMAL" property="profit" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="fundProduct"
+                 column="fundId"
+                 javaType="com.finance.pojo.others.FundProduct"
+                 select="com.finance.mapper.others.FundProductMapper.selectByPrimaryKey">
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
