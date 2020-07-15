@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@Controller
+@Controller("userBankController")
 public class BankController {
     @Autowired
     BankService bankService;

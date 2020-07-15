@@ -6,11 +6,13 @@ import com.finance.service.user.finance.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
-@Service
+
+@Service("userBankServiceImpl")
 public class BankServiceImpl implements BankService {
 
-    @Autowired
+    @Resource
     BankMapper bankMapper;
 
 
