@@ -67,20 +67,23 @@
         </table>-->
 
 
-         <table tableName="user" domainObjectName="User">
-         <property name="useActualColumnNames" value="true"/>
-         </table>
-         <table tableName="user_change_money" domainObjectName="UserChangeMoney">
-         <property name="useActualColumnNames" value="true"/>
-         </table>
-         <table tableName="user_fund_product" domainObjectName="UserFundProduct">
-         <property name="useActualColumnNames" value="true"/>
-         </table>
-         <table tableName="user_pay_money" domainObjectName="UserPayMoney">
-         <property name="useActualColumnNames" value="true"/>
-         </table>
-         <table tableName="user_permissions" domainObjectName="UserPermissions">
-         <property name="useActualColumnNames" value="true"/>
-         </table>
+        <!--<table tableName="user" domainObjectName="User">-->
+            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="user_change_money" domainObjectName="UserChangeMoney">-->
+            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="user_fund_product" domainObjectName="UserFundProduct">-->
+            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="user_pay_money" domainObjectName="UserPayMoney">-->
+            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="user_permissions" domainObjectName="UserPermissions">-->
+            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
+        <table tableName="user_term_financial" domainObjectName="UserTermFinancial">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
     </context>
 </generatorConfiguration>
