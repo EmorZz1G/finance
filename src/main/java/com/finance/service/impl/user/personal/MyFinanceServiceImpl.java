@@ -9,17 +9,18 @@ import com.finance.service.user.personal.MyFinanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class MyFinanceServiceImpl implements MyFinanceService {
-    @Autowired
+    @Resource
     UserPayMoneyMapper userPayMoneyMapper;
-    @Autowired
+    @Resource
     UserTermFinancialMapper userTermFinancialMapper;
-    @Autowired
+    @Resource
     UserFundProductMapper userFundProductMapper;
-    @Autowired
+    @Resource
     UserChangeMoneyMapper userChangeMoneyMapper;
 
 

@@ -32,7 +32,7 @@ public class UserPayMoneyController {
 
     @RequestMapping(value = "/user/finance/toPayMoney.html",
     method = RequestMethod.GET)
-    public ModelAndView toPaymoney(){
+    public ModelAndView toPayMoney(){
         List<PayMoney> payMoneyList = userPayMoneyService.selectAllUserPayMoney();
         ModelAndView modelAndView = new ModelAndView("/user/finance/paymoney.html");
         modelAndView.addObject("payMoneyList",payMoneyList);

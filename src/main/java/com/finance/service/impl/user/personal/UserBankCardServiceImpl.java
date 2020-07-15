@@ -7,11 +7,12 @@ import com.finance.service.user.personal.UserBankCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class UserBankCardServiceImpl implements UserBankCardService {
-    @Autowired
+    @Resource
     BankcardMapper bankcardMapper;
 
     @Override

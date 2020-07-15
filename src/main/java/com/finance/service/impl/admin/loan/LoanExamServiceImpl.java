@@ -34,8 +34,6 @@ public class LoanExamServiceImpl implements LoanExamService {
     @Override
     @Transactional
     public int updateLoanExam(Loan loan, Admin admin, int type) {
-        LoanExample loanExample = new LoanExample();
-        LoanExample.Criteria criteria = loanExample.createCriteria();
         Info info = new Info();
         info.setStatus(0);
         info.setCreateTime(new Date());
@@ -55,8 +53,12 @@ public class LoanExamServiceImpl implements LoanExamService {
                     +"元网贷申请审核未通过！审核人为："+admin.getUsername();
         }
         info.setInfoDesc(desc);
-        loanMapper.updateByPrimaryKeySelective(loan);
-        return infoMapper.insertSelective(info);
+        int i = loanMapper.updateByPrimaryKeySelective(loan);
+        if(i==1){
+            return infoMapper.insertSelective(info);
+        }else {
+            return 0;
+        }
     }
 
     @Override

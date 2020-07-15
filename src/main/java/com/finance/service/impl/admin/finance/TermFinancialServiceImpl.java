@@ -6,10 +6,12 @@ import com.finance.service.admin.finance.TermFinancialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 @Service
 public class TermFinancialServiceImpl implements TermFinancialService {
-    @Autowired
+
+    @Resource
     TermFinancialMapper termFinancialMapper;
 
     @Override

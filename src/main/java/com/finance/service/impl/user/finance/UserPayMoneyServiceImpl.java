@@ -10,15 +10,16 @@ import com.finance.service.user.finance.UserPayMoneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 @Service
 public class UserPayMoneyServiceImpl implements UserPayMoneyService {
 
-    @Autowired
+    @Resource
     private PayMoneyMapper payMoneyMapper;
-    @Autowired
+    @Resource
     private UserPayMoneyMapper userPayMoneyMapper;
-    @Autowired
+    @Resource
     private FlowOfFundsMapper flowOfFundsMapper;
 
     @Override

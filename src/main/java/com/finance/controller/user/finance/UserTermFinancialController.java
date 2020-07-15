@@ -55,7 +55,7 @@ public class UserTermFinancialController {
         flowOfFunds.setFlowMoney(termFinancial.getLeastMoney());
         flowOfFunds.setSource(termFinancial.getName());
         flowOfFunds.setType(1);
-        flowOfFunds.setFundDesc("无");
+        flowOfFunds.setFundDesc("期限理财");
 
 
 
