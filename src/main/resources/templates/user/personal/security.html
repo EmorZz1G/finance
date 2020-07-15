@@ -147,7 +147,7 @@
     //ajax修改密码
     function updatePwd() {
         var userId = [[${session.loginUser.id}]];
-        alert(userId);
+        // alert(userId);
         $.ajax({
             url: "/user/updatePwd",
             type: "PUT",

@@ -17,7 +17,7 @@
     <result column="applyStatus" jdbcType="INTEGER" property="applyStatus" />
     <result column="loanStatus" jdbcType="INTEGER" property="loanStatus" />
     <association property="user"
-                 column="userId"
+                 column="loanId"
                  javaType="com.finance.pojo.user.User"
                  select="com.finance.mapper.user.UserMapper.selectByPrimaryKey">
     </association>
