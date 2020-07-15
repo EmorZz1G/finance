@@ -10,10 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -24,7 +21,7 @@ public class MyLoanController {
     @Autowired
     MyLoanService myLoanService;
 
-    @GetMapping("user/personal/toMyLoan.html")
+    @GetMapping("/user/personal/toMyLoan.html")
     public ModelAndView toMyLoan(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "5")int pageSize,
                                   ModelAndView modelAndView,
@@ -35,11 +32,12 @@ public class MyLoanController {
         PageInfo<Loan> loanPageInfo = new PageInfo<>(loans);
         modelAndView.addObject("myLoansPageInfo", loanPageInfo);
         modelAndView.addObject("loansList",loans);
-        modelAndView.setViewName("/user/personal/myloan");
+        modelAndView.setViewName("user/personal/myloan");
         return modelAndView;
     }
 
     @PutMapping("/user/repayment/{id}")
+    @ResponseBody
     public Result repayment(@PathVariable("id")int id,
                             HttpSession session){
         User user = (User) session.getAttribute("loginUser");
