@@ -52,16 +52,16 @@
                                             <td th:text="${#numbers.formatDecimal(loan.amount,1,2)}+'元'"></td>
                                             <td th:text="${loan.term}+'天'"></td>
                                             <td th:text="${#numbers.formatDecimal(loan.rate*100,1,2)}+'%'"></td>
-                                            <td th:if="${loan.applystatus==0}" th:text="未审核"></td>
-                                            <td th:if="${loan.applystatus==1}" th:text="审核未通过"></td>
-                                            <td th:if="${loan.applystatus==2}" th:text="审核通过"></td>
-                                            <td th:if="${loan.loanstatus==0}" th:text="未逾期"></td>
-                                            <td th:if="${loan.loanstatus==1}" th:text="逾期"></td>
-                                            <td th:if="${loan.loanstatus==2}" th:text="已还清"></td>
+                                            <td th:if="${loan.applyStatus==0}" th:text="未审核"></td>
+                                            <td th:if="${loan.applyStatus==1}" th:text="审核未通过"></td>
+                                            <td th:if="${loan.applyStatus==2}" th:text="审核通过"></td>
+                                            <td th:if="${loan.loanStatus==0}" th:text="未逾期"></td>
+                                            <td th:if="${loan.loanStatus==1}" th:text="逾期"></td>
+                                            <td th:if="${loan.loanStatus==2}" th:text="已还清"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm loan_btn"
-                                                        th:attr="loanBtnId=${loan.id},loanStatus=${loan.loanstatus},
-                                                        loanApplystatus=${loan.applystatus},loanBtnName=${#numbers.formatDecimal(loan.amount,1,2)}+'元'">
+                                                        th:attr="loanBtnId=${loan.id},loanStatus=${loan.loanStatus},
+                                                        loanapplyStatus=${loan.applyStatus},loanBtnName=${#numbers.formatDecimal(loan.amount,1,2)}+'元'">
 															<span class="glyphicon glyphicon-yen"
                                                                   aria-hidden="true"></span> 还款
                                                 </button>
@@ -191,14 +191,14 @@
     $(document).on("click", ".loan_btn", function () {
         var id = $(this).attr("loanBtnId");
         var name = $(this).attr("loanBtnName");
-        var loanApplystatus = $(this).attr("loanApplystatus");
-        if (loanApplystatus == 0) {
+        var loanapplyStatus = $(this).attr("loanapplyStatus");
+        if (loanapplyStatus == 0) {
             $.alert('请耐心等待管理员审核！');
             //return false;
-        } else if (loanApplystatus == 1) {
+        } else if (loanapplyStatus == 1) {
             $.alert('审核未通过！');
             //return false;
-        } else if (loanApplystatus == 2) {
+        } else if (loanapplyStatus == 2) {
             var loanStatus = $(this).attr("loanStatus");
             if (loanStatus == 2) {
                 $.alert("已还清！");

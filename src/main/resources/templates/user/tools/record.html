@@ -49,12 +49,12 @@
                                         <tbody>
                                         <tr th:each="fof:${flowOfFundsList}">
                                             <td th:text="${(flowOfFundsPageInfo.pageNum - 1) * flowOfFundsPageInfo.pageSize+fofStat.index+1}"></td>
-                                            <td th:text="${fof.flowmoney}"></td>
+                                            <td th:text="${fof.flowMoney}"></td>
                                             <td th:if="${fof.type==1}" th:text="支出"></td>
                                             <td th:if="${fof.type==2}" th:text="收入"></td>
                                             <td th:text="${fof.source}"></td>
-                                            <td th:text="${#dates.format(fof.createtime, 'yyyy-MM-dd')}"></td>
-                                            <td th:text="${fof.funddesc}"></td>
+                                            <td th:text="${#dates.format(fof.createTime, 'yyyy-MM-dd')}"></td>
+                                            <td th:text="${fof.fundDesc}"></td>
                                         </tr>
                                         </tbody>
                                     </table>

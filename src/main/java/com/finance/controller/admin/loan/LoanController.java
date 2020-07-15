@@ -23,8 +23,8 @@ public class LoanController {
 
     @RequestMapping("/toLoanexam.html")
     public String selectAllExam(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                            @RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
-                            Model model, HttpSession session) {
+                            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                            Model model) {
         //引入pageHelper插件
         PageHelper.startPage(pageNum, pageSize);
         List<Loan> loanList = loanExamService.selectAllLoanExam();
@@ -33,21 +33,15 @@ public class LoanController {
         PageInfo<Loan> pageInfo = new PageInfo<Loan>(loanList);
         model.addAttribute("loanPageInfo", pageInfo);
         model.addAttribute("loanList", loanList);model.addAttribute("activeUrl1", "loanActive");
-        model.addAttribute("activeUrl2", "loanexamActive");
-
-        User user = new User();
-        user.setUsername("ChH");
-        session.setAttribute("loginAdmin", user);
-        System.out.println("这里是admin用户列表界面");
-        return "/admin/loan/Loanexam";
+        return "admin/loan/loanexam";
     }
 
     @Autowired
     private LoanInfoService loanInfoService;
     @RequestMapping("/toLoaninfo.html")
     public String selectAllInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                            @RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
-                            Model model, HttpSession session) {
+                            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                            Model model) {
         //引入pageHelper插件
         PageHelper.startPage(pageNum, pageSize);
         List<Loan> loanList = loanInfoService.selectAllLoanInfo();
@@ -56,13 +50,7 @@ public class LoanController {
         PageInfo<Loan> pageInfo = new PageInfo<Loan>(loanList);
         model.addAttribute("loanPageInfo", pageInfo);
         model.addAttribute("loanList", loanList);
-        model.addAttribute("activeUrl1", "loanActive");
-        model.addAttribute("activeUrl2", "loaninfoActive");
 
-        User user = new User();
-        user.setUsername("ChH");
-        session.setAttribute("loginAdmin", user);
-        System.out.println("这里是admin用户列表界面");
-        return "/admin/loan/Loaninfo";
+        return "admin/loan/loaninfo";
     }
 }

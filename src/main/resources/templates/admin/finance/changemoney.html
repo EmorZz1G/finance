@@ -51,8 +51,8 @@
                                         <tr th:each="finance:${financeList}">
                                             <td th:text="${(financePageInfo.pageNum - 1) * financePageInfo.pageSize+financeStat.index+1}"></td>
                                             <td th:text="${finance.name}"></td>
-                                            <td th:text="${#numbers.formatDecimal(finance.annualincome*100,1,3)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(finance.peiincome,1,2)}+'元'"></td>
+                                            <td th:text="${#numbers.formatDecimal(finance.annualIncome*100,1,3)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(finance.peiIncome,1,2)}+'元'"></td>
                                             <td th:text="${finance.invesMoney}+'元'"></td>
                                             <td th:text="${finance.invesTerm}"></td>
                                             <td>
@@ -192,7 +192,7 @@
                                             <label class="col-sm-2 control-label">七日年化收益率：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="annualincome_add_input" name="annualincome"
+                                                       id="annualIncome_add_input" name="annualIncome"
                                                        placeholder="请输入七日年化收益率：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -204,7 +204,7 @@
                                             <label class="col-sm-2 control-label">每万元收益：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="peiincome_add_input" name="peiincome"
+                                                       id="peiIncome_add_input" name="peiIncome"
                                                        placeholder="请输入每万元收益：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -282,7 +282,7 @@
                                             <label class="col-sm-2 control-label">七日年化收益率：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="annualincome_update_input" name="annualincome"
+                                                       id="annualIncome_update_input" name="annualIncome"
                                                        placeholder="请输入七日年化收益率：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -294,7 +294,7 @@
                                             <label class="col-sm-2 control-label">每万元收益：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="peiincome_update_input" name="peiincome"
+                                                       id="peiIncome_update_input" name="peiIncome"
                                                        placeholder="请输入每万元收益：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -376,8 +376,8 @@
         clean_form("#addModal form");
 
         var name = $("#name_add_input").val();
-        var annualincome = $("#annualincome_add_input").val();
-        var peiincome = $("#peiincome_add_input").val();
+        var annualIncome = $("#annualIncome_add_input").val();
+        var peiIncome = $("#peiIncome_add_input").val();
         var invesMoney = $("#invesMoney_add_input").val();
         var invesTerm = $("#invesTerm_add_input").val();
 
@@ -394,25 +394,25 @@
         }
 
         //匹配正数、负数、和小数
-        var annualincomeRegex = /^(\-|\+)?\d+(\.\d+)?$/;
-        if (annualincome.length === 0) {
-            show_validate_msg("#annualincome_add_input",
+        var annualIncomeRegex = /^(\-|\+)?\d+(\.\d+)?$/;
+        if (annualIncome.length === 0) {
+            show_validate_msg("#annualIncome_add_input",
                 "error", "七日年化收益率为空");
             return false;
-        } else if (annualincomeRegex.test(annualincome) === false) {
-            show_validate_msg("#annualincome_add_input",
+        } else if (annualIncomeRegex.test(annualIncome) === false) {
+            show_validate_msg("#annualIncome_add_input",
                 "error", "七日年化收益率不合法（正数、负数、和小数）");
             return false;
         }
 
         //匹配有1~2位小数的正实数
-        var peiincomeRegex = /^[0-9]+(.[0-9]{1,2})?$/;
-        if (peiincome.length === 0) {
-            show_validate_msg("#peiincome_add_input",
+        var peiIncomeRegex = /^[0-9]+(.[0-9]{1,2})?$/;
+        if (peiIncome.length === 0) {
+            show_validate_msg("#peiIncome_add_input",
                 "error", "每万元收益为空");
             return false;
-        } else if (peiincomeRegex.test(peiincome) === false) {
-            show_validate_msg("#peiincome_add_input",
+        } else if (peiIncomeRegex.test(peiIncome) === false) {
+            show_validate_msg("#peiIncome_add_input",
                 "error", "每万元收益不合法（有1~2位小数的正实数）");
             return false;
         }
@@ -488,8 +488,8 @@
                 reset_form("#updateModal form");
 
                 $("#name_update_input").val(changeMoney.name);
-                $("#annualincome_update_input").val(changeMoney.annualincome);
-                $("#peiincome_update_input").val(changeMoney.peiincome);
+                $("#annualIncome_update_input").val(changeMoney.annualIncome);
+                $("#peiIncome_update_input").val(changeMoney.peiIncome);
                 $("#invesMoney_update_input").val(changeMoney.invesMoney);
                 $("#invesTerm_update_input").val(changeMoney.invesTerm);
             }
@@ -502,8 +502,8 @@
         clean_form("#updateModal form");
 
         var name = $("#name_update_input").val();
-        var annualincome = $("#annualincome_update_input").val();
-        var peiincome = $("#peiincome_update_input").val();
+        var annualIncome = $("#annualIncome_update_input").val();
+        var peiIncome = $("#peiIncome_update_input").val();
         var invesMoney = $("#invesMoney_update_input").val();
         var invesTerm = $("#invesTerm_update_input").val();
 
@@ -520,25 +520,25 @@
         }
 
         //匹配正数、负数、和小数
-        var annualincomeRegex = /^(\-|\+)?\d+(\.\d+)?$/;
-        if (annualincome.length === 0) {
-            show_validate_msg("#annualincome_update_input",
+        var annualIncomeRegex = /^(\-|\+)?\d+(\.\d+)?$/;
+        if (annualIncome.length === 0) {
+            show_validate_msg("#annualIncome_update_input",
                 "error", "七日年化收益率为空");
             return false;
-        } else if (annualincomeRegex.test(annualincome) === false) {
-            show_validate_msg("#annualincome_update_input",
+        } else if (annualIncomeRegex.test(annualIncome) === false) {
+            show_validate_msg("#annualIncome_update_input",
                 "error", "七日年化收益率不合法（正数、负数、和小数）");
             return false;
         }
 
         //匹配有1~2位小数的正实数
-        var peiincomeRegex = /^[0-9]+(.[0-9]{1,2})?$/;
-        if (peiincome.length === 0) {
-            show_validate_msg("#peiincome_update_input",
+        var peiIncomeRegex = /^[0-9]+(.[0-9]{1,2})?$/;
+        if (peiIncome.length === 0) {
+            show_validate_msg("#peiIncome_update_input",
                 "error", "每万元收益为空");
             return false;
-        } else if (peiincomeRegex.test(peiincome) === false) {
-            show_validate_msg("#peiincome_update_input",
+        } else if (peiIncomeRegex.test(peiIncome) === false) {
+            show_validate_msg("#peiIncome_update_input",
                 "error", "每万元收益不合法（有1~2位小数的正实数）");
             return false;
         }
