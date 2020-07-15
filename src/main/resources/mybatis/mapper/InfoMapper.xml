@@ -14,6 +14,11 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="infoDesc" jdbcType="VARCHAR" property="infoDesc" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="admin"
+                 column="sendId"
+                 javaType="com.finance.pojo.admin.Admin"
+                 select="com.finance.mapper.admin.AdminMapper.selectByPrimaryKey">
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--

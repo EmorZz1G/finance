@@ -50,7 +50,7 @@
                                         <tr th:each="info:${infoList}">
                                             <td th:text="${(infoPageInfo.pageNum - 1) * infoPageInfo.pageSize+infoStat.index+1}"></td>
                                             <td th:text="${info.title}"></td>
-                                            <td th:text="${info.infodesc}"></td>
+                                            <td th:text="${info.infoDesc}"></td>
                                             <td th:text="${info.admin.username}"></td>
                                             <td th:text="${#dates.format(info.createTime, 'yyyy-MM-dd')}"></td>
                                             <td th:if="${info.status==0}" th:text="未读"></td>

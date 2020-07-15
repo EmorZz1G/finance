@@ -24,4 +24,17 @@ public class MyInfoServiceImpl implements MyInfoService {
         criteria.andReceiveIdEqualTo(id);
         return infoMapper.selectByExample(infoExample);
     }
+
+    @Override
+    public int updateInfoStatus(int id) {
+        Info info = new Info();
+        info.setId(id);
+        info.setStatus(1);
+        return infoMapper.updateByPrimaryKeySelective(info);
+    }
+
+    @Override
+    public int deleteInfoById(int id) {
+        return infoMapper.deleteByPrimaryKey(id);
+    }
 }

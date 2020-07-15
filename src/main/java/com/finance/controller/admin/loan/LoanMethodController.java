@@ -1,27 +1,23 @@
 package com.finance.controller.admin.loan;
 
 import com.finance.common.Result;
+import com.finance.pojo.admin.Admin;
 import com.finance.pojo.others.Loan;
 import com.finance.service.admin.loan.LoanExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoanMethodController {
     @Autowired
     private LoanExamService loanExamService;
 
-    @RequestMapping("/loan/passApplyStatus/{id}")
-    @ResponseBody
-    public Result updateLoanExam(@PathVariable("id") Integer id){
-        Loan loan = new Loan();
-        loan.setId(id);
-        loan.setApplyStatus(2);
-        System.out.println("更新");
-        int result = loanExamService.updateLoanExam(loan);
+    private Result extraction(HttpSession session,Loan loan,int type){
+        Admin admin = (Admin) session.getAttribute("loginAdmin");
+        int result = loanExamService.updateLoanExam(loan,admin,type);
         if(result==1){
             return Result.success();
         }
@@ -30,17 +26,35 @@ public class LoanMethodController {
         }
     }
 
-    @RequestMapping("/loan/notPassApplyStatus/{id}")
+    @RequestMapping(value = "/loan/passApplyStatus/{id}",method = RequestMethod.PUT)
     @ResponseBody
-    public Result updateLoanExam2(@PathVariable("id") Integer id){
+    public Result updateLoanExam(@PathVariable("id") Integer id,
+                                 HttpSession session){
         Loan loan = new Loan();
         loan.setId(id);
-        loan.setApplyStatus(1);
-        int result = loanExamService.updateLoanExam(loan);
-        if(result==1){
+        return extraction(session,loan,1);
+    }
+
+    @RequestMapping(value = "/loan/notPassApplyStatus/{id}",method = RequestMethod.PUT)
+    @ResponseBody
+    public Result updateLoanExam2(@PathVariable("id") Integer id,
+                                  HttpSession session){
+        Loan loan = new Loan();
+        loan.setId(id);
+        return extraction(session,loan,0);
+    }
+
+    @PutMapping("/loan/remindPay/{id}")
+    @ResponseBody
+    public Result remindPay(@PathVariable("id")int id,
+                            Loan loan,
+                            HttpSession session){
+        loan.setId(id);
+        Admin admin = (Admin) session.getAttribute("loginAdmin");
+        int i = loanExamService.remindPay(loan, admin);
+        if (i==1){
             return Result.success();
-        }
-        else{
+        }else {
             return Result.failure();
         }
     }

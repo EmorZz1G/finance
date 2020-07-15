@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
@@ -21,7 +22,7 @@ public class LoanController {
     @Autowired
     private LoanExamService loanExamService;
 
-    @RequestMapping("/toLoanexam.html")
+    @RequestMapping(value = "/toLoanexam.html",method = RequestMethod.GET)
     public String selectAllExam(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                             Model model) {
@@ -38,7 +39,8 @@ public class LoanController {
 
     @Autowired
     private LoanInfoService loanInfoService;
-    @RequestMapping("/toLoaninfo.html")
+
+    @RequestMapping(value = "/toLoaninfo.html",method = RequestMethod.GET)
     public String selectAllInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                             Model model) {

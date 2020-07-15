@@ -24,7 +24,7 @@ public class RecordController {
     public ModelAndView toRecord(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                  @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
                                  HttpServletRequest request){
-        ModelAndView modelAndView = new ModelAndView("/user/tools/record.html");
+        ModelAndView modelAndView = new ModelAndView("user/tools/record.html");
         PageHelper.startPage(pageNum,pageSize);
         User user = (User) request.getSession().getAttribute("loginUser");
         int id = user.getId();

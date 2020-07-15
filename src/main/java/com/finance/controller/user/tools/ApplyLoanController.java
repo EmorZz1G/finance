@@ -52,7 +52,6 @@ public class ApplyLoanController {
     }
 
 
-
     @GetMapping("/user/tools/toApplyLoan.html")
     public String toApplyLoan(){
         return "user/tools/applyloan";
