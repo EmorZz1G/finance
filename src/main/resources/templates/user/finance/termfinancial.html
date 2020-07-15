@@ -51,9 +51,9 @@
                                             <td th:text="${tfStat.index+1}"></td>
                                             <td th:text="${tf.name}"></td>
                                             <td th:if="${tf.profit==1}" th:text="收益性"></td><td th:if="${tf.profit==2}" th:text="净值型"></td>
-                                            <td th:text="${#numbers.formatDecimal(tf.annualincome*100,1,2)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(tf.leastmoney,1,2)}+'元'"></td>
-                                            <td th:text="${tf.investerm}"></td>
+                                            <td th:text="${#numbers.formatDecimal(tf.annualIncome*100,1,2)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(tf.leastMoney,1,2)}+'元'"></td>
+                                            <td th:text="${tf.invesTerm}"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm buy_btn"
                                                         th:attr="buyBtnId=${tf.id},buyBtnName=${tf.name}">

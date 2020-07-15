@@ -49,9 +49,9 @@
                                         <tr th:each="pm:${payMoneyList}">
                                             <td th:text="${pmStat.index+1}"></td>
                                             <td th:if="${pm.type==1}" th:text="国债"></td><td th:if="${pm.type==2}" th:text="期货"></td>
-                                            <td th:text="${#numbers.formatDecimal(pm.monthmoney,1,2)}"></td>
-                                            <td th:if="${pm.autointo==1}" th:text="是"></td><td th:if="${pm.autointo==2}" th:text="否"></td>
-                                            <td th:text="${pm.investerm}"></td>
+                                            <td th:text="${#numbers.formatDecimal(pm.monthMoney,1,2)}"></td>
+                                            <td th:if="${pm.autoInto==1}" th:text="是"></td><td th:if="${pm.autoInto==2}" th:text="否"></td>
+                                            <td th:text="${pm.invesTerm}"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm buy_btn"
                                                         th:attr="buyBtnId=${pm.id},buyBtnName=${pm.type}">

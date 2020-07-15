@@ -53,17 +53,17 @@
                                         <tr th:each="fp:${fundProductList}">
                                             <td th:text="${fpStat.index+1}"></td>
                                             <td th:text="${fp.code}"></td>
-                                            <td th:text="${fp.funddesc}"></td>
+                                            <td th:text="${fp.fundDesc}"></td>
                                             <td th:if="${fp.type==1}" th:text="股票型基金"></td><td th:if="${fp.type==2}" th:text="债券型基金"></td>
                                             <td th:if="${fp.type==3}" th:text="货币型基金"></td><td th:if="${fp.type==4}" th:text="混合型基金"></td>
-                                            <td th:text="${#numbers.formatDecimal(fp.dailygrowth*100,1,2)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(fp.monthlygrowth*100,1,2)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(fp.annualgrowth*100,1,2)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(fp.leastmoney,1,2)}+'元'"></td>
-                                            <td th:text="${fp.investerm}"></td>
+                                            <td th:text="${#numbers.formatDecimal(fp.dailyGrowth*100,1,2)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(fp.monthlyGrowth*100,1,2)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(fp.annualGrowth*100,1,2)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(fp.leastMoney,1,2)}+'元'"></td>
+                                            <td th:text="${fp.invesTerm}"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm buy_btn"
-                                                        th:attr="buyBtnId=${fp.id},buyBtnName=${fp.funddesc}">
+                                                        th:attr="buyBtnId=${fp.id},buyBtnName=${fp.fundDesc}">
 															<span class="glyphicon glyphicon-usd"
                                                                   aria-hidden="true"></span> 投资
                                                 </button>

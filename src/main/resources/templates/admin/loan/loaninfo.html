@@ -52,17 +52,17 @@
                                         <tr th:each="loan:${loanList}">
                                             <td th:text="${(loanPageInfo.pageNum - 1) * loanPageInfo.pageSize+loanStat.index+1}"></td>
                                             <td th:text="${loan.user.username}"></td>
-                                            <td th:text="${loan.user.idcard}"></td>
+                                            <td th:text="${loan.user.IDcard}"></td>
                                             <td th:text="${loan.user.phone}"></td>
                                             <td th:text="${#numbers.formatDecimal(loan.amount,1,2)}+'元'"></td>
                                             <td th:text="${loan.term}+'天'"></td>
-                                            <td th:if="${loan.loanstatus==0}" th:text="未逾期"></td>
-                                            <td th:if="${loan.loanstatus==1}" th:text="逾期"></td>
-                                            <td th:if="${loan.loanstatus==2}" th:text="已还清"></td>
+                                            <td th:if="${loan.loanStatus==0}" th:text="未逾期"></td>
+                                            <td th:if="${loan.loanStatus==1}" th:text="逾期"></td>
+                                            <td th:if="${loan.loanStatus==2}" th:text="已还清"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm update_btn"
                                                         th:attr="update-id=${loan.id},update-name=${loan.user.username},
-                                                        update-amount=${loan.amount},update-status=${loan.loanstatus}">
+                                                        update-amount=${loan.amount},update-status=${loan.loanStatus}">
 															<span class="glyphicon glyphicon-time"
                                                                   aria-hidden="true"></span> 提醒还款
                                                 </button>
@@ -181,11 +181,11 @@
         var id = $(this).attr("update-id");
         var username = $(this).attr("update-name");
         var amount = $(this).attr("update-amount");
-        var loanstatus = $(this).attr("update-status");
-        if (loanstatus == 2) {
+        var loanStatus = $(this).attr("update-status");
+        if (loanStatus == 2) {
             $.alert('用户 <strong>' + username + '</strong> 的' + amount + '元网贷已还清');
             return false;
-        } else if (loanstatus == 0) {
+        } else if (loanStatus == 0) {
             $.alert({
                 title: '提示：',
                 content: "用户 <strong>" + username + "</strong> 的" + amount + "元网贷尚未逾期，确认提醒他还款吗？",
@@ -220,7 +220,7 @@
                     }
                 }
             });
-        } else if (loanstatus == 1) {
+        } else if (loanStatus == 1) {
             $.alert({
                 title: '提示：',
                 content: "用户 <strong>" + username + "</strong> 的" + amount + "元网贷已逾期，确认提醒他还款吗？",

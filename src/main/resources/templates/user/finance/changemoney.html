@@ -50,10 +50,10 @@
                                         <tr th:each="cm:${changeMoneyList}">
                                             <td th:text="${cmStat.index+1}"></td>
                                             <td th:text="${cm.name}"></td>
-                                            <td th:text="${#numbers.formatDecimal(cm.annualincome*100,1,3)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(cm.peiincome,1,2)}+'元'"></td>
-                                            <td th:text="${cm.investerm}"></td>
-                                            <td th:text="${cm.invesmoney}+'元'"></td>
+                                            <td th:text="${#numbers.formatDecimal(cm.annualIncome*100,1,3)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(cm.peiIncome,1,2)}+'元'"></td>
+                                            <td th:text="${cm.invesTerm}"></td>
+                                            <td th:text="${cm.invesMoney}+'元'"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm buy_btn"
                                                         th:attr="buyBtnId=${cm.id},buyBtnName=${cm.name}">

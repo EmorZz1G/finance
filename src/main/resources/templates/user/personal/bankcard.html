@@ -38,8 +38,8 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header bg-primary">
-                                    <h4 th:if="${bankcard.type==1}" th:text="${bankcard.cardbank+' (借记卡)'}"></h4>
-                                    <h4 th:if="${bankcard.type==2}" th:text="${bankcard.cardbank+' (信用卡)'}"></h4>
+                                    <h4 th:if="${bankcard.type==1}" th:text="${bankcard.cardBank+' (借记卡)'}"></h4>
+                                    <h4 th:if="${bankcard.type==2}" th:text="${bankcard.cardBank+' (信用卡)'}"></h4>
                                     <ul class="card-actions">
                                         <li>
                                             <button class="btn btn-primary update_btn"
@@ -48,7 +48,7 @@
                                                                   aria-hidden="true"></span> 编辑
                                             </button>
                                             <button class="btn btn-danger delete_btn"
-                                                    th:attr="delete-id=${bankcard.id},delete-name=${bankcard.cardnum}">
+                                                    th:attr="delete-id=${bankcard.id},delete-name=${bankcard.cardNum}">
 															<span class="glyphicon glyphicon-trash"
                                                                   aria-hidden="true"></span> 删除
                                             </button>
@@ -56,7 +56,7 @@
                                     </ul>
                                 </div>
                                 <div class="card-body">
-                                    <h2 th:text="'卡号：'+${bankcard.cardnum}"></h2>
+                                    <h2 th:text="'卡号：'+${bankcard.cardNum}"></h2>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                                             <label class="col-sm-2 control-label">银行：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="cardBank_add_input" name="cardbank"
+                                                       id="cardBank_add_input" name="cardBank"
                                                        placeholder="银行卡所属银行：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -127,7 +127,7 @@
                                             <label class="col-sm-2 control-label">卡号：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control" id="cardNum_add_input"
-                                                       name="cardnum" placeholder="请输入银行卡号：">
+                                                       name="cardNum" placeholder="请输入银行卡号：">
                                                 <span class="help-block"></span>
                                             </div>
                                             <div class="col-sm-1">
@@ -167,7 +167,7 @@
                                             <label class="col-sm-2 control-label">银行：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="cardBank_update_input" name="cardbank"
+                                                       id="cardBank_update_input" name="cardBank"
                                                        placeholder="银行卡所属银行：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -196,7 +196,7 @@
                                             <label class="col-sm-2 control-label">卡号：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control" id="cardNum_update_input"
-                                                       name="cardnum" placeholder="请输入银行卡号：">
+                                                       name="cardNum" placeholder="请输入银行卡号：">
                                                 <span class="help-block"></span>
                                             </div>
                                             <div class="col-sm-1">
@@ -323,12 +323,12 @@
                 $(cardBank_update_input).parent().removeClass(
                     "has-success has-error");
                 $(cardBank_update_input).next("span").text("");
-                $("#cardBank_update_input").val(bankcard.cardbank);
+                $("#cardBank_update_input").val(bankcard.cardBank);
 
                 $(cardNum_update_input).parent().removeClass(
                     "has-success has-error");
                 $(cardNum_update_input).next("span").text("");
-                $("#cardNum_update_input").val(bankcard.cardnum);
+                $("#cardNum_update_input").val(bankcard.cardNum);
 
                 $("#bankCardUpdateModal input[name=type]").val(
                     [bankcard.type]);
@@ -371,9 +371,9 @@
             url: "/user/updateBankCard/" + $(this).attr("update-id"),
             type: "PUT",
             data: {
-                "cardbank": cardBank,
+                "cardBank": cardBank,
                 "type": $("#bankCardUpdateModal input:radio:checked").val(),
-                "cardnum": cardNum
+                "cardNum": cardNum
             },
             success: function (result) {
                 if (result.code === 100) {
@@ -393,10 +393,10 @@
     $(document).on("click", ".delete_btn", function () {
         //1、弹出是否确认删除对话框
         var id = $(this).attr("delete-id");
-        var cardnum = $(this).attr("delete-name");
+        var cardNum = $(this).attr("delete-name");
         $.alert({
             title: '提示：',
-            content: "确定删除 <strong>" + cardnum + "</strong> 吗？",
+            content: "确定删除 <strong>" + cardNum + "</strong> 吗？",
             buttons: {
                 confirm: {
                     text: '确认',

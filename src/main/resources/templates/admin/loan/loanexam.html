@@ -54,19 +54,19 @@
                                             <td th:text="${#numbers.formatDecimal(loan.amount,1,2)}+'元'"></td>
                                             <td th:text="${loan.term}+'天'"></td>
                                             <td th:text="${loan.user.reputation}"></td>
-                                            <td th:if="${loan.applystatus==0}" th:text="未审核"></td>
-                                            <td th:if="${loan.applystatus==1}" th:text="审核未通过"></td>
-                                            <td th:if="${loan.applystatus==2}" th:text="审核通过"></td>
+                                            <td th:if="${loan.applyStatus==0}" th:text="未审核"></td>
+                                            <td th:if="${loan.applyStatus==1}" th:text="审核未通过"></td>
+                                            <td th:if="${loan.applyStatus==2}" th:text="审核通过"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm pass_update_btn"
                                                         th:attr="update-id=${loan.id},update-name=${loan.user.username},
-                                                        update-amount=${loan.amount},update-applystatus=${loan.applystatus}">
+                                                        update-amount=${loan.amount},update-applyStatus=${loan.applyStatus}">
 															<span class="glyphicon glyphicon-ok"
                                                                   aria-hidden="true"></span> 审核通过
                                                 </button>
                                                 <button class="btn btn-danger btn-sm notpass_update_btn"
                                                         th:attr="update-id=${loan.id},update-name=${loan.user.username},
-                                                        update-amount=${loan.amount},update-applystatus=${loan.applystatus}">
+                                                        update-amount=${loan.amount},update-applyStatus=${loan.applyStatus}">
 															<span class="glyphicon glyphicon-remove"
                                                                   aria-hidden="true"></span> 审核不通过
                                                 </button>
@@ -185,10 +185,10 @@
         var id = $(this).attr("update-id");
         var username = $(this).attr("update-name");
         var amount = $(this).attr("update-amount");
-        var applystatus = $(this).attr("update-applystatus");
-        if (applystatus == 2) {
+        var applyStatus = $(this).attr("update-applyStatus");
+        if (applyStatus == 2) {
             $.alert('用户 <strong>' + username + '</strong> 的' + amount + '元网贷审核已通过');
-        } else if (applystatus == 1) {
+        } else if (applyStatus == 1) {
             $.alert({
                 title: '提示：',
                 content: "用户 <strong>" + username + "</strong> 的" + amount + "元网贷之前审核未通过，现在确认通过审核吗？",
@@ -198,7 +198,7 @@
                         btnClass: 'btn-primary',
                         action: function () {
                             $.ajax({
-                                url: "/loan/passApplyStatus/" + id,
+                                url: "/loan/passapplyStatus/" + id,
                                 type: "put",
                                 success: function (result) {
                                     if (result.code === 100) {
@@ -223,7 +223,7 @@
                     }
                 }
             });
-        } else if (applystatus == 0) {
+        } else if (applyStatus == 0) {
             $.alert({
                 title: '提示：',
                 content: "确定通过用户 <strong>" + username + "</strong> 的" + amount + "元网贷申请吗？",
@@ -233,7 +233,7 @@
                         btnClass: 'btn-primary',
                         action: function () {
                             $.ajax({
-                                url: "/loan/passApplyStatus/" + id,
+                                url: "/loan/passapplyStatus/" + id,
                                 type: "put",
                                 success: function (result) {
                                     if (result.code === 100) {
@@ -267,12 +267,12 @@
         var id = $(this).attr("update-id");
         var username = $(this).attr("update-name");
         var amount = $(this).attr("update-amount");
-        var applystatus = $(this).attr("update-applystatus");
-        if (applystatus == 1) {
+        var applyStatus = $(this).attr("update-applyStatus");
+        if (applyStatus == 1) {
             $.alert('用户 <strong>' + username + '</strong> 的' + amount + '元网贷审核未通过，无需重复提交');
-        } else if (applystatus == 2) {
+        } else if (applyStatus == 2) {
             $.alert('用户 <strong>' + username + '</strong> 的' + amount + '元网贷审核已通过，无法取消');
-        } else if (applystatus == 0) {
+        } else if (applyStatus == 0) {
             $.alert({
                 title: '提示：',
                 content: "确定不通过用户 <strong>" + username + "</strong> 的" + amount + "元网贷申请吗？",
@@ -282,7 +282,7 @@
                         btnClass: 'btn-primary',
                         action: function () {
                             $.ajax({
-                                url: "/loan/notPassApplyStatus/" + id,
+                                url: "/loan/notPassapplyStatus/" + id,
                                 type: "PUT",
                                 data: {},
                                 success: function (result) {

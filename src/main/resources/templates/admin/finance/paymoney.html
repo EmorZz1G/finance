@@ -51,10 +51,10 @@
                                             <td th:text="${(financePageInfo.pageNum - 1) * financePageInfo.pageSize+financeStat.index+1}"></td>
                                             <td th:if="${finance.type==1}" th:text="国债"></td>
                                             <td th:if="${finance.type==2}" th:text="期货"></td>
-                                            <td th:text="${#numbers.formatDecimal(finance.monthmoney,1,2)}"></td>
-                                            <td th:if="${finance.autointo==1}" th:text="是"></td>
-                                            <td th:if="${finance.autointo==2}" th:text="否"></td>
-                                            <td th:text="${finance.investerm}"></td>
+                                            <td th:text="${#numbers.formatDecimal(finance.monthMoney,1,2)}"></td>
+                                            <td th:if="${finance.autoInto==1}" th:text="是"></td>
+                                            <td th:if="${finance.autoInto==2}" th:text="否"></td>
+                                            <td th:text="${finance.invesTerm}"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm update_btn"
                                                         th:attr="update-id=${finance.id}">
@@ -199,7 +199,7 @@
                                             <label class="col-sm-2 control-label">每月金额设定(元)：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="monthmoney_add_input" name="monthmoney"
+                                                       id="monthMoney_add_input" name="monthMoney"
                                                        placeholder="请输入每月转入的金额：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -212,11 +212,11 @@
                                             <div class="col-sm-6">
                                                 <div class="example-box">
                                                     <label class="lyear-radio radio-inline">
-                                                        <input type="radio" name="autointo"
+                                                        <input type="radio" name="autoInto"
                                                                value="1" checked="checked"><span>是</span>
                                                     </label>
                                                     <label class="lyear-radio radio-inline">
-                                                        <input type="radio" name="autointo"
+                                                        <input type="radio" name="autoInto"
                                                                value="2"> <span>否</span>
                                                     </label>
                                                 </div>
@@ -230,7 +230,7 @@
                                             <label class="col-sm-2 control-label">投资期限：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="investerm_add_input" name="investerm"
+                                                       id="invesTerm_add_input" name="invesTerm"
                                                        placeholder="请输入投资期限：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -290,7 +290,7 @@
                                             <label class="col-sm-2 control-label">每月金额设定(元)：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="monthmoney_update_input" name="monthmoney"
+                                                       id="monthMoney_update_input" name="monthMoney"
                                                        placeholder="请输入每月转入的金额：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -303,11 +303,11 @@
                                             <div class="col-sm-6">
                                                 <div class="example-box">
                                                     <label class="lyear-radio radio-inline">
-                                                        <input type="radio" name="autointo"
+                                                        <input type="radio" name="autoInto"
                                                                value="1" checked="checked"><span>是</span>
                                                     </label>
                                                     <label class="lyear-radio radio-inline">
-                                                        <input type="radio" name="autointo"
+                                                        <input type="radio" name="autoInto"
                                                                value="2"> <span>否</span>
                                                     </label>
                                                 </div>
@@ -321,7 +321,7 @@
                                             <label class="col-sm-2 control-label">投资期限：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="investerm_update_input" name="investerm"
+                                                       id="invesTerm_update_input" name="invesTerm"
                                                        placeholder="请输入投资期限：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -377,29 +377,29 @@
         //清空表单样式
         clean_form("#addModal form");
 
-        var monthmoney = $("#monthmoney_add_input").val();
-        var investerm = $("#investerm_add_input").val();
+        var monthMoney = $("#monthMoney_add_input").val();
+        var invesTerm = $("#invesTerm_add_input").val();
 
         //匹配有1~2位小数的正实数
-        var monthmoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
-        if (monthmoney.length === 0) {
-            show_validate_msg("#monthmoney_add_input",
+        var monthMoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
+        if (monthMoney.length === 0) {
+            show_validate_msg("#monthMoney_add_input",
                 "error", "每月转入金额为空");
             return false;
-        } else if (monthmoneyRegex.test(monthmoney) === false) {
-            show_validate_msg("#monthmoney_add_input",
+        } else if (monthMoneyRegex.test(monthMoney) === false) {
+            show_validate_msg("#monthMoney_add_input",
                 "error", "每月转入金额不合法（有1~2位小数的正实数）");
             return false;
         }
 
         //匹配中文、英文、数字包括下划线
-        var investermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
-        if (investerm.length === 0) {
-            show_validate_msg("#investerm_add_input",
+        var invesTermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (invesTerm.length === 0) {
+            show_validate_msg("#invesTerm_add_input",
                 "error", "投资期限为空");
             return false;
-        } else if (investermRegex.test(investerm) === false) {
-            show_validate_msg("#investerm_add_input",
+        } else if (invesTermRegex.test(invesTerm) === false) {
+            show_validate_msg("#invesTerm_add_input",
                 "error", "投资期限不合法");
             return false;
         }
@@ -452,10 +452,10 @@
 
                 $("#updateModal input[name=type]").val(
                     [ payMoney.type ]);
-                $("#monthmoney_update_input").val(payMoney.monthmoney);
-                $("#updateModal input[name=autointo]").val(
-                    [ payMoney.autointo ]);
-                $("#investerm_update_input").val(payMoney.investerm);
+                $("#monthMoney_update_input").val(payMoney.monthMoney);
+                $("#updateModal input[name=autoInto]").val(
+                    [ payMoney.autoInto ]);
+                $("#invesTerm_update_input").val(payMoney.invesTerm);
             }
         });
     }
@@ -465,29 +465,29 @@
         //清空表单样式
         clean_form("#updateModal form");
 
-        var monthmoney = $("#monthmoney_update_input").val();
-        var investerm = $("#investerm_update_input").val();
+        var monthMoney = $("#monthMoney_update_input").val();
+        var invesTerm = $("#invesTerm_update_input").val();
 
         //匹配有1~2位小数的正实数
-        var monthmoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
-        if (monthmoney.length === 0) {
-            show_validate_msg("#monthmoney_update_input",
+        var monthMoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
+        if (monthMoney.length === 0) {
+            show_validate_msg("#monthMoney_update_input",
                 "error", "每月转入金额为空");
             return false;
-        } else if (monthmoneyRegex.test(monthmoney) === false) {
-            show_validate_msg("#monthmoney_update_input",
+        } else if (monthMoneyRegex.test(monthMoney) === false) {
+            show_validate_msg("#monthMoney_update_input",
                 "error", "每月转入金额不合法（有1~2位小数的正实数）");
             return false;
         }
 
         //匹配中文、英文、数字包括下划线
-        var investermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
-        if (investerm.length === 0) {
-            show_validate_msg("#investerm_update_input",
+        var invesTermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (invesTerm.length === 0) {
+            show_validate_msg("#invesTerm_update_input",
                 "error", "投资期限为空");
             return false;
-        } else if (investermRegex.test(investerm) === false) {
-            show_validate_msg("#investerm_update_input",
+        } else if (invesTermRegex.test(invesTerm) === false) {
+            show_validate_msg("#invesTerm_update_input",
                 "error", "投资期限不合法");
             return false;
         }

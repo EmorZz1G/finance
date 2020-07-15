@@ -53,8 +53,8 @@
                                             <td th:text="${finance.name}"></td>
                                             <td th:text="${#numbers.formatDecimal(finance.annualincome*100,1,3)}+'%'"></td>
                                             <td th:text="${#numbers.formatDecimal(finance.peiincome,1,2)}+'元'"></td>
-                                            <td th:text="${finance.invesmoney}+'元'"></td>
-                                            <td th:text="${finance.investerm}"></td>
+                                            <td th:text="${finance.invesMoney}+'元'"></td>
+                                            <td th:text="${finance.invesTerm}"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm update_btn"
                                                         th:attr="update-id=${finance.id}">
@@ -216,7 +216,7 @@
                                             <label class="col-sm-2 control-label">起投金额（元）：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="invesmoney_add_input" name="invesmoney"
+                                                       id="invesMoney_add_input" name="invesMoney"
                                                        placeholder="请输入起投金额：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -228,7 +228,7 @@
                                             <label class="col-sm-2 control-label">投资期限：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="investerm_add_input" name="investerm"
+                                                       id="invesTerm_add_input" name="invesTerm"
                                                        placeholder="请输入投资期限：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -306,7 +306,7 @@
                                             <label class="col-sm-2 control-label">起投金额（元）：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="invesmoney_update_input" name="invesmoney"
+                                                       id="invesMoney_update_input" name="invesMoney"
                                                        placeholder="请输入起投金额：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -318,7 +318,7 @@
                                             <label class="col-sm-2 control-label">投资期限：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="investerm_update_input" name="investerm"
+                                                       id="invesTerm_update_input" name="invesTerm"
                                                        placeholder="请输入投资期限：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -378,8 +378,8 @@
         var name = $("#name_add_input").val();
         var annualincome = $("#annualincome_add_input").val();
         var peiincome = $("#peiincome_add_input").val();
-        var invesmoney = $("#invesmoney_add_input").val();
-        var investerm = $("#investerm_add_input").val();
+        var invesMoney = $("#invesMoney_add_input").val();
+        var invesTerm = $("#invesTerm_add_input").val();
 
         //匹配中文、英文、数字包括下划线(理财产品名称)
         var nameRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
@@ -418,25 +418,25 @@
         }
 
         //匹配有1~2位小数的正实数
-        var invesmoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
-        if (invesmoney.length === 0) {
-            show_validate_msg("#invesmoney_add_input",
+        var invesMoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
+        if (invesMoney.length === 0) {
+            show_validate_msg("#invesMoney_add_input",
                 "error", "起投金额为空");
             return false;
-        } else if (invesmoneyRegex.test(invesmoney) === false) {
-            show_validate_msg("#invesmoney_add_input",
+        } else if (invesMoneyRegex.test(invesMoney) === false) {
+            show_validate_msg("#invesMoney_add_input",
                 "error", "起投金额不合法（有1~2位小数的正实数）");
             return false;
         }
 
         //匹配中文、英文、数字包括下划线
-        var investermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
-        if (investerm.length === 0) {
-            show_validate_msg("#investerm_add_input",
+        var invesTermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (invesTerm.length === 0) {
+            show_validate_msg("#invesTerm_add_input",
                 "error", "投资期限为空");
             return false;
-        } else if (investermRegex.test(investerm) === false) {
-            show_validate_msg("#investerm_add_input",
+        } else if (invesTermRegex.test(invesTerm) === false) {
+            show_validate_msg("#invesTerm_add_input",
                 "error", "投资期限不合法");
             return false;
         }
@@ -490,8 +490,8 @@
                 $("#name_update_input").val(changeMoney.name);
                 $("#annualincome_update_input").val(changeMoney.annualincome);
                 $("#peiincome_update_input").val(changeMoney.peiincome);
-                $("#invesmoney_update_input").val(changeMoney.invesmoney);
-                $("#investerm_update_input").val(changeMoney.investerm);
+                $("#invesMoney_update_input").val(changeMoney.invesMoney);
+                $("#invesTerm_update_input").val(changeMoney.invesTerm);
             }
         });
     }
@@ -504,8 +504,8 @@
         var name = $("#name_update_input").val();
         var annualincome = $("#annualincome_update_input").val();
         var peiincome = $("#peiincome_update_input").val();
-        var invesmoney = $("#invesmoney_update_input").val();
-        var investerm = $("#investerm_update_input").val();
+        var invesMoney = $("#invesMoney_update_input").val();
+        var invesTerm = $("#invesTerm_update_input").val();
 
         //匹配中文、英文、数字包括下划线(理财产品名称)
         var nameRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
@@ -544,25 +544,25 @@
         }
 
         //匹配有1~2位小数的正实数
-        var invesmoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
-        if (invesmoney.length === 0) {
-            show_validate_msg("#invesmoney_update_input",
+        var invesMoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
+        if (invesMoney.length === 0) {
+            show_validate_msg("#invesMoney_update_input",
                 "error", "起投金额为空");
             return false;
-        } else if (invesmoneyRegex.test(invesmoney) === false) {
-            show_validate_msg("#invesmoney_update_input",
+        } else if (invesMoneyRegex.test(invesMoney) === false) {
+            show_validate_msg("#invesMoney_update_input",
                 "error", "起投金额不合法（有1~2位小数的正实数）");
             return false;
         }
 
         //匹配中文、英文、数字包括下划线
-        var investermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
-        if (investerm.length === 0) {
-            show_validate_msg("#investerm_update_input",
+        var invesTermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (invesTerm.length === 0) {
+            show_validate_msg("#invesTerm_update_input",
                 "error", "投资期限为空");
             return false;
-        } else if (investermRegex.test(investerm) === false) {
-            show_validate_msg("#investerm_update_input",
+        } else if (invesTermRegex.test(invesTerm) === false) {
+            show_validate_msg("#invesTerm_update_input",
                 "error", "投资期限不合法");
             return false;
         }

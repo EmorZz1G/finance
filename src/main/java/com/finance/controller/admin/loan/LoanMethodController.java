@@ -21,14 +21,11 @@ public class LoanMethodController {
         loan.setId(id);
         loan.setApplyStatus(2);
         System.out.println("更新");
-
         int result = loanExamService.updateLoanExam(loan);
         if(result==1){
-            System.out.println("成功");
             return Result.success();
         }
         else{
-            System.out.println("失败");
             return Result.failure();
         }
     }
@@ -39,15 +36,11 @@ public class LoanMethodController {
         Loan loan = new Loan();
         loan.setId(id);
         loan.setApplyStatus(1);
-        System.out.println("更新");
-
         int result = loanExamService.updateLoanExam(loan);
         if(result==1){
-            System.out.println("成功");
             return Result.success();
         }
         else{
-            System.out.println("失败");
             return Result.failure();
         }
     }

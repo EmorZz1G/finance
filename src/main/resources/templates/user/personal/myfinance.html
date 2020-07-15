@@ -70,11 +70,11 @@
                                                 <tr th:each="ucm:${userChangeMoneyList}">
                                                     <td th:text="${ucmStat.index+1}"></td>
                                                     <td th:text="${ucm.changeMoney.name}"></td>
-                                                    <td th:text="${#numbers.formatDecimal(ucm.changeMoney.invesmoney,1,2)}+'元'"></td>
-                                                    <td th:text="${#dates.format(ucm.starttime, 'yyyy-MM-dd')}"></td>
-                                                    <td th:text="${ucm.changeMoney.investerm}"></td>
+                                                    <td th:text="${#numbers.formatDecimal(ucm.changeMoney.invesMoney,1,2)}+'元'"></td>
+                                                    <td th:text="${#dates.format(ucm.startTime, 'yyyy-MM-dd')}"></td>
+                                                    <td th:text="${ucm.changeMoney.invesTerm}"></td>
                                                     <td th:text="${#numbers.formatDecimal(ucm.profit,1,2)}+'元'"></td>
-                                                    <td th:text="${#numbers.formatDecimal(ucm.averyield*100,1,2)}+'%'"></td>
+                                                    <td th:text="${#numbers.formatDecimal(ucm.averYield*100,1,2)}+'%'"></td>
                                                     <td th:if="${ucm.status==1}" th:text="持有中"></td>
                                                     <td th:if="${ucm.status==2}" th:text="已失效"></td>
                                                     <td th:if="${ucm.status==3}" th:text="已撤销"></td>
@@ -131,11 +131,11 @@
                                                     <td th:text="${upmStat.index+1}"></td>
                                                     <td th:if="${upm.payMoney.type==1}" th:text="国债"></td>
                                                     <td th:if="${upm.payMoney.type==2}" th:text="期货"></td>
-                                                    <td th:text="${#numbers.formatDecimal(upm.payMoney.monthmoney,1,2)}+'元'"></td>
-                                                    <td th:text="${#dates.format(upm.starttime, 'yyyy-MM-dd')}"></td>
-                                                    <td th:text="${upm.payMoney.investerm}"></td>
+                                                    <td th:text="${#numbers.formatDecimal(upm.payMoney.monthMoney,1,2)}+'元'"></td>
+                                                    <td th:text="${#dates.format(upm.startTime, 'yyyy-MM-dd')}"></td>
+                                                    <td th:text="${upm.payMoney.invesTerm}"></td>
                                                     <td th:text="${#numbers.formatDecimal(upm.profit,1,2)}+'元'"></td>
-                                                    <td th:text="${#numbers.formatDecimal(upm.averyield*100,1,2)}+'%'"></td>
+                                                    <td th:text="${#numbers.formatDecimal(upm.averYield*100,1,2)}+'%'"></td>
                                                     <td th:if="${upm.status==1}" th:text="持有中"></td>
                                                     <td th:if="${upm.status==2}" th:text="已失效"></td>
                                                     <td th:if="${upm.status==3}" th:text="已撤销"></td>
@@ -193,10 +193,10 @@
                                                     <td th:text="${utfStat.index+1}"></td>
                                                     <td th:text="${utf.termFinancial.name}"></td>
                                                     <td th:text="${#numbers.formatDecimal(utf.termFinancial.leastmoney,1,2)}+'元'"></td>
-                                                    <td th:text="${#dates.format(utf.starttime, 'yyyy-MM-dd')}"></td>
-                                                    <td th:text="${utf.termFinancial.investerm}"></td>
+                                                    <td th:text="${#dates.format(utf.startTime, 'yyyy-MM-dd')}"></td>
+                                                    <td th:text="${utf.termFinancial.invesTerm}"></td>
                                                     <td th:text="${#numbers.formatDecimal(utf.profit,1,2)}+'元'"></td>
-                                                    <td th:text="${#numbers.formatDecimal(utf.averyield*100,1,2)}+'%'"></td>
+                                                    <td th:text="${#numbers.formatDecimal(utf.averYield*100,1,2)}+'%'"></td>
                                                     <td th:if="${utf.status==1}" th:text="持有中"></td>
                                                     <td th:if="${utf.status==2}" th:text="已失效"></td>
                                                     <td th:if="${utf.status==3}" th:text="已撤销"></td>
@@ -254,10 +254,10 @@
                                                     <td th:text="${ufpStat.index+1}"></td>
                                                     <td th:text="${ufp.fundProduct.funddesc}"></td>
                                                     <td th:text="${#numbers.formatDecimal(ufp.fundProduct.leastmoney,1,2)}+'元'"></td>
-                                                    <td th:text="${#dates.format(ufp.starttime, 'yyyy-MM-dd')}"></td>
-                                                    <td th:text="${ufp.fundProduct.investerm}"></td>
+                                                    <td th:text="${#dates.format(ufp.startTime, 'yyyy-MM-dd')}"></td>
+                                                    <td th:text="${ufp.fundProduct.invesTerm}"></td>
                                                     <td th:text="${#numbers.formatDecimal(ufp.profit,1,2)}+'元'"></td>
-                                                    <td th:text="${#numbers.formatDecimal(ufp.averyield*100,1,2)}+'%'"></td>
+                                                    <td th:text="${#numbers.formatDecimal(ufp.averYield*100,1,2)}+'%'"></td>
                                                     <td th:if="${ufp.status==1}" th:text="持有中"></td>
                                                     <td th:if="${ufp.status==2}" th:text="已失效"></td>
                                                     <td th:if="${ufp.status==3}" th:text="已撤销"></td>

@@ -52,8 +52,8 @@
                                             <td th:text="${finance.name}"></td>
                                             <td th:text="${finance.type}"></td>
                                             <td th:text="${finance.assets}"></td>
-<!--                                           <td th:text="${#strings.substring(finance.bankdesc,0,10)}+'...'"></td>-->
-                                            <td th:text="${#strings.length(finance.bankdesc)>=10?#strings.substring(finance.bankdesc,0,10)+'...':finance.bankdesc}"></td>
+<!--                                           <td th:text="${#strings.substring(finance.bankDesc,0,10)}+'...'"></td>-->
+                                            <td th:text="${#strings.length(finance.bankDesc)>=10?#strings.substring(finance.bankDesc,0,10)+'...':finance.bankDesc}"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm update_btn"
                                                         th:attr="update-id=${finance.id}">
@@ -215,7 +215,7 @@
                                             <label class="col-sm-2 control-label">银行描述：</label>
                                             <div class="col-sm-10">
                                                 <div id="addDescEditor"></div>
-                                                <input type="text" name="bankdesc" id="addBankdesc"
+                                                <input type="text" name="bankDesc" id="addBankDesc"
                                                        style="display: none" />
                                             </div>
                                         </div>
@@ -289,7 +289,7 @@
                                             <label class="col-sm-2 control-label">银行描述：</label>
                                             <div class="col-sm-10">
                                                 <div id="updateDescEditor"></div>
-                                                <input type="text" name="bankdesc" id="updateBankdesc"
+                                                <input type="text" name="bankDesc" id="updateBankDesc"
                                                        style="display: none" />
                                             </div>
                                         </div>
@@ -339,7 +339,7 @@
             //alert(html);
             textArea = html;
             $("#addDescEditor").val(html);
-            $("#addBankdesc").val(html);
+            $("#addBankDesc").val(html);
             //alert($("#divEditor").val());
         }
         editor.create();
@@ -454,11 +454,11 @@
                     //alert(html);
                     textArea = html;
                     $("#updateDescEditor").val(html);
-                    $("#updateBankdesc").val(html);
+                    $("#updateBankDesc").val(html);
                     //alert($("#divEditor").val());
                 };
                 editor2.create();
-                editor2.txt.html(bank.bankdesc);
+                editor2.txt.html(bank.bankDesc);
             }
         });
     }

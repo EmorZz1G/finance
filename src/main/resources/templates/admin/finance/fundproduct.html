@@ -54,14 +54,14 @@
                                         <tr th:each="finance:${financeList}">
                                             <td th:text="${(financePageInfo.pageNum - 1) * financePageInfo.pageSize+financeStat.index+1}"></td>
                                             <td th:text="${finance.code}"></td>
-                                            <td th:text="${finance.funddesc}"></td>
+                                            <td th:text="${finance.fundDesc}"></td>
                                             <td th:if="${finance.type==1}" th:text="股票型基金"></td><td th:if="${finance.type==2}" th:text="债券型基金"></td>
                                             <td th:if="${finance.type==3}" th:text="货币型基金"></td><td th:if="${finance.type==4}" th:text="混合型基金"></td>
-                                            <td th:text="${#numbers.formatDecimal(finance.dailygrowth*100,1,2)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(finance.monthlygrowth*100,1,2)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(finance.annualgrowth*100,1,2)}+'%'"></td>
-                                            <td th:text="${#numbers.formatDecimal(finance.leastmoney,1,2)}+'元'"></td>
-                                            <td th:text="${finance.investerm}"></td>
+                                            <td th:text="${#numbers.formatDecimal(finance.dailyGrowth*100,1,2)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(finance.monthlyGrowth*100,1,2)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(finance.annualGrowth*100,1,2)}+'%'"></td>
+                                            <td th:text="${#numbers.formatDecimal(finance.leastMoney,1,2)}+'元'"></td>
+                                            <td th:text="${finance.invesTerm}"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm update_btn"
                                                         th:attr="update-id=${finance.id}">
@@ -69,7 +69,7 @@
                                                                   aria-hidden="true"></span> 编辑
                                                 </button>
                                                 <button class="btn btn-danger btn-sm delete_btn"
-                                                        th:attr="delete-id=${finance.id},delete-name=${finance.funddesc}">
+                                                        th:attr="delete-id=${finance.id},delete-name=${finance.fundDesc}">
 															<span class="glyphicon glyphicon-trash"
                                                                   aria-hidden="true"></span> 删除
                                                 </button>
@@ -199,7 +199,7 @@
                                             <label class="col-sm-2 control-label">基金简称：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="funddesc_add_input" name="funddesc"
+                                                       id="fundDesc_add_input" name="fundDesc"
                                                        placeholder="请输入基金简称：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -226,7 +226,7 @@
                                             <label class="col-sm-2 control-label">日增长率：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="dailygrowth_add_input" name="dailygrowth"
+                                                       id="dailyGrowth_add_input" name="dailyGrowth"
                                                        placeholder="请输入日增长率：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -238,7 +238,7 @@
                                             <label class="col-sm-2 control-label">月增长率：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="monthlygrowth_add_input" name="monthlygrowth"
+                                                       id="monthlyGrowth_add_input" name="monthlyGrowth"
                                                        placeholder="请输入月增长率：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -250,7 +250,7 @@
                                             <label class="col-sm-2 control-label">年增长率：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="annualgrowth_add_input" name="annualgrowth"
+                                                       id="annualGrowth_add_input" name="annualGrowth"
                                                        placeholder="请输入年增长率：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -262,7 +262,7 @@
                                             <label class="col-sm-2 control-label">起投金额：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="leastmoney_add_input" name="leastmoney"
+                                                       id="leastMoney_add_input" name="leastMoney"
                                                        placeholder="请输入起投金额：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -274,7 +274,7 @@
                                             <label class="col-sm-2 control-label">投资期限：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="investerm_add_input" name="investerm"
+                                                       id="invesTerm_add_input" name="invesTerm"
                                                        placeholder="请输入投资期限：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -327,7 +327,7 @@
                                             <label class="col-sm-2 control-label">基金简称：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="funddesc_update_input" name="funddesc"
+                                                       id="fundDesc_update_input" name="fundDesc"
                                                        placeholder="请输入基金简称：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -353,7 +353,7 @@
                                             <label class="col-sm-2 control-label">日增长率：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="dailygrowth_update_input" name="dailygrowth"
+                                                       id="dailyGrowth_update_input" name="dailyGrowth"
                                                        placeholder="请输入日增长率：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -365,7 +365,7 @@
                                             <label class="col-sm-2 control-label">月增长率：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="monthlygrowth_update_input" name="monthlygrowth"
+                                                       id="monthlyGrowth_update_input" name="monthlyGrowth"
                                                        placeholder="请输入月增长率：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -377,7 +377,7 @@
                                             <label class="col-sm-2 control-label">年增长率：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="annualgrowth_update_input" name="annualgrowth"
+                                                       id="annualGrowth_update_input" name="annualGrowth"
                                                        placeholder="请输入年增长率：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -389,7 +389,7 @@
                                             <label class="col-sm-2 control-label">起投金额：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="leastmoney_update_input" name="leastmoney"
+                                                       id="leastMoney_update_input" name="leastMoney"
                                                        placeholder="请输入起投金额：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -401,7 +401,7 @@
                                             <label class="col-sm-2 control-label">投资期限：</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control"
-                                                       id="investerm_update_input" name="investerm"
+                                                       id="invesTerm_update_input" name="invesTerm"
                                                        placeholder="请输入投资期限：">
                                                 <span class="help-block"></span>
                                             </div>
@@ -458,12 +458,12 @@
         clean_form("#addModal form");
 
         var code = $("#code_add_input").val();
-        var funddesc = $("#funddesc_add_input").val();
-        var dailygrowth = $("#dailygrowth_add_input").val();
-        var monthlygrowth = $("#monthlygrowth_add_input").val();
-        var annualgrowth = $("#annualgrowth_add_input").val();
-        var leastmoney = $("#leastmoney_add_input").val();
-        var investerm = $("#investerm_add_input").val();
+        var fundDesc = $("#fundDesc_add_input").val();
+        var dailyGrowth = $("#dailyGrowth_add_input").val();
+        var monthlyGrowth = $("#monthlyGrowth_add_input").val();
+        var annualGrowth = $("#annualGrowth_add_input").val();
+        var leastMoney = $("#leastMoney_add_input").val();
+        var invesTerm = $("#invesTerm_add_input").val();
 
         //匹配 m-n位的数字
         var codeRegex = /^\d{6,8}$/;
@@ -478,71 +478,71 @@
         }
 
         //匹配中文、英文、数字包括下划线
-        var funddescRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
-        if (funddesc.length === 0) {
-            show_validate_msg("#funddesc_add_input",
+        var fundDescRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (fundDesc.length === 0) {
+            show_validate_msg("#fundDesc_add_input",
                 "error", "基金简介为空");
             return false;
-        } else if (funddescRegex.test(funddesc) === false) {
-            show_validate_msg("#funddesc_add_input",
+        } else if (fundDescRegex.test(fundDesc) === false) {
+            show_validate_msg("#fundDesc_add_input",
                 "error", "基金简介不合法");
             return false;
         }
 
         //匹配正数、负数、和小数
-        var dailygrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
-        if (dailygrowth.length === 0) {
-            show_validate_msg("#dailygrowth_add_input",
+        var dailyGrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
+        if (dailyGrowth.length === 0) {
+            show_validate_msg("#dailyGrowth_add_input",
                 "error", "日增长率为空");
             return false;
-        } else if (dailygrowthRegex.test(dailygrowth) === false) {
-            show_validate_msg("#dailygrowth_add_input",
+        } else if (dailyGrowthRegex.test(dailyGrowth) === false) {
+            show_validate_msg("#dailyGrowth_add_input",
                 "error", "日增长率不合法（正数、负数、和小数）");
             return false;
         }
         //匹配正数、负数、和小数
-        var monthlygrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
-        if (monthlygrowth.length === 0) {
-            show_validate_msg("#monthlygrowth_add_input",
+        var monthlyGrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
+        if (monthlyGrowth.length === 0) {
+            show_validate_msg("#monthlyGrowth_add_input",
                 "error", "月增长率为空");
             return false;
-        } else if (monthlygrowthRegex.test(monthlygrowth) === false) {
-            show_validate_msg("#monthlygrowth_add_input",
+        } else if (monthlyGrowthRegex.test(monthlyGrowth) === false) {
+            show_validate_msg("#monthlyGrowth_add_input",
                 "error", "月增长率不合法（正数、负数、和小数）");
             return false;
         }
         //匹配正数、负数、和小数
-        var annualgrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
-        if (annualgrowth.length === 0) {
-            show_validate_msg("#annualgrowth_add_input",
+        var annualGrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
+        if (annualGrowth.length === 0) {
+            show_validate_msg("#annualGrowth_add_input",
                 "error", "年增长率为空");
             return false;
-        } else if (annualgrowthRegex.test(annualgrowth) === false) {
-            show_validate_msg("#annualgrowth_add_input",
+        } else if (annualGrowthRegex.test(annualGrowth) === false) {
+            show_validate_msg("#annualGrowth_add_input",
                 "error", "年增长率不合法（正数、负数、和小数）");
             return false;
         }
 
         //匹配有1~2位小数的正实数
-        var leastmoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
-        if (leastmoney.length === 0) {
-            show_validate_msg("#leastmoney_add_input",
+        var leastMoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
+        if (leastMoney.length === 0) {
+            show_validate_msg("#leastMoney_add_input",
                 "error", "起投金额为空");
             return false;
-        } else if (leastmoneyRegex.test(leastmoney) === false) {
-            show_validate_msg("#leastmoney_add_input",
+        } else if (leastMoneyRegex.test(leastMoney) === false) {
+            show_validate_msg("#leastMoney_add_input",
                 "error", "起投金额不合法（有1~2位小数的正实数）");
             return false;
         }
 
         //匹配中文、英文、数字包括下划线
-        var investermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
-        if (investerm.length === 0) {
-            show_validate_msg("#investerm_add_input",
+        var invesTermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (invesTerm.length === 0) {
+            show_validate_msg("#invesTerm_add_input",
                 "error", "投资期限为空");
             return false;
-        } else if (investermRegex.test(investerm) === false) {
-            show_validate_msg("#investerm_add_input",
+        } else if (invesTermRegex.test(invesTerm) === false) {
+            show_validate_msg("#invesTerm_add_input",
                 "error", "投资期限不合法");
             return false;
         }
@@ -593,13 +593,13 @@
                 reset_form("#updateModal form");
 
                 $("#code_update_input").val(fundProduct.code);
-                $("#funddesc_update_input").val(fundProduct.funddesc);
+                $("#fundDesc_update_input").val(fundProduct.fundDesc);
                 $("#type_update_input").val([ fundProduct.type ]);
-                $("#annualgrowth_update_input").val(fundProduct.annualgrowth);
-                $("#dailygrowth_update_input").val(fundProduct.dailygrowth);
-                $("#monthlygrowth_update_input").val(fundProduct.monthlygrowth);
-                $("#leastmoney_update_input").val(fundProduct.leastmoney);
-                $("#investerm_update_input").val(fundProduct.investerm);
+                $("#annualGrowth_update_input").val(fundProduct.annualGrowth);
+                $("#dailyGrowth_update_input").val(fundProduct.dailyGrowth);
+                $("#monthlyGrowth_update_input").val(fundProduct.monthlyGrowth);
+                $("#leastMoney_update_input").val(fundProduct.leastMoney);
+                $("#invesTerm_update_input").val(fundProduct.invesTerm);
 
             }
         });
@@ -611,12 +611,12 @@
         clean_form("#updateModal form");
 
         var code = $("#code_update_input").val();
-        var funddesc = $("#funddesc_update_input").val();
-        var dailygrowth = $("#dailygrowth_update_input").val();
-        var monthlygrowth = $("#monthlygrowth_update_input").val();
-        var annualgrowth = $("#annualgrowth_update_input").val();
-        var leastmoney = $("#leastmoney_update_input").val();
-        var investerm = $("#investerm_update_input").val();
+        var fundDesc = $("#fundDesc_update_input").val();
+        var dailyGrowth = $("#dailyGrowth_update_input").val();
+        var monthlyGrowth = $("#monthlyGrowth_update_input").val();
+        var annualGrowth = $("#annualGrowth_update_input").val();
+        var leastMoney = $("#leastMoney_update_input").val();
+        var invesTerm = $("#invesTerm_update_input").val();
 
         //匹配 m-n位的数字
         var codeRegex = /^\d{6,8}$/;
@@ -631,71 +631,71 @@
         }
 
         //匹配中文、英文、数字包括下划线
-        var funddescRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
-        if (funddesc.length === 0) {
-            show_validate_msg("#funddesc_update_input",
+        var fundDescRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (fundDesc.length === 0) {
+            show_validate_msg("#fundDesc_update_input",
                 "error", "基金简介为空");
             return false;
-        } else if (funddescRegex.test(funddesc) === false) {
-            show_validate_msg("#funddesc_update_input",
+        } else if (fundDescRegex.test(fundDesc) === false) {
+            show_validate_msg("#fundDesc_update_input",
                 "error", "基金简介不合法");
             return false;
         }
 
         //匹配正数、负数、和小数
-        var dailygrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
-        if (dailygrowth.length === 0) {
-            show_validate_msg("#dailygrowth_update_input",
+        var dailyGrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
+        if (dailyGrowth.length === 0) {
+            show_validate_msg("#dailyGrowth_update_input",
                 "error", "日增长率为空");
             return false;
-        } else if (dailygrowthRegex.test(dailygrowth) === false) {
-            show_validate_msg("#dailygrowth_update_input",
+        } else if (dailyGrowthRegex.test(dailyGrowth) === false) {
+            show_validate_msg("#dailyGrowth_update_input",
                 "error", "日增长率不合法（正数、负数、和小数）");
             return false;
         }
         //匹配正数、负数、和小数
-        var monthlygrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
-        if (monthlygrowth.length === 0) {
-            show_validate_msg("#monthlygrowth_update_input",
+        var monthlyGrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
+        if (monthlyGrowth.length === 0) {
+            show_validate_msg("#monthlyGrowth_update_input",
                 "error", "月增长率为空");
             return false;
-        } else if (monthlygrowthRegex.test(monthlygrowth) === false) {
-            show_validate_msg("#monthlygrowth_update_input",
+        } else if (monthlyGrowthRegex.test(monthlyGrowth) === false) {
+            show_validate_msg("#monthlyGrowth_update_input",
                 "error", "月增长率不合法（正数、负数、和小数）");
             return false;
         }
         //匹配正数、负数、和小数
-        var annualgrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
-        if (annualgrowth.length === 0) {
-            show_validate_msg("#annualgrowth_update_input",
+        var annualGrowthRegex = /^(\-|\+)?\d+(\.\d+)?$/;
+        if (annualGrowth.length === 0) {
+            show_validate_msg("#annualGrowth_update_input",
                 "error", "年增长率为空");
             return false;
-        } else if (annualgrowthRegex.test(annualgrowth) === false) {
-            show_validate_msg("#annualgrowth_update_input",
+        } else if (annualGrowthRegex.test(annualGrowth) === false) {
+            show_validate_msg("#annualGrowth_update_input",
                 "error", "年增长率不合法（正数、负数、和小数）");
             return false;
         }
 
         //匹配有1~2位小数的正实数
-        var leastmoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
-        if (leastmoney.length === 0) {
-            show_validate_msg("#leastmoney_update_input",
+        var leastMoneyRegex = /^[0-9]+(.[0-9]{1,2})?$/;
+        if (leastMoney.length === 0) {
+            show_validate_msg("#leastMoney_update_input",
                 "error", "起投金额为空");
             return false;
-        } else if (leastmoneyRegex.test(leastmoney) === false) {
-            show_validate_msg("#leastmoney_update_input",
+        } else if (leastMoneyRegex.test(leastMoney) === false) {
+            show_validate_msg("#leastMoney_update_input",
                 "error", "起投金额不合法（有1~2位小数的正实数）");
             return false;
         }
 
         //匹配中文、英文、数字包括下划线
-        var investermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
-        if (investerm.length === 0) {
-            show_validate_msg("#investerm_update_input",
+        var invesTermRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (invesTerm.length === 0) {
+            show_validate_msg("#invesTerm_update_input",
                 "error", "投资期限为空");
             return false;
-        } else if (investermRegex.test(investerm) === false) {
-            show_validate_msg("#investerm_update_input",
+        } else if (invesTermRegex.test(invesTerm) === false) {
+            show_validate_msg("#invesTerm_update_input",
                 "error", "投资期限不合法");
             return false;
         }
