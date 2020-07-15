@@ -7,17 +7,20 @@ import com.finance.service.user.tools.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 @Service
 public class RecordServiceImpl implements RecordService {
-    @Autowired
+
+
+    @Resource
     FlowOfFundsMapper flowOfFundsMapper;
 
     @Override
     public List<FlowOfFunds> selectAllOfUser(int id) {
         FlowOfFundsExample flowOfFundsExample = new FlowOfFundsExample();
         FlowOfFundsExample.Criteria criteria = flowOfFundsExample.createCriteria();
-        criteria.andUseridEqualTo(id);
+        criteria.andUserIdEqualTo(id);
         return flowOfFundsMapper.selectByExample(flowOfFundsExample);
     }
 }

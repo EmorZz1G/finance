@@ -21,7 +21,7 @@ public class MyInfoServiceImpl implements MyInfoService {
     public List<Info> selectInfosByUserId(Integer id) {
         InfoExample infoExample = new InfoExample();
         InfoExample.Criteria criteria = infoExample.createCriteria();
-        criteria.andReceiveidEqualTo(id);
+        criteria.andReceiveIdEqualTo(id);
         return infoMapper.selectByExample(infoExample);
     }
 }

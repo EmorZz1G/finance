@@ -6,12 +6,12 @@
 
     <context id="testTables" targetRuntime="MyBatis3">
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/finance?nullCatalogMeansCurrent=true&amp;useUnicode=true&amp;useUnicodecharacterEncoding=utf8&amp;serverTimezone=GMT%2B8&amp;useSSL=false"
+                        connectionURL="jdbc:mysql://localhost:3306/finance2?nullCatalogMeansCurrent=true&amp;useUnicode=true&amp;useUnicodecharacterEncoding=utf8&amp;serverTimezone=GMT%2B8&amp;useSSL=false"
                         userId="root"
                         password="123321pp">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.finance.pojo.user"
+        <javaModelGenerator targetPackage="com.finance.pojo.others"
                             targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
 
@@ -20,31 +20,67 @@
                          targetProject="./src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.user"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.others"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
+        <!--
+                <table tableName="admin" domainObjectName="Admin">
+                    <property name="useActualColumnNames" value="true"/>
+                </table>
+                <table tableName="admin_permissions" domainObjectName="AdminPermissions">
+                    <property name="useActualColumnNames" value="true"/>
+                </table>-->
 
-        <!--<table tableName="finance.admin" domainObjectName="Admin"/>-->
-        <!--<table tableName="finance.admin_permissions" domainObjectName="AdminPermissions"/>-->
+        <table tableName="bank" domainObjectName="Bank">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="bankcard" domainObjectName="Bankcard">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="change_money" domainObjectName="ChangeMoney">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="flow_of_funds" domainObjectName="FlowOfFunds">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="fund_product" domainObjectName="FundProduct">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="info" domainObjectName="Info">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="loan" domainObjectName="Loan">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="news" domainObjectName="News">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="pay_money" domainObjectName="PayMoney">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="permissions" domainObjectName="Permissions">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="term_financial" domainObjectName="TermFinancial">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
 
-        <!--<table tableName="finance.bank" domainObjectName="Bank"/>-->
-        <!--<table tableName="finance.bankcard" domainObjectName="Bankcard"/>-->
-        <!--<table tableName="finance.change_money" domainObjectName="ChangeMoney"/>-->
-        <!--<table tableName="finance.flow_of_funds" domainObjectName="FlowOfFunds"/>-->
-        <!--<table tableName="finance.fund_product" domainObjectName="FundProduct"/>-->
-        <!--<table tableName="finance.info" domainObjectName="Info"/>-->
-        <!--<table tableName="finance.loan" domainObjectName="Loan"/>-->
-        <!--<table tableName="finance.news" domainObjectName="News"/>-->
-        <!--<table tableName="finance.pay_money" domainObjectName="PayMoney"/>-->
-        <!--<table tableName="finance.permissions" domainObjectName="Permissions"/>-->
-        <!--<table tableName="finance.term_financial" domainObjectName="TermFinancial"/>-->
 
-
-        <!--<table tableName="finance.user" domainObjectName="User"/>-->
-        <!--<table tableName="finance.user_change_money" domainObjectName="UserChangeMoney"/>-->
-        <!--<table tableName="finance.user_fund_product" domainObjectName="UserFundProduct"/>-->
-        <!--<table tableName="finance.user_pay_money" domainObjectName="UserPayMoney"/>-->
-        <!--<table tableName="finance.user_permissions" domainObjectName="UserPermissions"/>-->
+        <!-- <table tableName="user" domainObjectName="User">
+         <property name="useActualColumnNames" value="true"/>
+         </table>
+         <table tableName="user_change_money" domainObjectName="UserChangeMoney">
+         <property name="useActualColumnNames" value="true"/>
+         </table>
+         <table tableName="user_fund_product" domainObjectName="UserFundProduct">
+         <property name="useActualColumnNames" value="true"/>
+         </table>
+         <table tableName="user_pay_money" domainObjectName="UserPayMoney">
+         <property name="useActualColumnNames" value="true"/>
+         </table>
+         <table tableName="user_permissions" domainObjectName="UserPermissions">
+         <property name="useActualColumnNames" value="true"/>
+         </table>-->
     </context>
 </generatorConfiguration>
