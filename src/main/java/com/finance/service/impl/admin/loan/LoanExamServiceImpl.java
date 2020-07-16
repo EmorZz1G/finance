@@ -54,7 +54,7 @@ public class LoanExamServiceImpl implements LoanExamService {
             FlowOfFunds flowOfFunds = new FlowOfFunds(null,
                     loan1.getLoanId(),
                     loan1.getAmount(),
-                    0,
+                    2,
                     "网贷",
                     new Date(),
                     "网贷");

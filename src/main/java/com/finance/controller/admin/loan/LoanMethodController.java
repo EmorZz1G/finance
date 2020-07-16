@@ -51,7 +51,6 @@ public class LoanMethodController {
                             HttpSession session){
         loan.setId(id);
         Admin admin = (Admin) session.getAttribute("loginAdmin");
-        // TODO
         int i = loanExamService.remindPay(loan, admin);
         if (i==1){
             return Result.success();

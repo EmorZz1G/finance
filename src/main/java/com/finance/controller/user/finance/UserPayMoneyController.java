@@ -85,7 +85,7 @@ public class UserPayMoneyController {
 
         int result1 = userPayMoneyService.insertUserPayMoney(userPayMoney);
         int result2 = userPayMoneyService.insertFlowOfFunds(flowOfFunds);
-        if (result1==1&&result2==2) {
+        if (result1==1&&result2==1) {
             return Result.success();
         } else {
             return Result.failure();

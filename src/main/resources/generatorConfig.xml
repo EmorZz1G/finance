@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
-    <context id="testTables" targetRuntime="MyBatis3">
+    <context id="AAA" targetRuntime="MyBatis3">
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/finance2?nullCatalogMeansCurrent=true&amp;useUnicode=true&amp;useUnicodecharacterEncoding=utf8&amp;serverTimezone=GMT%2B8&amp;useSSL=false"
+                        connectionURL="jdbc:mysql://localhost:3306/finance2?useUnicode=true&amp;serverTimezone=GMT%2B8&amp;useSSL=false&amp;characterEncoding=UTF-8"
                         userId="root"
                         password="123321pp">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.finance.pojo.user"
+        <javaModelGenerator targetPackage="com.finance.pojo.perms"
                             targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
 
@@ -20,7 +20,7 @@
                          targetProject="./src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.user"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.perms"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
@@ -68,22 +68,29 @@
 
 
         <!--<table tableName="user" domainObjectName="User">-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--<property name="useActualColumnNames" value="true"/>-->
         <!--</table>-->
         <!--<table tableName="user_change_money" domainObjectName="UserChangeMoney">-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--<property name="useActualColumnNames" value="true"/>-->
         <!--</table>-->
         <!--<table tableName="user_fund_product" domainObjectName="UserFundProduct">-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--<property name="useActualColumnNames" value="true"/>-->
         <!--</table>-->
         <!--<table tableName="user_pay_money" domainObjectName="UserPayMoney">-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--<property name="useActualColumnNames" value="true"/>-->
         <!--</table>-->
         <!--<table tableName="user_permissions" domainObjectName="UserPermissions">-->
+        <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="user_term_financial" domainObjectName="UserTermFinancial">-->
+        <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
+
+        <!--<table schema="finance" tableName="admin_perms_view" domainObjectName="AdminPermsView">-->
             <!--<property name="useActualColumnNames" value="true"/>-->
         <!--</table>-->
-        <table tableName="user_term_financial" domainObjectName="UserTermFinancial">
-            <property name="useActualColumnNames" value="true"/>
-        </table>
+        <!--<table schema="finance" tableName="user_perms_view" domainObjectName="UserPermsView">-->
+            <!--<property name="useActualColumnNames" value="true"/>-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

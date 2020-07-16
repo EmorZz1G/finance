@@ -3,12 +3,16 @@ package com.finance.controller.login;
 
 import com.finance.common.LockHelper;
 import com.finance.common.Result;
+import com.finance.controller.admin.userinfo.ReputationController;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.user.User;
 import com.finance.service.login.LoginService;
 import com.finance.service.user.userinfo.UserInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,11 +42,7 @@ public class LoginController {
     public String toAdminMain(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
                               Model model) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<User> users = userInfoService.selectUsers();
-        PageInfo<User> userPageInfo = new PageInfo<>(users);
-        model.addAttribute("userList", users);
-        model.addAttribute("userPageInfo", userPageInfo);
+        ReputationController.extraction(pageNum, pageSize, model, userInfoService.selectUsers());
         return "admin/main";
     }
 
@@ -65,19 +65,29 @@ public class LoginController {
     public Result verifyLogin(@RequestParam("username") String username,
                               @RequestParam("password") String password,
                               HttpSession session) {
+
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        String msg="";
+        try {
+            subject.login(token);
+        } catch (Exception e) {
+            msg = e.getMessage();
+        }
         User user = loginService.loginForUser(username, password);
         if (user != null) {
-            LockHelper.addUser(session,user);
+            LockHelper.addUser(session, user);
             loginService.status2online(user);
             Result success = Result.success();
-            success.add("url", "/user/toUserMain");
+            success.add("url", "/user/toUserMain")
+                    .add("msg", msg);
             return success;
         }
         Admin admin = loginService.loginForAdmin(username, password);
         if (admin != null) {
             session.setAttribute("loginAdmin", admin);
             Result success = Result.success();
-            success.add("url", "/admin/toAdminMain");
+            success.add("url", "/admin/toAdminMain").add("msg",msg);
             return success;
         }
         return Result.failure();
@@ -88,7 +98,7 @@ public class LoginController {
                          HttpSession session) {
         if ("adminLogout".equals(logoutType)) {
             session.invalidate();
-        }else if("userLogout".equals(logoutType)){
+        } else if ("userLogout".equals(logoutType)) {
             User user = (User) session.getAttribute("loginUser");
             loginService.status2Disconnected(user);
             LockHelper.removeSession(user);

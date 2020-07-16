@@ -6,9 +6,11 @@ import com.finance.pojo.user.User;
 import com.finance.service.user.userinfo.UserInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +24,7 @@ public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 
-    private Result LogoutUserById(int id,int status){
+    private Result LogoutUserById(int id, int status) {
         User user = userInfoService.selectUserById(id);
         LockHelper.removeSession(user);
         if (status == 1) {
@@ -57,7 +59,7 @@ public class UserInfoController {
     @ResponseBody
     public Result deleteUserById(@PathVariable("id") int id) {
         int i = userInfoService.deleteUserById(id);
-        return LogoutUserById(id,i);
+        return LogoutUserById(id, i);
     }
 
     @PostMapping("/user/addUser")
@@ -76,19 +78,21 @@ public class UserInfoController {
     public Result updateUserStatus(@PathVariable("id") int id
     ) {
         int i = userInfoService.updateUserStatusById(id);
-        return LogoutUserById(id,i);
+        return LogoutUserById(id, i);
     }
 
-    @RequestMapping({"/admin/userinfo/toUserInfo.html",
-            "/admin/userinfo/toReputation.html"})
-    public ModelAndView toUserInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                   @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
-        ModelAndView modelAndView = new ModelAndView("admin/userinfo/userinfo.html");
-        PageHelper.startPage(pageNum, pageSize);
+    @RequestMapping("/admin/userinfo/toUserInfo.html")
+    public String toUserInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                             @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+                             Model model) {
+        ReputationController.extraction(pageNum,pageSize,model,userInfoService.selectUsers());
+
+/*        PageHelper.startPage(pageNum, pageSize);
         List<User> users = userInfoService.selectUsers();
         PageInfo<User> userPageInfo = new PageInfo<>(users);
-        modelAndView.addObject("userList", users);
-        modelAndView.addObject("userPageInfo", userPageInfo);
-        return modelAndView;
+        model.addAttribute("userList", users);
+        model.addAttribute("userPageInfo", userPageInfo);*/
+
+        return "admin/userinfo/userinfo.html";
     }
 }
