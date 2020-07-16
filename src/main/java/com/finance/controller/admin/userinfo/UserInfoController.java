@@ -22,6 +22,17 @@ public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 
+    private Result LogoutUserById(int id,int status){
+        User user = userInfoService.selectUserById(id);
+        LockHelper.removeSession(user);
+        if (status == 1) {
+            return Result.success();
+        } else {
+            return Result.failure();
+        }
+    }
+
+
     @GetMapping("/user/getUserById/{id}")
     @ResponseBody
     public Result getUserById(@PathVariable("id") int id) {
@@ -46,11 +57,7 @@ public class UserInfoController {
     @ResponseBody
     public Result deleteUserById(@PathVariable("id") int id) {
         int i = userInfoService.deleteUserById(id);
-        if (i == 1) {
-            return Result.success();
-        } else {
-            return Result.failure();
-        }
+        return LogoutUserById(id,i);
     }
 
     @PostMapping("/user/addUser")
@@ -69,13 +76,7 @@ public class UserInfoController {
     public Result updateUserStatus(@PathVariable("id") int id
     ) {
         int i = userInfoService.updateUserStatusById(id);
-        User user = userInfoService.selectUserById(id);
-        LockHelper.removeSession(user);
-        if (i == 1) {
-            return Result.success();
-        } else {
-            return Result.failure();
-        }
+        return LogoutUserById(id,i);
     }
 
     @RequestMapping({"/admin/userinfo/toUserInfo.html",
