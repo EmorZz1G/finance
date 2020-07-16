@@ -99,7 +99,7 @@
                                             <ul class="dropdown-menu">
                                                 <li th:each="i:${#numbers.sequence(1,10)}">
                                                     <a th:text="${i}"
-                                                       th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum},pageSize=${i})}"></a>
+                                                       th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum},pageSize=${i})}"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -121,11 +121,11 @@
                                         <ul class="pagination pagination-lg pull-right"
                                             style="margin-top: 0">
                                             <li>
-                                                <a th:href="@{/admin/loan/toLoanexam.html(pageNum=1,pageSize=${loanPageInfo.pageSize})}">首页</a>
+                                                <a th:href="@{/admin/loan/toLoaninfo.html(pageNum=1,pageSize=${loanPageInfo.pageSize})}">首页</a>
                                             </li>
 
                                             <li th:if="${loanPageInfo.hasPreviousPage }"><a
-                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum}-1,pageSize=${loanPageInfo.pageSize})}"
+                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum}-1,pageSize=${loanPageInfo.pageSize})}"
                                                     aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
                                             </a></li>
 
@@ -137,17 +137,17 @@
                                                 </a>
                                                 <a th:text="${page_Num}"
                                                    th:if="${page_Num != loanPageInfo.pageNum}"
-                                                   th:href="@{/admin/loan/toLoanexam.html(pageNum=${page_Num},pageSize=${loanPageInfo.pageSize})}">
+                                                   th:href="@{/admin/loan/toLoaninfo.html(pageNum=${page_Num},pageSize=${loanPageInfo.pageSize})}">
                                                 </a>
                                             </li>
 
                                             <li th:if="${loanPageInfo.hasNextPage }"><a
-                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum}+1,pageSize=${loanPageInfo.pageSize})}"
+                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum}+1,pageSize=${loanPageInfo.pageSize})}"
                                                     aria-label="Next"> <span aria-hidden="true">&raquo;</span>
                                             </a></li>
 
                                             <li><a
-                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pages},pageSize=${loanPageInfo.pageSize})}">末页</a>
+                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pages},pageSize=${loanPageInfo.pageSize})}">末页</a>
                                             </li>
                                         </ul>
                                     </nav>

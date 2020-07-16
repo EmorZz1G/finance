@@ -15,5 +15,10 @@ public interface UserInfoService {
 
     int insertUser(User user);
 
+    /**
+     * 下线功能
+     * @param id
+     * @return
+     */
     int updateUserStatusById(int id);
 }

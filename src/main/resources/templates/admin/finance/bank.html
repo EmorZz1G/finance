@@ -291,6 +291,7 @@
                                                 <div id="updateDescEditor"></div>
                                                 <input type="text" name="bankDesc" id="updateBankDesc"
                                                        style="display: none" />
+
                                             </div>
                                         </div>
                                     </form>
@@ -444,11 +445,14 @@
                 $("#name_update_input").val(bank.name);
                 $("#type_update_input").val(bank.type);
                 $("#assets_update_input").val(bank.assets);
-
+                $("#updateDescEditor").val(bank.bankDesc);
+                $("#updateBankDesc").val(bank.bankDesc);
                 //初始化富文本编辑框
                 var E2 = window.wangEditor;
                 var editor2 = new E2('#updateDescEditor');
+
                 editor2.customConfig.zIndex = 100;
+
                 editor2.customConfig.onchange = function(html) {
                     // 监控变化，同步更新到 textarea
                     //alert(html);
