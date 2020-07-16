@@ -1,8 +1,10 @@
 package com.finance.service.impl.admin.loan;
 
+import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.others.InfoMapper;
 import com.finance.mapper.others.LoanMapper;
 import com.finance.pojo.admin.Admin;
+import com.finance.pojo.others.FlowOfFunds;
 import com.finance.pojo.others.Info;
 import com.finance.pojo.others.Loan;
 import com.finance.pojo.others.LoanExample;
@@ -26,6 +28,9 @@ public class LoanExamServiceImpl implements LoanExamService {
     @Resource
     InfoMapper infoMapper;
 
+    @Resource
+    FlowOfFundsMapper flowOfFundsMapper;
+
     @Override
     public List<Loan> selectAllLoanExam() {
         return loanMapper.selectByExample(null);
@@ -46,6 +51,14 @@ public class LoanExamServiceImpl implements LoanExamService {
             info.setTitle("网贷审核通过");
             desc = "用户"+loan1.getUser().getUsername()+"的"+loan1.getAmount()
                     +"元网贷申请审核通过！审核人为："+admin.getUsername();
+            FlowOfFunds flowOfFunds = new FlowOfFunds(null,
+                    loan1.getLoanId(),
+                    loan1.getAmount(),
+                    0,
+                    "网贷",
+                    new Date(),
+                    "网贷");
+            flowOfFundsMapper.insertSelective(flowOfFunds);
         } else {
             loan.setApplyStatus(1);
             info.setTitle("网贷审核未通过");
