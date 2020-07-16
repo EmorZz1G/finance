@@ -2,6 +2,7 @@ package com.finance.service.impl.user.userinfo;
 
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.user.User;
+import com.finance.pojo.user.UserExample;
 import com.finance.service.user.userinfo.UserInfoService;
 import org.springframework.stereotype.Service;
 

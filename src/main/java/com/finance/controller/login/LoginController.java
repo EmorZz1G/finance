@@ -1,6 +1,7 @@
 package com.finance.controller.login;
 
 
+import com.finance.common.LockHelper;
 import com.finance.common.Result;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.user.User;
@@ -66,7 +67,7 @@ public class LoginController {
                               HttpSession session) {
         User user = loginService.loginForUser(username, password);
         if (user != null) {
-            session.setAttribute("loginUser", user);
+            LockHelper.addUser(session,user);
             loginService.status2online(user);
             Result success = Result.success();
             success.add("url", "/user/toUserMain");
@@ -88,8 +89,9 @@ public class LoginController {
         if ("adminLogout".equals(logoutType)) {
             session.invalidate();
         }else if("userLogout".equals(logoutType)){
-            loginService.status2Disconnected((User) session.getAttribute("loginUser"));
-            session.invalidate();
+            User user = (User) session.getAttribute("loginUser");
+            loginService.status2Disconnected(user);
+            LockHelper.removeSession(user);
         }
         return "login";
     }

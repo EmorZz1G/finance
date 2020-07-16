@@ -1,16 +1,20 @@
 package com.finance.controller.admin.userinfo;
 
+import com.finance.common.LockHelper;
 import com.finance.common.Result;
 import com.finance.pojo.user.User;
 import com.finance.service.user.userinfo.UserInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 
 @Controller
 public class UserInfoController {
@@ -31,9 +35,9 @@ public class UserInfoController {
     public Result updateUserProfile(@PathVariable("id") int id, User user) {
         user.setId(id);
         int i = userInfoService.updateUser(user);
-        if(i==1){
+        if (i == 1) {
             return Result.success();
-        }else {
+        } else {
             return Result.failure();
         }
     }
@@ -42,45 +46,48 @@ public class UserInfoController {
     @ResponseBody
     public Result deleteUserById(@PathVariable("id") int id) {
         int i = userInfoService.deleteUserById(id);
-        if(i==1){
+        if (i == 1) {
             return Result.success();
-        }else {
+        } else {
             return Result.failure();
         }
     }
 
     @PostMapping("/user/addUser")
     @ResponseBody
-    public Result addUser(User user){
+    public Result addUser(User user) {
         int i = userInfoService.insertUser(user);
-        if(i==1){
+        if (i == 1) {
             return Result.success();
-        }else {
+        } else {
             return Result.failure();
         }
     }
 
     @PutMapping("/user/updateUserStatus/{id}")
     @ResponseBody
-    public Result updateUserStatus(@PathVariable("id")int id){
+    public Result updateUserStatus(@PathVariable("id") int id
+    ) {
         int i = userInfoService.updateUserStatusById(id);
-        if(i==1){
+        User user = userInfoService.selectUserById(id);
+        LockHelper.removeSession(user);
+        if (i == 1) {
             return Result.success();
-        }else {
+        } else {
             return Result.failure();
         }
     }
 
     @RequestMapping({"/admin/userinfo/toUserInfo.html",
-                    "admin/userinfo/toReputation.html"})
+            "/admin/userinfo/toReputation.html"})
     public ModelAndView toUserInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         ModelAndView modelAndView = new ModelAndView("admin/userinfo/userinfo.html");
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         List<User> users = userInfoService.selectUsers();
         PageInfo<User> userPageInfo = new PageInfo<>(users);
-        modelAndView.addObject("userList",users);
-        modelAndView.addObject("userPageInfo",userPageInfo);
+        modelAndView.addObject("userList", users);
+        modelAndView.addObject("userPageInfo", userPageInfo);
         return modelAndView;
     }
 }
