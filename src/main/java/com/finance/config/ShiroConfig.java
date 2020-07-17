@@ -1,17 +1,21 @@
 package com.finance.config;
 
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.finance.common.AdminRealm;
 import com.finance.common.UserRealm;
 import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Configuration
 public class ShiroConfig {
@@ -26,6 +30,7 @@ public class ShiroConfig {
         filterMap.put("/login","anon");
         filterMap.put("/login/*","anon");
         filterMap.put("/register","anon");
+        filterMap.put("/register/*","anon");
         filterMap.put("/","anon");
         filterMap.put("/toregister.html","anon");
 
@@ -68,9 +73,26 @@ public class ShiroConfig {
         filterMap.put("/admin/loan/toLoaninfo.html","perms[admin:loanInfo]" );
 
 
+        // User
+
+
+        // finance
+        filterMap.put("/user/finance/*","perms[user:finance]" );
+
+        filterMap.put("/user/finance/toChangeMoney.html","perms[user:changeMoney]" );
+        filterMap.put("/user/finance/toPayMoney.html","perms[user:payMoney]" );
+        filterMap.put("/user/finance/toTermFinancial.html","perms[user:termFinancial]" );
+        filterMap.put("/user/finance/toFundProduct.html","perms[user:fundProduct]" );
+        filterMap.put("/user/finance/toBank.html","perms[user:bank]" );
+        // tools
+        filterMap.put("/user/tools/*","perms[user:tools]" );
+        filterMap.put("/user/tools/toRecord.html","perms[user:record]" );
+        filterMap.put("/user/tools/toApplyLoan.html","perms[user:loan]" );
+
+
         //TODO
         factoryBean.setLoginUrl("/login");
-        factoryBean.setUnauthorizedUrl("/login");
+        factoryBean.setUnauthorizedUrl("/unUnauthorized");
         factoryBean.setFilterChainDefinitionMap(filterMap);
         return factoryBean;
     }
@@ -79,8 +101,10 @@ public class ShiroConfig {
     public DefaultWebSecurityManager getDefaultSecurityManager(@Qualifier("userRealm")UserRealm userRealm,
                                                                @Qualifier("adminRealm")AdminRealm adminRealm){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(userRealm);
-        securityManager.setRealm(adminRealm);
+        Set<Realm> set = new HashSet<>();
+        set.add(userRealm);
+        set.add(adminRealm);
+        securityManager.setRealms(set);
         return securityManager;
     }
 
@@ -92,5 +116,10 @@ public class ShiroConfig {
     @Bean("adminRealm")
     public AdminRealm getAdminRealm(){
         return new AdminRealm();
+    }
+
+    @Bean
+    public ShiroDialect getShiroDialect(){
+        return new ShiroDialect();
     }
 }

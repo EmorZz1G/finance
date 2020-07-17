@@ -2,6 +2,7 @@ package com.finance.common;
 
 import com.finance.pojo.user.User;
 import com.finance.service.login.LoginService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -9,6 +10,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class UserRealm extends AuthorizingRealm {
@@ -22,18 +24,18 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     // 授权
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        Object primaryPrincipal = principals.getPrimaryPrincipal();
+        Object principal = SecurityUtils.getSubject().getPrincipal();
         User user;
-        if (primaryPrincipal instanceof User) {
-            user = (User) primaryPrincipal;
+        if (principal instanceof User) {
+            user = (User) principal;
         } else {
             return null;
         }
         Set<String> set = permissionsService.selectPermsSetByUser(user);
-//        System.out.println(set);
-        //TODO
-        System.out.println("用户");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        Set<String> roles = new HashSet<>();
+        roles.add("USER");
+        authorizationInfo.setRoles(roles);
         authorizationInfo.setStringPermissions(set);
         return authorizationInfo;
     }

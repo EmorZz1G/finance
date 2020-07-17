@@ -24,7 +24,7 @@ public class LockHelper {
         curSession.setAttribute("loginUser", user);
         helperMap.put(user.getId(),curSession);
         ++count;
-        log.info("User: {}上线，当前在线人数: {}",user,count);
+        log.info("User: {}上线，当前在线人数: {}",user.getUsername(),count);
         return helperMap;
     }
 
