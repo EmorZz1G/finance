@@ -12,7 +12,11 @@ public class LockHelper {
     private static Integer count = 0;
     private static ConcurrentHashMap<Integer, HttpSession> helperMap = new ConcurrentHashMap<>();
 
-    public static ConcurrentHashMap addUser(HttpSession curSession,User user){
+    public static Integer getCount() {
+        return count;
+    }
+
+    public static ConcurrentHashMap addUser(HttpSession curSession, User user){
         HttpSession preSession = helperMap.get(user.getId());
         // 用户已经存在
         if(preSession!=null){

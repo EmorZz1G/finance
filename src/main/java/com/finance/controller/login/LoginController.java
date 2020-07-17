@@ -42,7 +42,7 @@ public class LoginController {
     public String toAdminMain(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
                               Model model) {
-        ReputationController.extraction(pageNum, pageSize, model, userInfoService.selectUsers());
+        ReputationController.extraction(pageNum, pageSize, model,userInfoService);
         return "admin/main";
     }
 

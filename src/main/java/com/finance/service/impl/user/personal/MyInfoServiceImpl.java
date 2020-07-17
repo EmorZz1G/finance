@@ -22,6 +22,7 @@ public class MyInfoServiceImpl implements MyInfoService {
         InfoExample infoExample = new InfoExample();
         InfoExample.Criteria criteria = infoExample.createCriteria();
         criteria.andReceiveIdEqualTo(id);
+        criteria.andStatusNotEqualTo(2);
         return infoMapper.selectByExample(infoExample);
     }
 
@@ -35,6 +36,9 @@ public class MyInfoServiceImpl implements MyInfoService {
 
     @Override
     public int deleteInfoById(int id) {
-        return infoMapper.deleteByPrimaryKey(id);
+        Info info = new Info();
+        info.setId(id);
+        info.setStatus(2);
+        return infoMapper.updateByPrimaryKeySelective(info);
     }
 }

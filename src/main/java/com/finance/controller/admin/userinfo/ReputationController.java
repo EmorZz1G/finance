@@ -1,8 +1,10 @@
 package com.finance.controller.admin.userinfo;
 
 
+import com.finance.common.LockHelper;
 import com.finance.pojo.user.User;
 import com.finance.service.user.userinfo.ReputationService;
+import com.finance.service.user.userinfo.UserInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +22,27 @@ public class ReputationController {
     @Autowired
     ReputationService reputationService;
 
-    public static void extraction(int pageNum, int pageSize, Model model, List<User> users2) {
+    public static void extraction(int pageNum, int pageSize, Model model,Object service) {
         PageHelper.startPage(pageNum, pageSize);
-        List<User> users = users2;
+        List<User> users =null;
+        if(service instanceof ReputationService){
+            users = ((ReputationService) service).selectUsers();
+        }else if(service instanceof UserInfoService){
+            users = ((UserInfoService) service).selectUsers();
+        }else {
+            return;
+        }
         PageInfo<User> userPageInfo = new PageInfo<>(users);
         model.addAttribute("userList", users);
         model.addAttribute("userPageInfo", userPageInfo);
+        model.addAttribute("count", LockHelper.getCount());
     }
 
     @GetMapping("admin/userinfo/toReputation.html")
     public String toReputation(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
                                Model model) {
-        extraction(pageNum, pageSize, model, reputationService.selectUsers());
+        extraction(pageNum, pageSize, model,reputationService);
         return "admin/userinfo/reputation.html";
     }
 

@@ -90,7 +90,6 @@ public class ShiroConfig {
         filterMap.put("/user/tools/toApplyLoan.html","perms[user:loan]" );
 
 
-        //TODO
         factoryBean.setLoginUrl("/login");
         factoryBean.setUnauthorizedUrl("/unUnauthorized");
         factoryBean.setFilterChainDefinitionMap(filterMap);

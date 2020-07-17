@@ -85,14 +85,7 @@ public class UserInfoController {
     public String toUserInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
                              Model model) {
-        ReputationController.extraction(pageNum,pageSize,model,userInfoService.selectUsers());
-
-/*        PageHelper.startPage(pageNum, pageSize);
-        List<User> users = userInfoService.selectUsers();
-        PageInfo<User> userPageInfo = new PageInfo<>(users);
-        model.addAttribute("userList", users);
-        model.addAttribute("userPageInfo", userPageInfo);*/
-
+        ReputationController.extraction(pageNum,pageSize,model,userInfoService);
         return "admin/userinfo/userinfo.html";
     }
 }
