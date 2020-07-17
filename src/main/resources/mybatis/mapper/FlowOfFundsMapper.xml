@@ -14,6 +14,11 @@
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="createTime" jdbcType="DATE" property="createTime" />
     <result column="fundDesc" jdbcType="VARCHAR" property="fundDesc" />
+    <association property="user"
+                 column="userId"
+                 javaType="com.finance.pojo.user.User"
+                 select="com.finance.mapper.user.UserMapper.selectByPrimaryKey">
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--

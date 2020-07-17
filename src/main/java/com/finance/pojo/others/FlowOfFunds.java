@@ -1,10 +1,36 @@
 package com.finance.pojo.others;
 
+import com.finance.pojo.user.User;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class FlowOfFunds {
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public FlowOfFunds() {
+    }
+
+    @Override
+    public String toString() {
+        return "FlowOfFunds{" +
+                "user=" + user +
+                ", id=" + id +
+                ", userId=" + userId +
+                ", flowMoney=" + flowMoney +
+                ", type=" + type +
+                ", source='" + source + '\'' +
+                ", createTime=" + createTime +
+                ", fundDesc='" + fundDesc + '\'' +
+                '}';
     }
 
     public FlowOfFunds(Integer id, Integer userId, BigDecimal flowMoney,
