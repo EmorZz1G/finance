@@ -67,6 +67,16 @@
                                 th:href="@{/admin/loan/toLoaninfo.html}">网贷信息</a></li>
                     </ul>
                 </li>
+                <li shiro:hasPermission="admin:historyInfo" class="nav-item nav-item-has-subnav"
+                    th:class="${activeUrl1=='historyInfoActive'?'nav-item nav-item-has-subnav active open':'nav-item nav-item-has-subnav'}"
+                ><a href="javascript:void(0)"><i class="mdi mdi-comment-check"></i>历史消息</a>
+                    <ul class="nav nav-subnav">
+                        <li shiro:hasPermission="admin:info" th:class="${activeUrl2=='infoActive'?'active':''}"><a
+                                th:href="@{/admin/historyinfo/toInfo.html}">历史消息</a></li>
+                        <li shiro:hasPermission="admin:fund" th:class="${activeUrl2=='fundActive'?'active':''}"><a
+                                th:href="@{/admin/historyinfo/toRecord.html}">资金流动</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>
