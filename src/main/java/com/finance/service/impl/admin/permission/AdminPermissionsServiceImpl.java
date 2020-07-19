@@ -1,8 +1,10 @@
 package com.finance.service.impl.admin.permission;
 
 
+import com.finance.mapper.admin.AdminMapper;
 import com.finance.mapper.perms.AdminPermsViewMapper;
 import com.finance.pojo.admin.Admin;
+import com.finance.pojo.admin.AdminExample;
 import com.finance.pojo.perms.AdminPermsView;
 import com.finance.pojo.perms.AdminPermsViewExample;
 import com.finance.service.admin.permission.AdminPermissionsService;
@@ -18,6 +20,17 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
 
     @Resource
     AdminPermsViewMapper permsViewMapper;
+
+    @Resource
+    AdminMapper adminMapper;
+
+    @Override
+    public List<Admin> selectAdminsButId(int id) {
+        AdminExample adminExample = new AdminExample();
+        AdminExample.Criteria criteria = adminExample.createCriteria();
+        criteria.andIdNotEqualTo(id);
+        return adminMapper.selectByExample(adminExample);
+    }
 
     @Override
     public List<AdminPermsView> selectPermsByAdminId(int id) {

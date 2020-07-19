@@ -5,6 +5,24 @@ import java.util.Map;
 
 public class Result {
     private int code;
+    private String msg;
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", extend=" + extend +
+                '}';
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
     private Map<String,Object> extend = new HashMap<>();
 
@@ -24,16 +42,21 @@ public class Result {
         return result;
     }
 
+    public static Result success(String msg){
+        Result result = new Result(100);
+        result.setMsg(msg);
+        return result;
+    }
+
+    public static Result failure(String msg){
+        Result result = new Result(200);
+        result.setMsg(msg);
+        return result;
+    }
+
     public Result add(String key,Object value){
         this.extend.put(key,value);
         return this;
-    }
-    @Override
-    public String toString() {
-        return "Result{" +
-                "code=" + code +
-                ", extend=" + extend +
-                '}';
     }
 
     public int getCode() {

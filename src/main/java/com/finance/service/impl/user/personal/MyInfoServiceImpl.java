@@ -27,6 +27,15 @@ public class MyInfoServiceImpl implements MyInfoService {
     }
 
     @Override
+    public int getUnReadInfoCountByUserId(Integer id) {
+        InfoExample infoExample = new InfoExample();
+        InfoExample.Criteria criteria = infoExample.createCriteria();
+        criteria.andReceiveIdEqualTo(id);
+        criteria.andStatusEqualTo(0);
+        return infoMapper.countByExample(infoExample);
+    }
+
+    @Override
     public int updateInfoStatus(int id) {
         Info info = new Info();
         info.setId(id);
