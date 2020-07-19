@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 public interface AdminPermissionsService {
+
+    int updatePerms(int adminId,String[] newPerms) throws RuntimeException;
+
     List<Admin> selectAdminsButId(int id);
 
     List<AdminPermsView> selectPermsByAdminId(int id);

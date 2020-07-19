@@ -23,7 +23,7 @@ public class AdminRecordController {
     public ModelAndView toRecord(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                  @RequestParam(value = "pageSize", defaultValue = "5") int pageSize){
         ModelAndView modelAndView = new ModelAndView("admin/historyinfo/record.html");
-        System.out.println("gan");
+
         PageHelper.startPage(pageNum,pageSize);
         List<FlowOfFunds> flowOfFundsList = adminRecordService.selectAll();
         PageInfo<FlowOfFunds> flowOfFundsPageInfo = new PageInfo<>(flowOfFundsList);

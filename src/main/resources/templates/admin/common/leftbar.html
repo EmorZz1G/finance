@@ -69,7 +69,7 @@
                 </li>
                 <li shiro:hasPermission="admin:historyInfo" class="nav-item nav-item-has-subnav"
                     th:class="${activeUrl1=='historyInfoActive'?'nav-item nav-item-has-subnav active open':'nav-item nav-item-has-subnav'}"
-                ><a href="javascript:void(0)"><i class="mdi mdi-comment-check"></i>历史消息</a>
+                ><a href="javascript:void(0)"><i class="mdi mdi-comment-check"></i>历史信息</a>
                     <ul class="nav nav-subnav">
                         <li shiro:hasPermission="admin:info" th:class="${activeUrl2=='infoActive'?'active':''}"><a
                                 th:href="@{/admin/historyinfo/toInfo.html}">历史消息</a></li>
