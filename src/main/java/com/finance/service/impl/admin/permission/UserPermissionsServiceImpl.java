@@ -2,10 +2,12 @@ package com.finance.service.impl.admin.permission;
 
 
 import com.finance.mapper.perms.UserPermsViewMapper;
+import com.finance.mapper.user.UserPermissionsMapper;
 import com.finance.pojo.perms.UserPermsView;
 import com.finance.pojo.perms.UserPermsViewExample;
 import com.finance.pojo.user.User;
-import com.finance.service.user.permission.UserPermissionsService;
+import com.finance.pojo.user.UserPermissions;
+import com.finance.service.admin.permission.UserPermissionsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +20,21 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
 
     @Resource
     UserPermsViewMapper permsViewMapper;
+
+    @Resource
+    UserPermissionsMapper userPermissionsMapper;
+
+    @Override
+    public int giveAuthorization(User user) {
+        UserPermissions userPermissions = new UserPermissions();
+        userPermissions.setUserId(user.getId());
+        int effect = 0;
+        for (int i = 1; i <= 9; ++i) {
+            userPermissions.setPermissionId(i);
+            effect += userPermissionsMapper.insert(userPermissions);
+        }
+        return effect;
+    }
 
     @Override
     public List<UserPermsView> selectPermsByUserId(int id) {

@@ -63,4 +63,28 @@ public class AdminPermissionsController {
             return Result.failure();
         }
     }
+
+
+
+    @PostMapping("/admin/super/addAdmin")
+    @ResponseBody
+    public Result addAdmin(Admin admin){
+        int i = permissionsService.insertAdmin(admin);
+        if (i==1){
+            return Result.success();
+        }else {
+            return Result.failure();
+        }
+    }
+
+    @DeleteMapping("/admin/super/deleteAdmin/{id}")
+    @ResponseBody
+    public Result deleteAdmin(@PathVariable("id")int id){
+        int i = permissionsService.deleteAdminId(id);
+        if (i==1){
+            return Result.success();
+        }else {
+            return Result.failure();
+        }
+    }
 }

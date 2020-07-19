@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport"
@@ -43,7 +43,7 @@
                     <tr>
                       <th class="info">序号</th>
                       <th class="info">用户名</th>
-                      <th class="info">密码</th>
+                      <th shiro:hasPermission="admin:super" class="info">密码</th>
                       <th class="info">操作</th>
 
                     </tr>
@@ -52,13 +52,19 @@
                     <tr th:each="user:${adminList}">
                       <td th:text="${(adminPermsPageInfo.pageNum - 1) * adminPermsPageInfo.pageSize+userStat.index+1}"></td>
                       <td th:text="${user.username}"></td>
-                      <td th:text="${user.password}"></td>
+                      <td shiro:hasPermission="admin:super" th:text="${user.password}"></td>
                       <td>
                         <button class="btn btn-primary btn-sm update_btn"
                                 @click="changeAdmin"
                                 th:attr="admin-id=${user.id}">
 															<span class="glyphicon glyphicon-pencil"
-                                    aria-hidden="true"></span> 选择
+                                    aria-hidden="true"></span> 查看权限
+                        </button>
+                        <button class="btn btn-danger btn-sm delete_btn"
+                                shiro:hasPermission="admin:super"
+                                th:attr="delete-id=${user.id},delete-name=${user.username}">
+															<span class="glyphicon glyphicon-trash"
+                                    aria-hidden="true"></span> 删除
                         </button>
                       </td>
 
@@ -73,7 +79,7 @@
 
                 <!-- 新增按钮 -->
                 <div class="col-md-1" style="margin-left: 24px">
-                  <button id="user_add_modal_btn" class="btn btn-primary">新增</button>
+                  <button id="user_add_modal_btn" class="btn btn-primary" shiro:hasPermission="admin:super">新增</button>
                 </div>
 
                 <div class="col-md-5">
@@ -511,17 +517,17 @@
                       aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-              <h4 class="modal-title">新增用户</h4>
+              <h4 class="modal-title">新增管理员</h4>
             </div>
             <div class="modal-body">
               <!--要提交的表单 -->
               <form class="form-horizontal">
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">用户名：</label>
+                  <label class="col-sm-2 control-label">管理员：</label>
                   <div class="col-sm-6">
                     <input type="text" class="form-control"
                            id="username_add_input" name="username"
-                           placeholder="请输入用户名：">
+                           placeholder="请输入管理员账号：">
                     <span class="help-block"></span>
                   </div>
                   <div class="col-sm-1">
@@ -574,22 +580,24 @@
 <!--自定义js脚本-->
 <script th:src="@{/lyear/js/main.min.js}"></script>
 <script type="text/javascript" th:inline="javascript">
-    //点击新增按钮弹出模态框。
-    $("#user_add_modal_btn").click(function () {
-        //清除表单数据（表单完整重置（表单的数据，表单的样式））
-        reset_form("#userAddModal form");
-        //弹出模态框
-        $("#userAddModal").modal({
-            //点击增加框背景不删除增加框
-            backdrop: "static"
-        });
-    });
+  $(function () {
+      //点击新增按钮弹出模态框。
+      $("#user_add_modal_btn").click(function () {
+          //清除表单数据（表单完整重置（表单的数据，表单的样式））
+          console.log("1")
+          // reset_form("#userAddModal form");
+          console.log("2")
+          //弹出模态框
+          $("#userAddModal").modal({
+              //点击增加框背景不删除增加框
+              backdrop: "static"
+          });
+          console.log("3")
+      });
+  })
 
 
 
-
-    /*let _admins = [[${adminList}]]
-    const admins = eval(_admins);*/
 
     const app = new Vue({
         el: "#app",
@@ -601,8 +609,6 @@
         methods: {
             changeAdmin() {
                 const adminId = $(event.target).attr("admin-id");
-                console.log(adminId);
-                console.log(this.admins)
                 for(admin of this.admins){
                     console.log(admin);
                     if(admin.id==adminId){
@@ -657,6 +663,129 @@
             }
         });
     });
+    $("#user_save_btn").click(function () {
+        //清空表单样式
+        clean_form("#userAddModal form");
+
+        var username = $("#username_add_input").val();
+        var password = $("#password_add_input").val();
+
+        //匹配中文、英文、数字包括下划线(用户名)
+        var usernameRegex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+        if (username.length === 0) {
+            show_validate_msg("#username_add_input",
+                "error", "用户名为空");
+            return false;
+        } else if (usernameRegex.test(username) === false) {
+            show_validate_msg("#username_add_input",
+                "error", "用户名不合法（用户名只能由中文、数字、英文和下划线组成）");
+            return false;
+        }
+
+        //匹配6-20位由数字、英文字母或者下划线组成的字符串(密码)
+        var passwordRegex = /^\w{6,20}$/;
+        if (password.length === 0) {
+            show_validate_msg("#password_add_input",
+                "error", "密码为空");
+            return false;
+        } else if (passwordRegex.test(password) === false) {
+            show_validate_msg("#password_add_input",
+                "error", "输入密码不合法（密码只能由数字、英文和下划线组成）");
+            return false;
+        }
+
+        //2、发送ajax请求保存用户
+        $.ajax({
+            url: "/admin/super/addAdmin",
+            type: "POST",
+            data: $("#userAddModal form").serialize(),
+            success: function (result) {
+                if (result.code === 100) {
+
+                    $("#userAddModal").modal('hide');
+                    $.alert('管理员新增成功！');
+                    setTimeout(function () {
+                        let pageNum = [[${adminPermsPageInfo.pages}]];
+                        let pageSize = [[${adminPermsPageInfo.pageSize}]];
+                        location.href = "/admin/permission/toAdminPermissions.html?pageNum=" + pageNum + "&pageSize=" + pageSize;
+                    }, 1000);
+                } else {
+                    $.alert('管理员新增失败！');
+                }
+            }
+        });
+    });
+    //单个删除
+    $(document).on("click", ".delete_btn", function () {
+        //1、弹出是否确认删除对话框
+        var id = $(this).attr("delete-id");
+        var username = $(this).attr("delete-name");
+        $.alert({
+            title: '提示：',
+            content: "确定删除管理员 <strong>" + username + "</strong> 吗？",
+            buttons: {
+                confirm: {
+                    text: '确认',
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        $.ajax({
+                            url: "/admin/super/deleteAdmin/" + id,
+                            type: "DELETE",
+                            success: function (result) {
+                                if (result.code === 100) {
+                                    $.alert('删除该管理员成功！');
+                                    setTimeout(function () {
+                                        var pageNum = [[${adminPermsPageInfo.pageNum}]];
+                                        var pageSize = [[${adminPermsPageInfo.pageSize}]];
+                                        location.href = "/admin/userinfo/toUserInfo.html?pageNum=" + pageNum + "&pageSize=" + pageSize;
+                                    }, 1000);
+                                } else {
+                                    $.alert('删除该管理员失败!');
+                                }
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消',
+                    action: function () {
+                        $.alert('已取消!');
+                    }
+                }
+            }
+        });
+
+    });
+
+    //清空表单样式及内容
+    function reset_form(ele) {
+        $(ele)[0].reset();
+        //清空表单样式
+        $(ele).find("*").removeClass("has-error has-success");
+        $(ele).find(".help-block").text("");
+    }
+
+    //清空表单样式
+    function clean_form(ele) {
+        //清空表单样式
+        $(ele).find("*").removeClass("has-error has-success");
+        $(ele).find(".help-block").text("");
+    }
+
+    //显示校验结果的提示信息
+    function show_validate_msg(ele, status, msg) {
+        //清除当前元素的校验状态
+        $(ele).parent().removeClass("has-success has-error");
+        $(ele).next("span").text("");
+        if ("success" === status) {
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+        } else if ("error" === status) {
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
+    }
+
 </script>
 </body>
 </html>

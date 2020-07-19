@@ -19,7 +19,7 @@ public class UserRealm extends AuthorizingRealm {
     LoginService loginService;
 
     @Autowired
-    com.finance.service.user.permission.UserPermissionsService permissionsService;
+    com.finance.service.admin.permission.UserPermissionsService permissionsService;
 
     @Override
     // 授权

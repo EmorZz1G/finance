@@ -5,6 +5,7 @@ import com.finance.mapper.admin.AdminMapper;
 import com.finance.mapper.admin.AdminPermissionsMapper;
 import com.finance.mapper.others.PermissionsMapper;
 import com.finance.mapper.perms.AdminPermsViewMapper;
+import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.admin.AdminExample;
 import com.finance.pojo.admin.AdminPermissions;
@@ -13,12 +14,14 @@ import com.finance.pojo.others.Permissions;
 import com.finance.pojo.others.PermissionsExample;
 import com.finance.pojo.perms.AdminPermsView;
 import com.finance.pojo.perms.AdminPermsViewExample;
+import com.finance.pojo.user.UserExample;
 import com.finance.service.admin.permission.AdminPermissionsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -85,6 +88,27 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
             effectRow += adminPermissionsMapper.deleteByExample(adminPermissionsExample);
         }
         return effectRow;
+    }
+
+
+
+    @Resource
+    UserMapper userMapper;
+
+    @Override
+    public int deleteAdminId(int id) {
+        return adminMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insertAdmin(Admin admin) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUsernameEqualTo(admin.getUsername());
+        if(userMapper.countByExample(userExample)!=0){
+            return 0;
+        }
+        return adminMapper.insertSelective(admin);
     }
 
     @Override

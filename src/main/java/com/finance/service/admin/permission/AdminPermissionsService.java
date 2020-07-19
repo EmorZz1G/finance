@@ -11,6 +11,10 @@ public interface AdminPermissionsService {
 
     int updatePerms(int adminId,String[] newPerms) throws RuntimeException;
 
+    int insertAdmin(Admin admin);
+
+    int deleteAdminId(int id);
+
     List<Admin> selectAdminsButId(int id);
 
     List<AdminPermsView> selectPermsByAdminId(int id);

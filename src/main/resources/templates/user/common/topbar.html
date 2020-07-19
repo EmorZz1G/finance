@@ -16,6 +16,7 @@
           <span class="lyear-toggler-bar"></span> <span
                 class="lyear-toggler-bar"></span> <span class="lyear-toggler-bar"></span>
         </div>
+        <span th:if="${session.loginUser.phone==null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;快去填写<a th:href="@{/user/personal/toProfile.html}" style="color: #f84f4f">个人信息</a>才可以使用<a th:href="@{/user/personal/toProfile.html}" style="color:#f84f4f;">更多功能</a>哦！</span>
         <!--/*@thymesVar id="pageTopBarInfo" type="java.lang.String"*/-->
         <span class="navbar-page-title" th:text="${pageTopBarInfo}"></span>
       </div>
@@ -25,6 +26,7 @@
         <li class="dropdown dropdown-profile" style="margin-right: 20px">
 
           <a href="javascript:void(0)" data-toggle="dropdown">
+
             <span v-if="msgNum">
             <span style="color: #f84f4f;" v-text="msgNum">  </span>&nbsp;条未读&nbsp;</span>
             <img

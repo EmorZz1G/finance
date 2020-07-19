@@ -3,6 +3,7 @@ package com.finance.controller.admin.userinfo;
 import com.finance.common.LockHelper;
 import com.finance.common.Result;
 import com.finance.pojo.user.User;
+import com.finance.service.admin.permission.UserPermissionsService;
 import com.finance.service.user.userinfo.UserInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,6 +25,9 @@ public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 
+    @Autowired
+    UserPermissionsService permissionsService;
+
     private Result LogoutUserById(int id, int status) {
         User user = userInfoService.selectUserById(id);
         LockHelper.removeSession(user);
@@ -43,17 +47,7 @@ public class UserInfoController {
         return result;
     }
 
-    @PutMapping("/user/updateUserProfile/{id}")
-    @ResponseBody
-    public Result updateUserProfile(@PathVariable("id") int id, User user) {
-        user.setId(id);
-        int i = userInfoService.updateUser(user);
-        if (i == 1) {
-            return Result.success();
-        } else {
-            return Result.failure();
-        }
-    }
+
 
     @DeleteMapping("/user/deleteUserById/{id}")
     @ResponseBody

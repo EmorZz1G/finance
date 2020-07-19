@@ -65,8 +65,10 @@
     <!--End 页面主要内容-->
   </div>
 </div>
+
 <script th:src="@{/js/axios.min.js}"></script>
 <script th:src="@{/js/vue.js}"></script>
+
 <!-- 引入jQuery和bootstrap的js -->
 <script th:src="@{/js/jquery.js}"></script>
 <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
@@ -82,15 +84,6 @@
             msgNum: 0,
         },
         mounted: function () {
-           /* $.ajax({
-                url: "/user/historyinfo/unread",
-                type: "get",
-                success: (result)=>{
-                    if (result.code === 100) {
-                        this.msgNum = result.extend.msgNum;
-                    }
-                }
-            })*/
             axios({
                 url: "/user/historyinfo/unread",
                 method: "get",
