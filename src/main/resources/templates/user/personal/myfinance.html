@@ -21,7 +21,9 @@
         <!--左侧导航-->
         <div th:replace="user/common/leftbar::#leftbaraside"></div>
         <!--头部信息-->
-        <div th:replace="user/common/topbar::#topbarheader"></div>
+        <div id="app">
+            <div th:replace="user/common/topbar::#topbarheader"></div>
+        </div>
 
         <!--页面主要内容-->
         <main class="lyear-layout-content">
@@ -290,6 +292,8 @@
     </div>
 </div>
 
+<script th:src="@{/js/axios.min.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
 <!-- 引入jQuery和bootstrap的js -->
 <script th:src="@{/js/jquery.js}"></script>
 <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
@@ -496,6 +500,25 @@
                     }
                 }
             });
+        }
+    });
+
+</script>
+<script type="text/javascript">
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msgNum: 0,
+        },
+        mounted: function () {
+            axios({
+                url: "/user/historyinfo/unread",
+                method: "get",
+            }).then((result)=>{
+                if (result.data.code === 100) {
+                    this.msgNum = result.data.extend.msgNum;
+                }
+            })
         }
     });
 

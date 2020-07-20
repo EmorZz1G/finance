@@ -1,73 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>个人理财系统</title>
-    <!-- 引入bootstrap样式 -->
-    <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
-    <!--图标库-->
-    <link th:href="@{/lyear/css/materialdesignicons.min.css}" rel="stylesheet" type="text/css"/>
-    <!--弹出框样式-->
-    <link th:href="@{/lyear/jconfirm/jquery-confirm.min.css}" rel="stylesheet" type="text/css"/>
-    <!--自定义样式-->
-    <link href="../lyear/css/style.min.css" th:href="@{/lyear/css/style.min.css}" rel="stylesheet" type="text/css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>个人理财系统</title>
+  <!-- 引入bootstrap样式 -->
+  <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
+  <!--图标库-->
+  <link th:href="@{/lyear/css/materialdesignicons.min.css}" rel="stylesheet" type="text/css"/>
+  <!--弹出框样式-->
+  <link th:href="@{/lyear/jconfirm/jquery-confirm.min.css}" rel="stylesheet" type="text/css"/>
+  <!--自定义样式-->
+  <link href="../lyear/css/style.min.css" th:href="@{/lyear/css/style.min.css}" rel="stylesheet" type="text/css"/>
 
 </head>
 <body>
 <div class="lyear-layout-web">
-    <div class="lyear-layout-container">
-        <!--左侧导航-->
-        <div th:replace="user/common/leftbar::#leftbaraside"></div>
-        <!--头部信息-->
-        <div th:replace="user/common/topbar::#topbarheader"></div>
-
-        <!--页面主要内容-->
-        <main class="lyear-layout-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>安全网贷申请</h4>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body">
-
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="amount">借贷金额（元）</label>
-                                            <input class="form-control" type="text" id="amount" name="amount" placeholder="请输入要申请的借贷金额..">
-                                            <span class="help-block"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="rate">年借贷利率</label>
-                                            <input class="form-control" type="text" id="rate" name="rate" th:placeholder="${#numbers.formatDecimal(0.2845*100,1,2)}+'%'" disabled>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="term">借贷期限（天）</label>
-                                            <input class="form-control" type="text" id="term" name="term" placeholder="请输入要申请的借贷期限..">
-                                            <span class="help-block"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" id="submit" type="button">申请</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <!--End 页面主要内容-->
+  <div class="lyear-layout-container">
+    <!--左侧导航-->
+    <div th:replace="user/common/leftbar::#leftbaraside"></div>
+    <!--头部信息-->
+    <div id="app">
+      <div th:replace="user/common/topbar::#topbarheader"></div>
     </div>
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <h4>安全网贷申请</h4>
+              </div>
+
+              <div class="card">
+                <div class="card-body">
+
+                  <form>
+                    <div class="form-group">
+                      <label for="amount">借贷金额（元）</label>
+                      <input class="form-control" type="text" id="amount" name="amount" placeholder="请输入要申请的借贷金额..">
+                      <span class="help-block"></span>
+                    </div>
+                    <div class="form-group">
+                      <label for="rate">年借贷利率</label>
+                      <input class="form-control" type="text" id="rate" name="rate"
+                             th:placeholder="${#numbers.formatDecimal(0.2845*100,1,2)}+'%'" disabled>
+                    </div>
+                    <div class="form-group">
+                      <label for="term">借贷期限（天）</label>
+                      <input class="form-control" type="text" id="term" name="term" placeholder="请输入要申请的借贷期限..">
+                      <span class="help-block"></span>
+                    </div>
+                    <div class="form-group">
+                      <button class="btn btn-primary" id="submit" type="button">申请</button>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!--End 页面主要内容-->
+  </div>
 </div>
 
+<script th:src="@{/js/axios.min.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
 <!-- 引入jQuery和bootstrap的js -->
 <script th:src="@{/js/jquery.js}"></script>
 <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
@@ -79,10 +83,10 @@
 <script th:src="@{/lyear/js/main.min.js}"></script>
 <script th:inline="javascript">
 
-    $(function() {
+    $(function () {
         $("#amount").blur(checkAmount);
         $("#term").blur(checkTerm);
-        $("#submit").mousedown(function() {
+        $("#submit").mousedown(function () {
             if (checkAmount() && checkTerm()) {
                 applyLoan();
             }
@@ -130,21 +134,21 @@
         var amount = $("#amount").val();
         $.alert({
             title: '提示：',
-            content: "确定借贷 <strong>"+amount+"</strong>元 吗？",
+            content: "确定借贷 <strong>" + amount + "</strong>元 吗？",
             buttons: {
                 confirm: {
                     text: '确认',
                     btnClass: 'btn-primary',
-                    action: function(){
+                    action: function () {
                         $.ajax({
                             url: "/user/applyLoan",
                             type: "POST",
                             data: {
                                 "amount": amount,
-                                "term":$("#term").val(),
-                                "rate":"0.2845"
+                                "term": $("#term").val(),
+                                "rate": "0.2845"
                             },
-                            success: function(result) {
+                            success: function (result) {
                                 if (result.code === 100) {
                                     $.alert('申请成功!请等待管理员审核');
                                     setTimeout(function () {
@@ -180,6 +184,23 @@
             $(ele).next("span").text(msg);
         }
     }
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msgNum: 0,
+        },
+        mounted: function () {
+            axios({
+                url: "/user/historyinfo/unread",
+                method: "get",
+            }).then((result) => {
+                if (result.data.code === 100) {
+                    this.msgNum = result.data.extend.msgNum;
+                }
+            })
+        }
+    });
 
 </script>
 </body>
