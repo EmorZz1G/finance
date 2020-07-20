@@ -30,7 +30,7 @@ public class ShiroConfig {
         filterMap.put("/login","anon");
         filterMap.put("/login/**","anon");
         filterMap.put("/register","anon");
-        filterMap.put("/register/**","anon");
+        filterMap.put("/register/*","anon");
         filterMap.put("/","anon");
         filterMap.put("/toregister.html","anon");
 
@@ -38,8 +38,6 @@ public class ShiroConfig {
         filterMap.put("/user/*", "authc");
         filterMap.put("/admin/*", "authc");
         filterMap.put("/logout","authc");
-        //common
-        filterMap.put("toindex.html","authc");
 
         // 授权
         // Admin

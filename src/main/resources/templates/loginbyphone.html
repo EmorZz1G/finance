@@ -43,7 +43,8 @@
             height: 38px;
             line-height: 38px;
             z-index: 4;
-            color: #dcdcdc;}
+            color: #dcdcdc;
+        }
         .login-center .has-feedback.feedback-left.row .form-control-feedback {
             left: 15px;
         }
@@ -58,8 +59,8 @@
             </div>
             <form>
                 <div class="form-group has-feedback feedback-left">
-                    <input type="text" placeholder="请输入您的用户名" class="form-control"
-                           name="username" id="username"/><span class="help-block"></span>
+                    <input type="text" placeholder="请输入您的手机号" class="form-control"
+                           name="userPhone" id="userPhone"/><span class="help-block"></span>
                     <span class="mdi mdi-account form-control-feedback"
                           aria-hidden="true"></span>
                 </div>
@@ -89,19 +90,8 @@
                     </button>
                 </div>
             </form>
-            <div>
-                <a th:href="@{/toregister.html}" style="margin-left: 0px">还没有账号？去注册</a>
-
-            </div>
-            <div>
-                <a th:href="@{/togetPasw.html}" style="margin-left: 0px">忘记密码？去找回</a>
-            </div>
-            <div>
-
-            </div>
-            <div>
-                <a th:href="@{/tologinByPhone.html}" style="margin-left: 120px">手机号登录</a>
-                <a th:href="@{/tologinByEmail.html}" style="margin-right: 0px">邮箱登录</a>
+            <div style="margin-left: 100px">
+                <a th:href="@{/index.html}">我又想用用户名登录了 haha</a>
             </div>
         </div>
     </div>
@@ -117,7 +107,7 @@
 <script>
     var show_num = [];
     $(function () {
-        $("input[name='username']").blur(verifyUsername);
+        $("input[name='userPhone']").blur(verifyUserPhone);
         $("input[name='password']").change(removeLoginDisabled);
         //生成图片验证码
         drawPic(show_num);
@@ -160,28 +150,28 @@
         }
     }
 
-    function verifyUsername() {
+    function verifyUserPhone() {
         //发送ajax请求校验用户名是否可用
-        var username = document.getElementById("username").value;
+        var userPhone = document.getElementById("userPhone").value;
         var lock = true;
-        if (username === "") {
-            show_validate_msg("#username", "error", "用户名为空");
+        if (userPhone === "") {
+            show_validate_msg("#userPhone", "error", "手机号为空");
             $("#login_btn").attr("disabled", "disabled");
             return false;
         } else {
             $.ajax({
-                url: "/login/loginVerifyUsername/"+username,
+                url: "/login/loginByPhone/loginVerifyUserPhone/"+userPhone,
                 type: "GET",
                 success: function (result) {
                     if (result.code === 200) {
-                        show_validate_msg("#username", "error",
-                            "用户名不存在");
+                        show_validate_msg("#userPhone", "error",
+                            "手机号不存在");
                         $("#login_btn")
                             .attr("disabled", "disabled");
                         lock = false;
                     } else {
-                        show_validate_msg("#username", "success",
-                            "欢迎" + username + "登录");
+                        show_validate_msg("#userPhone", "success",
+                            "欢迎登录");
                         $("#login_btn").removeAttr("disabled");
                     }
                 }
@@ -195,11 +185,11 @@
     }
 
     function verifyLogin() {
-        $("input[name='username']").blur(verifyUsername);
+        $("input[name='userPhone']").blur(verifyUserPhone);
         $("#captcha").blur(verifyCaptcha);
 
-        if ($("#username").val() == "") {
-            show_validate_msg("#username", "error", "用户名为空");
+        if ($("#userPhone").val() == "") {
+            show_validate_msg("#userPhone", "error", "手机号为空");
             $("#login_btn").attr("disabled", "disabled");
             return false;
         }
@@ -217,14 +207,14 @@
             return false;
         }
 
-        //alert(verifyUsername);
+        //alert(111);
 
-        if (verifyUsername() && verifyCaptcha()) {
+        if (verifyUserPhone() && verifyCaptcha()) {
             $.ajax({
-                url: "/login/verifyLogin",
+                url: "/login/loginByPhone/verifyLogin",
                 type: "GET",
                 data: {
-                    "username": $("#username").val(),
+                    "userPhone": $("#userPhone").val(),
                     "password": $("#password").val()
                 },
                 success: function (result) {

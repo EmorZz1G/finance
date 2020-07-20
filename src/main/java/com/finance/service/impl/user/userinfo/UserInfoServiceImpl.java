@@ -1,5 +1,6 @@
 package com.finance.service.impl.user.userinfo;
 
+import com.finance.common.utils.FuzzySearchUtils;
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserExample;
@@ -8,10 +9,23 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
+    @Override
+
+    public List<User> selectUsersByQuery(Map<String, String> query) {
+        try {
+            UserExample example = (UserExample)FuzzySearchUtils.autoWrapper(UserExample.class, query);
+            List<User> users = userMapper.selectByExample(example);
+            System.out.println(users);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Resource
     UserMapper userMapper;

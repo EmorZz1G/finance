@@ -3,6 +3,7 @@ package com.finance.service.user.userinfo;
 import com.finance.pojo.user.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserInfoService {
     List<User> selectUsers();
@@ -21,4 +22,6 @@ public interface UserInfoService {
      * @return
      */
     int updateUserStatusById(int id);
+
+    List<User> selectUsersByQuery(Map<String,String> query);
 }

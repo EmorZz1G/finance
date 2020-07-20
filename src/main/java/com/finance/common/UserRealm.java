@@ -1,6 +1,8 @@
 package com.finance.common;
 
 import com.finance.pojo.user.User;
+import com.finance.service.login.LoginByEmailService;
+import com.finance.service.login.LoginByPhoneService;
 import com.finance.service.login.LoginService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -17,6 +19,12 @@ public class UserRealm extends AuthorizingRealm {
 
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    LoginByEmailService loginByEmailService;
+
+    @Autowired
+    LoginByPhoneService loginByPhoneService;
 
     @Autowired
     com.finance.service.admin.permission.UserPermissionsService permissionsService;
@@ -46,6 +54,12 @@ public class UserRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) token1;
         String username = token.getUsername();
         User user = loginService.loginVerifyUsernameForUser(username);
+        if(user == null){
+            user = loginByEmailService.loginVerifyUserEmail(username);
+        }
+        if(user == null){
+            user = loginByPhoneService.loginVerifyUserPhone(username);
+        }
         if (user != null) {
             return new SimpleAuthenticationInfo(user, user.getPassword(), "userRealm");
         }
