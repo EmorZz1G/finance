@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>个人理财系统登录界面</title>
+    <title>个人理财系统密码找回界面</title>
     <!-- 引入bootstrap样式 -->
     <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" type="text/css">
     <!--图标库-->
@@ -55,18 +55,30 @@
     <div class="lear-login">
         <div class="login-center1">
             <div class="login-header text-center">
-                <h1>——个人理财系统——</h1>
+                <h1>——找回密码——</h1>
             </div>
             <form>
                 <div class="form-group has-feedback feedback-left">
-                    <input type="text" placeholder="请输入您的用户名" class="form-control"
+                    <input type="text" placeholder="请输入您要找回的用户名" class="form-control"
                            name="username" id="username"/><span class="help-block"></span>
                     <span class="mdi mdi-account form-control-feedback"
                           aria-hidden="true"></span>
                 </div>
                 <div class="form-group has-feedback feedback-left">
-                    <input type="password" placeholder="请输入密码" class="form-control"
+                    <input type="text" placeholder="请输入验证信息" class="form-control"
+                           name="getPasw" id="getPasw"/><span class="help-block"></span>
+                    <span class="mdi mdi-account form-control-feedback"
+                          aria-hidden="true"></span>
+                </div>
+                <div class="form-group has-feedback feedback-left">
+                    <input type="password" placeholder="请输入新密码" class="form-control"
                            id="password" name="password"/><span class="help-block"></span>
+                    <span class="mdi mdi-lock form-control-feedback"
+                          aria-hidden="true"></span>
+                </div>
+                <div class="form-group has-feedback feedback-left">
+                    <input type="password" placeholder="请重复新密码" class="form-control"
+                           id="repassword" name="repassword"/><span class="help-block"></span>
                     <span class="mdi mdi-lock form-control-feedback"
                           aria-hidden="true"></span>
                 </div>
@@ -86,16 +98,14 @@
 
                 <div class="form-group">
                     <button id="login_btn" class="btn btn-block btn-primary"
-                            type="button">立即登录
+                            type="button">找回密码
                     </button>
                 </div>
             </form>
-            <div style="margin-left: 100px">
-                <a th:href="@{/toregister.html}">还没有账号？去注册</a>
+            <div style="margin-left: 110px">
+                <a th:href="@{/index.html}">想起来了？去登录</a>
             </div>
-            <div style="margin-left: 100px">
-                <a th:href="@{/togetPasw.html}">忘记密码？ 去找回</a>
-            </div>
+
         </div>
     </div>
 </div>
@@ -106,12 +116,15 @@
 <!-- 点线粒子插件 -->
 <script color="255,0,255" opacity='0.8'
         zIndex="9999" count="99"
-        src="/js/canvas-nest.js" th:src="@{/js/canvas-nest.js}"></script>
+        th:src="@{/js/canvas-nest.js}"></script>
 <script>
     var show_num = [];
     $(function () {
         $("input[name='username']").blur(verifyUsername);
+        $("input[name='getPasw']").blur(verifyUserInfo);
         $("input[name='password']").change(removeLoginDisabled);
+        $("input[name='repassword']").blur(verifyRepassword);
+        $("input[name='repassword']").change(removeLoginDisabled);
         //生成图片验证码
         drawPic(show_num);
         $("#canvas").click(function (e) {
@@ -120,11 +133,11 @@
             drawPic(show_num);
         });
         $("#captcha").blur(verifyCaptcha);
-        $("#login_btn").mousedown(verifyLogin);
-        //回车登录
+        $("#login_btn").mousedown(verifyGetPassword);
+        //回车注册
         $("body").keyup(function (event) {
             if (event.keyCode === 13) {//keyCode=13是回车键
-                verifyLogin();
+                verifyGetPassword();
             }
         });
 
@@ -154,7 +167,7 @@
     }
 
     function verifyUsername() {
-        //发送ajax请求校验用户名是否可用
+        //发送ajax请求校验用户名是否存在
         var username = document.getElementById("username").value;
         var lock = true;
         if (username === "") {
@@ -163,19 +176,19 @@
             return false;
         } else {
             $.ajax({
-                url: "/login/loginVerifyUsername/"+username,
+                url: "/getPassword/getPasswordVerifyUsername/"+username,
                 type: "GET",
                 success: function (result) {
-                    if (result.code === 200) {
+                    if (result.code === 100) {
+                        show_validate_msg("#username", "success",
+                            "用户"+username+"存在");
+                        $("#login_btn").removeAttr("disabled");
+                    } else {
                         show_validate_msg("#username", "error",
-                            "用户名不存在");
+                            "用户" + username + "不存在");
                         $("#login_btn")
                             .attr("disabled", "disabled");
                         lock = false;
-                    } else {
-                        show_validate_msg("#username", "success",
-                            "欢迎" + username + "登录");
-                        $("#login_btn").removeAttr("disabled");
                     }
                 }
             });
@@ -183,13 +196,76 @@
         }
     }
 
+    function verifyUserInfo() {
+        //发送ajax请求校验用户验证信息是否正确
+        var getPasw = document.getElementById("getPasw").value;
+        var username = document.getElementById("username").value;
+        var lock = true;
+        if (getPasw === "") {
+            show_validate_msg("#getPasw", "error", "用户信息为空");
+            $("#login_btn").attr("disabled", "disabled");
+            return false;
+        } else {
+            $.ajax({
+                url: "/getPassword/getPasswordVerifyUserInfo/",
+                data:{
+                    "getPasw": $("#getPasw").val(),
+                    "username": $("#username").val()
+                },
+                type: "GET",
+                success: function (result) {
+                    if (result.code === 100) {
+                        show_validate_msg("#getPasw", "success",
+                            "验证成功");
+                        $("#login_btn").removeAttr("disabled");
+                    } else {
+                        show_validate_msg("#getPasw", "error",
+                            "验证失败");
+                        $("#login_btn")
+                            .attr("disabled", "disabled");
+                        lock = false;
+                    }
+                }
+            });
+            return lock;
+        }
+    }
+
+    function verifyRepassword() {
+        //判断重复密码是否相同
+        var password = document.getElementById("password").value;
+        var repassword = document.getElementById("repassword").value;
+        if (repassword === "") {
+            show_validate_msg("#repassword", "error", "重复密码为空");
+            $("#login_btn").attr("disabled", "disabled");
+            return false;
+        } else if (password===""){
+            show_validate_msg("#repassword", "error", "上一项密码为空");
+            $("#login_btn").attr("disabled", "disabled");
+            return false;
+        }else{
+            if (repassword===password){
+                show_validate_msg("#repassword", "success",
+                    "重复密码相同");
+                $("#login_btn").removeAttr("disabled");
+                return true;
+            }else{
+                show_validate_msg("#repassword", "error", "两次密码不相同");
+                $("#login_btn").attr("disabled", "disabled");
+                return false;
+            }
+        }
+    }
+
     function removeLoginDisabled() {
         $("#login_btn").removeAttr("disabled");
     }
 
-    function verifyLogin() {
+    function verifyGetPassword() {
         $("input[name='username']").blur(verifyUsername);
+        $("input[name='getPasw']").blur(verifyUserInfo);
         $("#captcha").blur(verifyCaptcha);
+        $("#repassword").blur(verifyRepassword);
 
         if ($("#username").val() == "") {
             show_validate_msg("#username", "error", "用户名为空");
@@ -197,8 +273,20 @@
             return false;
         }
 
+        if ($("#getPasw").val() == "") {
+            show_validate_msg("#getPasw", "error", "验证信息为空");
+            $("#login_btn").attr("disabled", "disabled");
+            return false;
+        }
+
         if ($("#password").val() == "") {
             show_validate_msg("#password", "error", "密码为空");
+            $("#login_btn").attr("disabled", "disabled");
+            return false;
+        }
+
+        if ($("#repassword").val() == "") {
+            show_validate_msg("#repassword", "error", "重复密码为空");
             $("#login_btn").attr("disabled", "disabled");
             return false;
         }
@@ -212,10 +300,10 @@
 
         //alert(verifyUsername);
 
-        if (verifyUsername() && verifyCaptcha()) {
+        if (verifyUsername() && verifyCaptcha() && verifyRepassword() && verifyUserInfo()) {
             $.ajax({
-                url: "/login/verifyLogin",
-                type: "GET",
+                url: "/getPassword/getPassword/",
+                type: "POST",
                 data: {
                     "username": $("#username").val(),
                     "password": $("#password").val()
