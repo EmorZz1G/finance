@@ -54,9 +54,10 @@ public class AdminPermissionsController {
     @ResponseBody
     public Result updateAdminPermissions(@PathVariable("id") int id,
                                          String adminPermissions) {
-        System.out.println(adminPermissions);
+
         String[] split = adminPermissions.split(";");
-        int i = permissionsService.updatePerms(id, split);
+        int i;
+        i = permissionsService.updatePerms(id, split);
         if(i>0){
             return Result.success();
         }else {

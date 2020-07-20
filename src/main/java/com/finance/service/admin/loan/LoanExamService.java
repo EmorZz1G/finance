@@ -15,4 +15,14 @@ public interface LoanExamService {
 
     int remindPay(Loan loan, Admin admin);
 
+    List<Loan> autoRemindPay(int pageNum,int pageSize, int loanStatus);
+
+    int getTotalCount(int loanStatus);
+
+    List<Loan> notOverdue(int pageNum,int pageSize, int loanStatus);
+
+    List<Loan> overdue(int pageNum,int pageSize, int loanStatus);
+
+    int updateOverdue();
+
 }

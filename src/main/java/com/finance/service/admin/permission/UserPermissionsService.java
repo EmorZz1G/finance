@@ -9,6 +9,8 @@ import java.util.Set;
 
 public interface UserPermissionsService {
 
+    int updatePerms(int userId,String[] newPerms) throws RuntimeException;
+
     @Async
     int giveAuthorization(User user);
 

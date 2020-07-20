@@ -1,18 +1,25 @@
 package com.finance.service.impl.admin.permission;
 
 
+import com.finance.mapper.others.PermissionsMapper;
 import com.finance.mapper.perms.UserPermsViewMapper;
 import com.finance.mapper.user.UserPermissionsMapper;
+import com.finance.pojo.admin.AdminPermissions;
+import com.finance.pojo.admin.AdminPermissionsExample;
+import com.finance.pojo.others.Permissions;
+import com.finance.pojo.others.PermissionsExample;
 import com.finance.pojo.perms.UserPermsView;
 import com.finance.pojo.perms.UserPermsViewExample;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserPermissions;
+import com.finance.pojo.user.UserPermissionsExample;
 import com.finance.service.admin.permission.UserPermissionsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +30,57 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
 
     @Resource
     UserPermissionsMapper userPermissionsMapper;
+
+    @Resource
+    PermissionsMapper permissionsMapper;
+
+    Logger log = LoggerFactory.getLogger(UserPermissionsServiceImpl.class);
+
+    @Override
+    public int updatePerms(int userId, String[] _newPerms) throws RuntimeException {
+        Set<String> prePerms = selectPermsSetByUserId(userId);
+        Set<String> newPerms = new HashSet<>(Arrays.asList(_newPerms));
+        LinkedList<String> delPerms = new LinkedList<>();
+        LinkedList<String> addPerms = new LinkedList<>();
+        for (String s : newPerms) {
+            if (!prePerms.contains(s)) {
+                addPerms.add(s);
+            }
+        }
+        for (String s : prePerms) {
+            if (!newPerms.contains(s)) {
+                delPerms.add(s);
+            }
+        }
+        int effectRow = 0;
+        Map<String, List<Permissions>> permissionss = permissionsMapper.selectByExample(null).
+                stream().
+                collect(Collectors.groupingBy(Permissions::getPermission));
+        for (String s : addPerms) {
+            UserPermissions userPermissions = new UserPermissions();
+            userPermissions.setUserId(userId);
+            try {
+                userPermissions.setPermissionId(permissionss.get(s).get(0).getId());
+            } catch (Exception e) {
+                log.info("这个权限不存在，请检查传入的权限字符串:{}", s);
+                continue;
+            }
+            effectRow += userPermissionsMapper.insert(userPermissions);
+        }
+        UserPermissionsExample userPermissionsExample = new UserPermissionsExample();
+        UserPermissionsExample.Criteria criteria = userPermissionsExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        for (String s : delPerms) {
+            try {
+                criteria.andPermissionIdEqualTo(permissionss.get(s).get(0).getId());
+            } catch (Exception e) {
+                log.info("这个权限不存在，请检查传入的权限字符串:{}", s);
+                continue;
+            }
+            effectRow += userPermissionsMapper.deleteByExample(userPermissionsExample);
+        }
+        return effectRow;
+    }
 
     @Override
     public int giveAuthorization(User user) {

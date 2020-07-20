@@ -1,5 +1,6 @@
 package com.finance.service.impl.admin.loan;
 
+import com.finance.mapper.ext.others.LoanMapperExt;
 import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.others.InfoMapper;
 import com.finance.mapper.others.LoanMapper;
@@ -24,6 +25,9 @@ import java.util.List;
 public class LoanExamServiceImpl implements LoanExamService {
     @Resource
     private LoanMapper loanMapper;
+
+    @Resource
+    LoanMapperExt loanMapperExt;
 
     @Resource
     InfoMapper infoMapper;
@@ -88,4 +92,30 @@ public class LoanExamServiceImpl implements LoanExamService {
         info.setStatus(0);
         return infoMapper.insertSelective(info);
     }
+
+    @Override
+    public List<Loan> autoRemindPay(int pageNum, int pageSize, int loanStatus) {
+        return loanMapperExt.autoRemindPay(pageNum, pageSize, loanStatus);
+    }
+
+    @Override
+    public int getTotalCount(int loanStatus) {
+        return loanMapperExt.getTotalCount(loanStatus);
+    }
+
+    @Override
+    public List<Loan> notOverdue(int pageNum, int pageSize, int loanStatus) {
+        return loanMapperExt.notOverdue(pageNum,pageSize,loanStatus);
+    }
+
+    @Override
+    public List<Loan> overdue(int pageNum, int pageSize, int loanStatus) {
+        return loanMapperExt.overdue(pageNum,pageSize,loanStatus);
+    }
+
+    @Override
+    public int updateOverdue(){
+        return loanMapperExt.updateOverdue();
+    }
+
 }
