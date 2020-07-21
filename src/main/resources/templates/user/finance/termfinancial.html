@@ -16,14 +16,14 @@
 
 </head>
 <body>
-<div class="lyear-layout-web">
+<div class="lyear-layout-web" id="app">
     <div class="lyear-layout-container">
         <!--左侧导航-->
         <div th:replace="user/common/leftbar::#leftbaraside"></div>
         <!--头部信息-->
-        <div id="app">
+
             <div th:replace="user/common/topbar::#topbarheader"></div>
-        </div>
+
 
         <!--页面主要内容-->
         <main class="lyear-layout-content">
@@ -76,6 +76,47 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="addModal" tabindex="-1"
+                         role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title">支付认证</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!--要提交的表单 -->
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">支付密码：</label>
+                                            <div class="col-sm-6">
+                                                <input type="password" class="form-control"
+                                                       id="paypassword" name="paypassword"
+
+                                                       placeholder="请输入支付密码：">
+                                                <span class="help-block"></span>
+                                            </div>
+                                            <div class="col-sm-6"  v-if="toProfile">
+
+                                                <span class="help-block" style="margin-left: 100px"> <a href="/user/personal/toProfile.html">点击去修改个人信息</a></span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">关闭
+                                    </button>
+                                    <button type="button" class="btn btn-primary"
+                                            id="save_btn">提交
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -94,54 +135,12 @@
 <script th:src="@{/lyear/jconfirm/jquery-confirm.min.js}"></script>
 <!--自定义js脚本-->
 <script th:src="@{/lyear/js/main.min.js}"></script>
-<script th:inline="javascript">
-    $(document).on("click",".buy_btn",function () {
-        var termFinancialId = $(this).attr("buyBtnId");
-        var userId = [[${session.loginUser.id}]];
-        //alert(userId);
-        var name = $(this).attr("buyBtnName");
-        $.alert({
-            title: '提示：',
-            content: "确定买入 <strong>"+name+"</strong> 吗？",
-            buttons: {
-                confirm: {
-                    text: '确认',
-                    btnClass: 'btn-primary',
-                    action: function(){
-                        $.ajax({
-                            url : "/user/buyTermFinancial",
-                            type : "POST",
-                            data : {
-                                "termFinancialId":termFinancialId,
-                                "userId":userId
-                            },
-                            success : function(result) {
-                                if (result.code===100){
-                                    $.alert('买入成功!');
-                                }else {
-                                    $.alert('买入失败!');
-                                }
-                            }
-                        });
-
-                    }
-                },
-                cancel: {
-                    text: '取消',
-                    action: function () {
-                        $.alert('已取消!');
-                    }
-                }
-            }
-        });
-    })
-
-</script>
 <script type="text/javascript">
     const app = new Vue({
         el: "#app",
         data: {
             msgNum: 0,
+            toProfile:false,
         },
         mounted: function () {
             axios({
@@ -156,5 +155,125 @@
     });
 
 </script>
+
+
+<script th:inline="javascript">
+    var save_btn_value = false;
+    function verifyLogin() {
+        if (!$("#paypassword").val()) {
+            show_validate_msg("#paypassword", "error", "密码为空");
+            // $("#save_btn").attr("disabled", "disabled");
+            save_btn_value = false;
+            return false;
+        } else if( $("#paypassword").val().length !== 6){
+            // $("#save_btn").attr("disabled", "false");
+            save_btn_value = true;
+            show_validate_msg("#paypassword", "error", "密码长度为6位");
+            return false;
+        }else if($("#paypassword").val().length === 6){
+            return true;
+        }
+
+    }
+    function reset_form(ele) {
+        $(ele)[0].reset();
+        //清空表单样式
+        $(ele).find("*").removeClass("has-error has-success");
+        //$(ele).find(".help-block").text("");
+    }
+
+    $(document).on("click",".buy_btn",function () {
+        var termFinancialId = $(this).attr("buyBtnId");
+        var userId = [[${session.loginUser.id}]];
+        //alert(userId);
+        var name = $(this).attr("buyBtnName");
+        let jc=$.alert({
+            title: '提示：',
+            content: "确定买入 <strong>"+name+"</strong> 吗？",
+            buttons: {
+                confirm: {
+                    text: '确认',
+                    btnClass: 'btn-primary',
+                    action: function(){
+                        jc.close();
+                        reset_form("#addModal form");
+                        $("#addModal").modal({
+                            //点击增加框背景不删除增加框
+                            backdrop: "static"
+                        });
+                        $("#save_btn").click(function () {
+                            console.log("hehe")
+                            if (verifyLogin()) {
+                                $.ajax({
+                                    url: "/user/verifyPayPassword",
+                                    type: "POST",
+                                    data: {
+                                        "paypassword": $("#paypassword").val()
+                                    },
+                                    success: function (result) {
+                                        if (result.code === 100) {
+                                            $.ajax({
+                                                url : "/user/buyTermFinancial",
+                                                type : "POST",
+                                                data : {
+                                                    "termFinancialId":termFinancialId,
+                                                    "userId":userId
+                                                },
+                                                success : function(result) {
+                                                    if (result.code===100){
+                                                        $("#addModal").modal('hide');
+                                                        $.alert('买入成功!');
+                                                    }else {
+                                                        $.alert('买入失败!');
+                                                    }
+                                                }
+                                            });
+                                        }else{
+                                            var message = result.msg;
+                                            if (message != null) {
+                                                show_validate_msg("#paypassword", "error", message);
+                                                app.toProfile = true;
+                                            } else {
+                                                show_validate_msg("#paypassword", "error",
+                                                    "密码错误");
+                                                $("#save_btn")
+                                                    .attr("disabled", "disabled");
+                                            }
+                                        }
+                                    }
+                                })
+                            }
+
+                        });
+
+                    }
+
+
+                }
+            },
+                cancel: {
+                    text: '取消',
+                    action: function () {
+                        $.alert('已取消!');
+                    }
+                }
+
+        });
+    })
+    function show_validate_msg(ele, status, msg) {
+        //清除当前元素的校验状态
+        $(ele).parent().removeClass("has-success has-error");
+        $(ele).next("span").text("");
+        if ("success" === status) {
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+        } else if ("error" === status) {
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
+    }
+
+</script>
+
 </body>
 </html>

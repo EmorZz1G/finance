@@ -40,7 +40,7 @@ public class LockHelper {
         helperMap.remove(user.getId());
         preSession.invalidate();
         --count;
-        log.info("User: {}上线，当前在线人数: {}",user,count);
+        log.info("User: {}下线，当前在线人数: {}",user,count);
         return helperMap;
     }
 }
