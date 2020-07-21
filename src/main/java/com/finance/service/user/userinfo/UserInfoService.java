@@ -16,6 +16,9 @@ public interface UserInfoService {
 
     int insertUser(User user);
 
+    List<User> selectOnlineStatusUsers();
+
+
     /**
      * 下线功能
      * @param id

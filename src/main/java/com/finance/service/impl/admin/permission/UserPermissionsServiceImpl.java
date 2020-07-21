@@ -13,6 +13,7 @@ import com.finance.pojo.perms.UserPermsViewExample;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserPermissions;
 import com.finance.pojo.user.UserPermissionsExample;
+import com.finance.service.admin.permission.CommonPermissionService;
 import com.finance.service.admin.permission.UserPermissionsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,9 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     UserPermissionsMapper userPermissionsMapper;
 
     @Resource
+    CommonPermissionService commonPermissionService;
+
+    @Resource
     PermissionsMapper permissionsMapper;
 
     Logger log = LoggerFactory.getLogger(UserPermissionsServiceImpl.class);
@@ -40,8 +44,10 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     public int updatePerms(int userId, String[] _newPerms) throws RuntimeException {
         Set<String> prePerms = selectPermsSetByUserId(userId);
         Set<String> newPerms = new HashSet<>(Arrays.asList(_newPerms));
-        LinkedList<String> delPerms = new LinkedList<>();
-        LinkedList<String> addPerms = new LinkedList<>();
+        int max = Math.max(prePerms.size(),newPerms.size());
+        HashSet<String> delPerms = new HashSet<>(max);
+        HashSet<String> addPerms = new HashSet<>(max);
+
         for (String s : newPerms) {
             if (!prePerms.contains(s)) {
                 addPerms.add(s);
@@ -53,9 +59,7 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
             }
         }
         int effectRow = 0;
-        Map<String, List<Permissions>> permissionss = permissionsMapper.selectByExample(null).
-                stream().
-                collect(Collectors.groupingBy(Permissions::getPermission));
+        Map<String, List<Permissions>> permissionss = commonPermissionService.selectPermsAll();
         for (String s : addPerms) {
             UserPermissions userPermissions = new UserPermissions();
             userPermissions.setUserId(userId);

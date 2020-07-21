@@ -56,6 +56,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    public List<User> selectOnlineStatusUsers() {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andStatusEqualTo(1);
+        return userMapper.selectByExample(userExample);
+    }
+
+
+    @Override
     public int updateUserStatusById(int id) {
         User user = new User();
         user.setId(id);

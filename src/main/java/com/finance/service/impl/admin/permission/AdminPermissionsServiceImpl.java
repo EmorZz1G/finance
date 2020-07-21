@@ -16,6 +16,7 @@ import com.finance.pojo.perms.AdminPermsView;
 import com.finance.pojo.perms.AdminPermsViewExample;
 import com.finance.pojo.user.UserExample;
 import com.finance.service.admin.permission.AdminPermissionsService;
+import com.finance.service.admin.permission.CommonPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,10 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     @Resource
     AdminPermissionsMapper adminPermissionsMapper;
 
+
+
     @Resource
-    PermissionsMapper permissionsMapper;
+    CommonPermissionService commonPermissionService;
 
     @Resource
     AdminMapper adminMapper;
@@ -48,8 +51,10 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     public int updatePerms(int adminId, String[] _newPerms) throws RuntimeException {
         Set<String> prePerms = selectPermsSetByAdminId(adminId);
         Set<String> newPerms = new HashSet<>(Arrays.asList(_newPerms));
-        LinkedList<String> delPerms = new LinkedList<>();
-        LinkedList<String> addPerms = new LinkedList<>();
+        int max = Math.max(prePerms.size(),newPerms.size());
+        HashSet<String> delPerms = new HashSet<>(max);
+        HashSet<String> addPerms = new HashSet<>(max);
+
         for (String s : newPerms) {
             if (!prePerms.contains(s)) {
                 addPerms.add(s);
@@ -61,9 +66,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
             }
         }
         int effectRow = 0;
-        Map<String, List<Permissions>> permissionss = permissionsMapper.selectByExample(null).
-                stream().
-                collect(Collectors.groupingBy(Permissions::getPermission));
+        Map<String, List<Permissions>> permissionss = commonPermissionService.selectPermsAll();
         for (String s : addPerms) {
             AdminPermissions adminPermissions = new AdminPermissions();
             adminPermissions.setAdminId(adminId);

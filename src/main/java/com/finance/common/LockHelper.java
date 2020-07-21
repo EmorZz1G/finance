@@ -10,6 +10,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LockHelper {
     private static Logger log = LoggerFactory.getLogger(LockHelper.class);
     private static Integer count = 0;
+
+    public static ConcurrentHashMap<Integer, HttpSession> getHelperMap() {
+        return helperMap;
+    }
+
     private static ConcurrentHashMap<Integer, HttpSession> helperMap = new ConcurrentHashMap<>();
 
     public static Integer getCount() {

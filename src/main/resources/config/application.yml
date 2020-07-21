@@ -19,6 +19,9 @@ spring:
       stat-view-servlet:
         url-pattern: "/druid/*"
         reset-enable: false
+  redis:
+    host: localhost
+    port: 6379
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/**/*.xml
