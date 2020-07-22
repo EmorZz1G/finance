@@ -8,6 +8,7 @@ import com.finance.pojo.user.UserChangeMoney;
 import com.finance.pojo.user.UserFundProduct;
 import com.finance.service.admin.finance.FundProductService;
 import com.finance.service.user.finance.UserFundProductService;
+import com.finance.service.user.userinfo.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,8 @@ public class UserFundProductController {
     FundProductService fundProductService;
     @Autowired
     UserFundProductService userFundProductService;
+    @Autowired
+    UserInfoService userInfoService;
     @GetMapping ("/user/finance/toFundProduct.html")
     public ModelAndView toFundProduct()
     {
@@ -37,11 +40,12 @@ public class UserFundProductController {
         return modelAndView;
 
     }
+
     @PostMapping("/user/buyFundProduct")
     @ResponseBody
-    public Result addUserFundProduct(@RequestParam("fundProductId")int id, @SessionAttribute("loginUser") User user){
+    public Result addUserFundProduct(@RequestParam("fundProductId")int id,@RequestParam("paymoney")BigDecimal money, @SessionAttribute("loginUser") User user){
         FundProduct fundProduct=fundProductService.selectFundProductById(id);
-        int i = userFundProductService.insertUserFundProduct(user,fundProduct);
+        int i = userFundProductService.insertUserFundProduct(user,fundProduct,money);
         if(i==1){
             return Result.success();
         }else {

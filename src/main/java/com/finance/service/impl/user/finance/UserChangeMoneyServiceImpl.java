@@ -6,6 +6,7 @@ import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.user.UserChangeMoneyMapper;
 import com.finance.pojo.others.ChangeMoney;
 import com.finance.pojo.others.FlowOfFunds;
+import com.finance.pojo.others.PayMoney;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserChangeMoney;
 import com.finance.service.user.finance.UserChangeMoneyService;
@@ -33,12 +34,12 @@ public class UserChangeMoneyServiceImpl implements UserChangeMoneyService {
 
     @Override
     @Transactional
-    public int insertUserChangeMoney(User user, ChangeMoney changeMoney) {
+    public int insertUserChangeMoney(User user, ChangeMoney changeMoney,BigDecimal money) {
         UserChangeMoney userChangeMoney = new UserChangeMoney();
 
         BigDecimal averYield = changeMoney.getAnnualIncome();
-        BigDecimal invesMoney = changeMoney.getInvesMoney();
-        BigDecimal profit = averYield.multiply(invesMoney);
+
+        BigDecimal profit = averYield.multiply(money);
         userChangeMoney.setUserId(user.getId());
         userChangeMoney.setAverYield(averYield);
         userChangeMoney.setProfit(profit);
@@ -48,7 +49,7 @@ public class UserChangeMoneyServiceImpl implements UserChangeMoneyService {
         String source = changeMoney.getName();
         FlowOfFunds flowOfFunds = new FlowOfFunds(null,
                 user.getId(),
-                invesMoney,
+                money,
                 1, source,
                 new Date(),
                 "零钱理财");

@@ -1,5 +1,6 @@
 package com.finance.service.impl.user.finance;
 
+import com.finance.common.Result;
 import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.others.FundProductMapper;
 import com.finance.mapper.user.UserFundProductMapper;
@@ -10,8 +11,14 @@ import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserChangeMoney;
 import com.finance.pojo.user.UserFundProduct;
 import com.finance.service.user.finance.UserFundProductService;
+import com.finance.service.user.userinfo.UserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -27,18 +34,20 @@ public class UserFundProductServiceImpl implements UserFundProductService {
     @Resource
     private UserFundProductMapper userFundProductMapper;
 
+
     @Override
     public List<FundProduct> selectFundProductAll() {
         return fundProductMapper.selectByExample(null);
     }
 
+
     @Override
     @Transactional
-    public int insertUserFundProduct(User user, FundProduct fundProduct) {
+    public int insertUserFundProduct(User user, FundProduct fundProduct,BigDecimal money) {
         UserFundProduct userFundProduct = new UserFundProduct();
         BigDecimal averYield = fundProduct.getMonthlyGrowth();
-        BigDecimal invesMoney = fundProduct.getLeastMoney();
-        BigDecimal profit = averYield.multiply(invesMoney);
+
+        BigDecimal profit = averYield.multiply(money);
         userFundProduct.setUserId(user.getId());
         userFundProduct.setAverYield(averYield);
         userFundProduct.setProfit(profit);
@@ -48,7 +57,7 @@ public class UserFundProductServiceImpl implements UserFundProductService {
         String source = fundProduct.getFundDesc();
         FlowOfFunds flowOfFunds = new FlowOfFunds();
         flowOfFunds.setUserId(user.getId());
-        flowOfFunds.setFlowMoney(invesMoney);
+        flowOfFunds.setFlowMoney(money);
         flowOfFunds.setType(1);
         flowOfFunds.setSource(source);
         flowOfFunds.setCreateTime(new Date());

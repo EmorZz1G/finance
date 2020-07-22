@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 @Service
 public class UserTermFinancialServiceImpl implements UserTermFinancialService {
@@ -27,7 +28,7 @@ public class UserTermFinancialServiceImpl implements UserTermFinancialService {
     }
 
     @Override
-    public int insertUserTermFinancial(UserTermFinancial userTermFinancial){
+    public int insertUserTermFinancial(UserTermFinancial userTermFinancial, BigDecimal money){
         return userTermFinancialMapper.insertSelective(userTermFinancial);
     }
     @Override
@@ -35,7 +36,7 @@ public class UserTermFinancialServiceImpl implements UserTermFinancialService {
         return termFinancialMapper.selectByPrimaryKey(id);
     }
     @Override
-    public int insertFlowOfFunds(FlowOfFunds flowOfFunds){
+    public int insertFlowOfFunds(FlowOfFunds flowOfFunds, BigDecimal money){
         return flowOfFundsMapper.insertSelective(flowOfFunds);
     }
 

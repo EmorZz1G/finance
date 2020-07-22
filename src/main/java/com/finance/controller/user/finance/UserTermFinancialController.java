@@ -34,7 +34,7 @@ public class UserTermFinancialController {
     @RequestMapping(value = "/user/buyTermFinancial",
             method = RequestMethod.POST)
     @ResponseBody
-    public Result addUserTermFinancial(@RequestParam("userId") Integer userId,@RequestParam("termFinancialId") Integer termFinancialId ){
+    public Result addUserTermFinancial(@RequestParam("userId") Integer userId,@RequestParam("paymoney")BigDecimal money,@RequestParam("termFinancialId") Integer termFinancialId ){
 
         UserTermFinancial userTermFinancial = new UserTermFinancial();
         FlowOfFunds flowOfFunds = new FlowOfFunds();
@@ -45,14 +45,14 @@ public class UserTermFinancialController {
         userTermFinancial.setStartTime(new Date());
         userTermFinancial.setAverYield(termFinancial.getAnnualIncome());
         BigDecimal param1 = termFinancial.getAnnualIncome();
-        BigDecimal param2 = termFinancial.getLeastMoney();
-        BigDecimal param3 = param1.multiply(param2);
+
+        BigDecimal param3 = param1.multiply(money);
         userTermFinancial.setProfit(param3);
         userTermFinancial.setStatus(1);
 
         flowOfFunds.setUserId(userId);
         flowOfFunds.setCreateTime(new Date());
-        flowOfFunds.setFlowMoney(termFinancial.getLeastMoney());
+        flowOfFunds.setFlowMoney(money);
         flowOfFunds.setSource(termFinancial.getName());
         flowOfFunds.setType(1);
         flowOfFunds.setFundDesc("期限理财");
@@ -60,8 +60,8 @@ public class UserTermFinancialController {
 
 
 
-        int result1 = userTermFinancialService.insertUserTermFinancial(userTermFinancial);
-        int result2 = userTermFinancialService.insertFlowOfFunds(flowOfFunds);
+        int result1 = userTermFinancialService.insertUserTermFinancial(userTermFinancial,money);
+        int result2 = userTermFinancialService.insertFlowOfFunds(flowOfFunds,money);
         if (result1 == 1&&result2 == 1) {
             return Result.success();
         } else {

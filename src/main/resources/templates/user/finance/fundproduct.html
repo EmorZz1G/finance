@@ -65,7 +65,7 @@
                                             <td th:text="${fp.invesTerm}"></td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm buy_btn"
-                                                        th:attr="buyBtnId=${fp.id},buyBtnName=${fp.fundDesc}">
+                                                        th:attr="buyBtnId=${fp.id},buyBtnName=${fp.fundDesc},leastMoney=${fp.leastMoney}">
 															<span class="glyphicon glyphicon-usd"
                                                                   aria-hidden="true"></span> 投资
                                                 </button>
@@ -123,6 +123,45 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="payModal" tabindex="-1"
+                         role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title">投入资金</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!--要提交的表单 -->
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">投入资金：</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control"
+                                                       id="paymoney" name="paymoney"
+                                                       placeholder="请输入要投入的资金：">
+                                                <span class="help-block"></span>
+                                            </div>
+
+                                        </div>
+
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">关闭
+                                    </button>
+                                    <button type="button" class="btn btn-primary"
+                                            id="pay_btn">投资
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -163,6 +202,10 @@
 </script>
 <script th:inline="javascript">
     var save_btn_value = false;
+    const _fundProductList = [[${fundProductList}]]
+    fundProductList = eval(_fundProductList);
+    console.log(fundProductList)
+
     function verifyLogin() {
         if (!$("#paypassword").val()) {
             show_validate_msg("#paypassword", "error", "密码为空");
@@ -179,6 +222,26 @@
         }
 
     }
+
+    var leastMoney = undefined;
+
+    function verifyPay() {
+        if (!$("#paymoney").val()) {
+            show_validate_msg("#paymoney", "error", "金额为空");
+            // $("#save_btn").attr("disabled", "disabled");
+            pay_btn_value = false;
+            return false;
+        } else {
+
+            if (($("#paymoney").val() - leastMoney) < 0) {
+                show_validate_msg("#paymoney", "error", "金额太少了哦。该产品最低起投为" + leastMoney + "元");
+                pay_btn_value = false;
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
     function reset_form(ele) {
         $(ele)[0].reset();
         //清空表单样式
@@ -188,9 +251,13 @@
     $(document).on("click",".buy_btn",function () {
         var fundProductId = $(this).attr("buyBtnId");
         var userId = [[${session.loginUser.id}]];
+        leastMoney = $(this).attr("leastMoney");
+        show_validate_msg("#paymoney", "error", "");
         //alert(userId);
         var name = $(this).attr("buyBtnName");
-        let jc=$.alert({
+
+
+        let jc=$.confirm({
             title: '提示：',
             content: "确定买入 <strong>"+name+"</strong> 吗？",
             buttons: {
@@ -199,68 +266,80 @@
                     btnClass: 'btn-primary',
                     action: function(){
                         jc.close();
-                        reset_form("#addModal form");
-                        $("#addModal").modal({
+                        reset_form("#payModal form");
+                        $("#payModal").modal({
                             //点击增加框背景不删除增加框
                             backdrop: "static"
                         });
-                        $("#save_btn").click(function () {
-                                console.log("hehe")
-                                if (verifyLogin()) {
-                                    $.ajax({
-                                            url: "/user/verifyPayPassword",
-                                            type: "POST",
-                                            data: {
-                                                "paypassword": $("#paypassword").val()
-                                            },
-                                            success: function (result) {
-                                                if (result.code === 100) {
-                                                    $.ajax({
-                                                        url : "/user/buyFundProduct",
-                                                        type : "POST",
-                                                        data : {
-                                                            "fundProductId":fundProductId,
-                                                            "userId":userId
-                                                        },
-                                                        success : function(result) {
-                                                            if (result.code===100){
-                                                                $("#addModal").modal('hide');
-                                                                $.alert('买入成功!');
-                                                            }else {
-                                                                $.alert('买入失败!');
+
+                        $("#pay_btn").click(function () {
+
+                            var paymoney = $("#paymoney").val()
+
+
+                                if (verifyPay()) {
+                                    $("#payModal").modal('hide');
+                                    reset_form("#addModal form");
+                                    $("#addModal").modal({
+                                        //点击增加框背景不删除增加框
+                                        backdrop: "static"
+                                    });
+                                    $("#save_btn").click(function () {
+
+                                        if (verifyLogin()) {
+                                            $.ajax({
+                                                url: "/user/verifyPayPassword",
+                                                type: "POST",
+                                                data: {
+                                                    "paypassword": $("#paypassword").val()
+                                                },
+                                                success: function (result) {
+                                                    if (result.code === 100) {
+                                                        $.ajax({
+                                                            url : "/user/buyFundProduct",
+                                                            type : "POST",
+                                                            data : {
+                                                                "fundProductId":fundProductId,
+                                                                "userId":userId,
+                                                                paymoney: paymoney
+                                                            },
+                                                            success : function(result) {
+                                                                if (result.code===100){
+                                                                    $("#addModal").modal('hide');
+                                                                    $.alert('买入成功!');
+                                                                }else {
+                                                                    $.alert('买入失败!');
+                                                                }
                                                             }
+                                                        });
+                                                    }else{
+                                                        var message = result.msg;
+                                                        if (message != null) {
+                                                            show_validate_msg("#paypassword", "error", message);
+                                                            app.toProfile = true;
+                                                        } else {
+                                                            show_validate_msg("#paypassword", "error",
+                                                                "密码错误");
+                                                            $("#save_btn")
+                                                                .attr("disabled", "disabled");
                                                         }
-                                                    });
-                                                }else{
-                                                    var message = result.msg;
-                                                    if (message != null) {
-                                                        show_validate_msg("#paypassword", "error", message);
-                                                        app.toProfile = true;
-                                                    } else {
-                                                        show_validate_msg("#paypassword", "error",
-                                                            "密码错误");
-                                                        $("#save_btn")
-                                                            .attr("disabled", "disabled");
                                                     }
                                                 }
-                                            }
-                                    })
+                                            })
+                                        }
+                                    });
                                 }
-
                         });
-
                     }
-
-
-                }
-            },
-
+                },
                 cancel: {
                     text: '取消',
                     action: function () {
                         $.alert('已取消!');
                     }
                 }
+            },
+
 
         });
     })
