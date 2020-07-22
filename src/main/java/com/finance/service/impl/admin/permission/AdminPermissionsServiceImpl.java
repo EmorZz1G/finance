@@ -19,6 +19,9 @@ import com.finance.service.admin.permission.AdminPermissionsService;
 import com.finance.service.admin.permission.CommonPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +32,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+
 public class AdminPermissionsServiceImpl implements AdminPermissionsService {
 
     Logger log = LoggerFactory.getLogger(AdminPermissionsServiceImpl.class);
@@ -48,6 +52,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     AdminMapper adminMapper;
 
     @Override
+    @CacheEvict(cacheNames = {"adminPermsList","adminPermsSet"} ,key = "#p0")
     public int updatePerms(int adminId, String[] _newPerms) throws RuntimeException {
         Set<String> prePerms = selectPermsSetByAdminId(adminId);
         Set<String> newPerms = new HashSet<>(Arrays.asList(_newPerms));
@@ -68,6 +73,9 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
         int effectRow = 0;
         Map<String, List<Permissions>> permissionss = commonPermissionService.selectPermsAll();
         for (String s : addPerms) {
+            if(s==null||s.equals("")){
+                continue;
+            }
             AdminPermissions adminPermissions = new AdminPermissions();
             adminPermissions.setAdminId(adminId);
             try {
@@ -115,6 +123,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
+    @Cacheable(cacheNames = "adminPermsList" , key = "#id")
     public List<Admin> selectAdminsButId(int id) {
         AdminExample adminExample = new AdminExample();
         AdminExample.Criteria criteria = adminExample.createCriteria();
@@ -123,6 +132,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
+    @Cacheable(cacheNames = "adminPermsList" , key = "methodName + #id")
     public List<AdminPermsView> selectPermsByAdminId(int id) {
         AdminPermsViewExample example = new AdminPermsViewExample();
         AdminPermsViewExample.Criteria criteria = example.createCriteria();
@@ -131,6 +141,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
+    @Cacheable(cacheNames = "adminPermsList" , key = "methodName + #admin.id")
     public List<AdminPermsView> selectPermsByAdmin(Admin admin) {
         AdminPermsViewExample example = new AdminPermsViewExample();
         AdminPermsViewExample.Criteria criteria = example.createCriteria();
@@ -139,6 +150,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
+    @Cacheable(cacheNames = "adminPermsList" , key = "methodName + #admin.id")
     public List<String> selectPermsListByAdmin(Admin admin) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdmin(admin);
         return adminPermsViews.stream().
@@ -147,6 +159,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
+    @Cacheable(cacheNames = "adminPermsList" , key = "methodName + #id")
     public List<String> selectPermsListByAdminId(int id) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdminId(id);
         return adminPermsViews.stream().
@@ -155,6 +168,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
+    @Cacheable(cacheNames = "adminPermsSet",key = "methodName + #admin.id")
     public Set<String> selectPermsSetByAdmin(Admin admin) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdmin(admin);
         return adminPermsViews.stream().
@@ -163,6 +177,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
+    @Cacheable(cacheNames = "adminPermsSet" , key = "#id")
     public Set<String> selectPermsSetByAdminId(int id) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdminId(id);
         return adminPermsViews.stream().

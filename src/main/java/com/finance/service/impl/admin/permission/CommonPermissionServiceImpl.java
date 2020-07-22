@@ -3,6 +3,9 @@ package com.finance.service.impl.admin.permission;
 import com.finance.mapper.others.PermissionsMapper;
 import com.finance.pojo.others.Permissions;
 import com.finance.service.admin.permission.CommonPermissionService;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,6 +15,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@CacheConfig(cacheNames = "commonPerms")
 public class CommonPermissionServiceImpl implements CommonPermissionService{
 
     @Resource
@@ -19,6 +23,7 @@ public class CommonPermissionServiceImpl implements CommonPermissionService{
 
 
     @Override
+    @Cacheable(key = "methodName")
     public Map<String, List<Permissions>> selectPermsAll() {
         return permissionsMapper.selectByExample(null).
                 stream().

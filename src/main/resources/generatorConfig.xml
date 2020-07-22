@@ -11,16 +11,16 @@
                         password="123321pp">
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.finance.pojo.others.task"
+        <javaModelGenerator targetPackage="com.finance.pojo.user"
                             targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
 
         </javaModelGenerator>
-        <sqlMapGenerator targetPackage="mybatis.mapper.others.task"
+        <sqlMapGenerator targetPackage="mybatis.mapper.user"
                          targetProject="./src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.others.task"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.finance.mapper.user"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
@@ -93,8 +93,7 @@
             <!--<property name="useActualColumnNames" value="true"/>-->
         <!--</table>-->
 
-
-        <table schema="finance" tableName="auto_task" domainObjectName="AutoTask">
+        <table schema="finance" tableName="user_avatar" domainObjectName="UserAvatar">
         <property name="useActualColumnNames" value="true"/>
         </table>
     </context>
