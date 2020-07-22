@@ -4,13 +4,10 @@ import com.finance.mapper.user.UserAvatarMapper;
 import com.finance.pojo.user.UserAvatar;
 import com.finance.pojo.user.UserAvatarExample;
 import com.finance.service.user.personal.avatar.UserAvatarService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.FileSystemResource;
@@ -19,15 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.Date;
-import java.util.UUID;
 
 
-@Service
-@PropertySource("classpath:/user.properties")
-public class UserAvatarServiceImpl implements UserAvatarService {
-    @Value("${user.avatar}")
+@Service()
+@PropertySource("classpath:/config/user.properties")
+public class UserAvatarServiceImpl implements UserAvatarService, InitializingBean {
+    @Value("${user.user-avatar}")
     String userAvatar;
 
     private Logger log = LoggerFactory.getLogger(UserAvatarServiceImpl.class);
@@ -35,7 +30,8 @@ public class UserAvatarServiceImpl implements UserAvatarService {
     @javax.annotation.Resource
     UserAvatarMapper userAvatarMapper;
 
-    private UserAvatarServiceImpl() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
         if (userAvatar != null) {
             File file = new File(userAvatar);
             if (!file.exists()) {
@@ -49,7 +45,6 @@ public class UserAvatarServiceImpl implements UserAvatarService {
             throw new RuntimeException("没有找到系统存储路径");
         }
     }
-
 
     @Override
     public String generatorFilename(String _filename, String uuid) {
@@ -125,4 +120,6 @@ public class UserAvatarServiceImpl implements UserAvatarService {
     private Resource getResource(String sysPath) {
         return new FileSystemResource(new File(userAvatar, sysPath));
     }
+
+
 }

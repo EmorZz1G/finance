@@ -132,7 +132,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "methodName + #id")
+    @Cacheable(cacheNames = "adminPermsList" , key = "#id")
     public List<AdminPermsView> selectPermsByAdminId(int id) {
         AdminPermsViewExample example = new AdminPermsViewExample();
         AdminPermsViewExample.Criteria criteria = example.createCriteria();
@@ -141,7 +141,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "methodName + #admin.id")
+    @Cacheable(cacheNames = "adminPermsList" , key = "#admin.id")
     public List<AdminPermsView> selectPermsByAdmin(Admin admin) {
         AdminPermsViewExample example = new AdminPermsViewExample();
         AdminPermsViewExample.Criteria criteria = example.createCriteria();
@@ -150,7 +150,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "methodName + #admin.id")
+    @Cacheable(cacheNames = "adminPermsList" , key = "#admin.id")
     public List<String> selectPermsListByAdmin(Admin admin) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdmin(admin);
         return adminPermsViews.stream().
@@ -159,7 +159,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "methodName + #id")
+    @Cacheable(cacheNames = "adminPermsList" , key = "#id")
     public List<String> selectPermsListByAdminId(int id) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdminId(id);
         return adminPermsViews.stream().
@@ -168,7 +168,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsSet",key = "methodName + #admin.id")
+    @Cacheable(cacheNames = "adminPermsSet",key = "#admin.id")
     public Set<String> selectPermsSetByAdmin(Admin admin) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdmin(admin);
         return adminPermsViews.stream().

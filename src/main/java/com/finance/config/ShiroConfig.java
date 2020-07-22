@@ -73,7 +73,7 @@ public class ShiroConfig {
         filterMap.put("/admin/loan/toLoaninfo.html","perms[admin:loanInfo]" );
 
         // history info
-        filterMap.put("/admin/historyinfo/toRecord.html","perms[user:fund]" );
+        filterMap.put("/admin/historyinfo/toRecord.html","perms[admin:fund]" );
         filterMap.put("/admin/historyinfo/toInfo.html","perms[admin:info]" );
 
         filterMap.put("/admin/super/*","perms[admin:super]" );
