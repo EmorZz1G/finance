@@ -18,11 +18,10 @@ import java.util.Map;
 public class UserInfoServiceImpl implements UserInfoService {
     @Override
 
-    public List<User> selectUsersByQuery(Map<String, String> query) {
+    public List<User> selectUsersByQuery(Map<String, Object> query) {
         try {
             UserExample example = (UserExample)FuzzySearchUtils.autoWrapper(UserExample.class, query);
-            List<User> users = userMapper.selectByExample(example);
-            System.out.println(users);
+            return userMapper.selectByExample(example);
         } catch (Exception e) {
             e.printStackTrace();
         }

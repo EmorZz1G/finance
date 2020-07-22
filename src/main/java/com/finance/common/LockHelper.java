@@ -22,6 +22,9 @@ public class LockHelper {
     }
 
     public static ConcurrentHashMap addUser(HttpSession curSession, User user){
+        if(curSession==null){
+            return helperMap;
+        }
         HttpSession preSession = helperMap.get(user.getId());
         // 用户已经存在
         if(preSession!=null){

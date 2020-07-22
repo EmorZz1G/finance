@@ -15,4 +15,6 @@ public interface UserAvatarService {
     UserAvatar selectUserAvatarByUuid(String uuid);
 
     int insertAvatar(UserAvatar avatar);
+
+    UserAvatar getUsingAvatar(int userId);
 }

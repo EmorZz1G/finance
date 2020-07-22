@@ -29,11 +29,19 @@
 
             <span v-if="msgNum">
             <span style="color: #f84f4f;" v-text="msgNum">  </span>&nbsp;条未读&nbsp;</span>
+            <template th:if="${session.userAvatar==null}">
             <img
                     id="img" class="img-avatar img-avatar-48 m-r-10" src="./images/pic.jpg"
                     th:src="@{/images/pic.jpg}"
                     th:alt="${session.loginUser.username}"/>
-
+            </template>
+            <template th:if="${session.userAvatar!=null}">
+              <img
+                      id="img"
+                      class="img-avatar img-avatar-48 img-circle"
+                      th:src="'/user/userAvatar/'+${session.userAvatar.uuid}"
+                      th:alt="${session.loginUser.username}"/>
+            </template>
             <span th:text="${session.loginUser.username}">
 								<span class="caret"></span>
 						</span>

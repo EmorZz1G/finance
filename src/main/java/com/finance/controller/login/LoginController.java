@@ -3,6 +3,7 @@ package com.finance.controller.login;
 
 import com.finance.common.LockHelper;
 import com.finance.common.Result;
+import com.finance.common.annotation.UserAvatarAnno;
 import com.finance.controller.admin.userinfo.ReputationController;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.user.User;
@@ -62,6 +63,7 @@ public class LoginController {
 
     @GetMapping("/login/verifyLogin")
     @ResponseBody
+    @UserAvatarAnno
     public Result verifyLogin(@RequestParam("username") String username,
                               @RequestParam("password") String password,
                               HttpSession session) {

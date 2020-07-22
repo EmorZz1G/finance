@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Service()
@@ -60,10 +61,9 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
             suffix = _filename.substring(index);
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(prefix)
+        sb.append(__filename)
                 .append("_")
-                .append(__filename)
-                .append("_")
+                .append(prefix)
                 .append(suffix);
         return sb.toString();
     }
@@ -102,11 +102,25 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
         criteria.andUserIdEqualTo(avatar.getUserId());
         UserAvatar _updateAvatar = new UserAvatar();
         _updateAvatar.setStatus("0");
-        int i = userAvatarMapper.updateByExampleSelective(_updateAvatar, userAvatarExample);
-        if (i == 1) {
-            return userAvatarMapper.insertSelective(avatar);
-        } else {
-            return 0;
+        userAvatarMapper.updateByExampleSelective(_updateAvatar, userAvatarExample);
+        return userAvatarMapper.insertSelective(avatar);
+    }
+
+    @Override
+    public UserAvatar getUsingAvatar(int userId) {
+        UserAvatarExample userAvatarExample = new UserAvatarExample();
+        UserAvatarExample.Criteria criteria = userAvatarExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        criteria.andStatusEqualTo("1");
+        List<UserAvatar> userAvatars = userAvatarMapper.selectByExample(userAvatarExample);
+        if(userAvatars==null){
+            return null;
+        }else if(userAvatars.size()>1){
+            throw new RuntimeException("用户头像中，数据库数据存在问题，status应该只有一个为1");
+        }else if (userAvatars.size()==1){
+            return userAvatars.get(0);
+        }else {
+            return null;
         }
     }
 

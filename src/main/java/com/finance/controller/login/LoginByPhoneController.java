@@ -2,6 +2,7 @@ package com.finance.controller.login;
 
 import com.finance.common.LockHelper;
 import com.finance.common.Result;
+import com.finance.common.annotation.UserAvatarAnno;
 import com.finance.pojo.user.User;
 import com.finance.service.login.LoginByPhoneService;
 import org.apache.shiro.SecurityUtils;
@@ -38,6 +39,7 @@ public class LoginByPhoneController {
 
     @GetMapping("/login/loginByPhone/verifyLogin")
     @ResponseBody
+    @UserAvatarAnno
     public Result verifyLogin(@RequestParam("userPhone") String userPhone,
                               @RequestParam("password") String password,
                               HttpSession session){

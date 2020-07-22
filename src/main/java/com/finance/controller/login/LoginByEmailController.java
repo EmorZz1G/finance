@@ -2,6 +2,7 @@ package com.finance.controller.login;
 
 import com.finance.common.LockHelper;
 import com.finance.common.Result;
+import com.finance.common.annotation.UserAvatarAnno;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.user.User;
 import com.finance.service.login.LoginByEmailService;
@@ -39,6 +40,7 @@ public class LoginByEmailController {
 
     @GetMapping("/login/loginByEmail/verifyLogin")
     @ResponseBody
+    @UserAvatarAnno
     public Result verifyLogin(@RequestParam("userEmail") String userEmail,
                               @RequestParam("password") String password,
                               HttpSession session){

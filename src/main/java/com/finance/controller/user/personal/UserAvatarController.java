@@ -2,6 +2,7 @@ package com.finance.controller.user.personal;
 
 
 import com.finance.common.Result;
+import com.finance.common.annotation.UserAvatarAnno;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserAvatar;
 import com.finance.service.user.personal.avatar.UserAvatarService;
@@ -10,10 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,8 +23,15 @@ public class UserAvatarController {
     @Autowired
     UserAvatarService userAvatarService;
 
+    @GetMapping("/user/personal/toAvatar.html")
+    public String toAvatar(){
+        return "user/personal/avatar";
+    }
+
     @PostMapping("/user/userAvatar")
-    public Result uploadAvatar(MultipartFile avatar,
+    @ResponseBody
+    @UserAvatarAnno
+    public Result uploadAvatar(@RequestParam("avatar") MultipartFile avatar,
                                @SessionAttribute("loginUser") User user){
         UserAvatar userAvatar = new UserAvatar();
         userAvatar.setUserId(user.getId());
@@ -44,6 +49,7 @@ public class UserAvatarController {
     }
 
     @GetMapping("/user/userAvatar/{uuid}")
+    @ResponseBody
     public ResponseEntity<Resource> getUserAvatar(@PathVariable("uuid") String uuid) throws IOException {
         Resource avatar = userAvatarService.getAvatar(uuid);
         if(avatar!=null){

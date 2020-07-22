@@ -30,5 +30,5 @@ public interface UserInfoService {
      */
     int updateUserStatusById(int id);
 
-    List<User> selectUsersByQuery(Map<String,String> query);
+    List<User> selectUsersByQuery(Map<String,Object> query);
 }
