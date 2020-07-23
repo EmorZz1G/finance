@@ -2,6 +2,7 @@ package com.finance.controller.user.personal;
 
 
 import com.finance.common.Result;
+import com.finance.common.annotation.FileTypeAnno;
 import com.finance.common.annotation.UserAvatarAnno;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserAvatar;
@@ -33,6 +34,7 @@ public class UserAvatarController {
     @PostMapping("/user/userAvatar")
     @ResponseBody
     @UserAvatarAnno
+    @FileTypeAnno(includes = {".jpg",".png",".jpeg"})
     public Result uploadAvatar(@RequestParam("avatar") MultipartFile avatar,
                                @SessionAttribute("loginUser") User user){
         String filename = avatar.getOriginalFilename();
@@ -55,7 +57,6 @@ public class UserAvatarController {
     @ResponseBody
     public ResponseEntity<Resource> getUserAvatar(@PathVariable("uuid") String uuid) throws IOException {
         Resource avatar = userAvatarService.getAvatar(uuid);
-        System.out.println(uuid);
         if(avatar!=null){
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)

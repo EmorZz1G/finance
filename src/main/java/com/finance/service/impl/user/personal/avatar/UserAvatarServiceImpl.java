@@ -73,7 +73,7 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
     @Override
     public boolean deleteFile(String sysFilename) {
         File file = new File(userAvatar, sysFilename);
-        if(file.isFile()){
+        if (file.isFile()) {
             return file.delete();
         }
         return false;
@@ -124,13 +124,13 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
         criteria.andUserIdEqualTo(userId);
         criteria.andStatusEqualTo("1");
         List<UserAvatar> userAvatars = userAvatarMapper.selectByExample(userAvatarExample);
-        if(userAvatars==null){
+        if (userAvatars == null) {
             return null;
-        }else if(userAvatars.size()>1){
+        } else if (userAvatars.size() > 1) {
             throw new RuntimeException("用户头像中，数据库数据存在问题，status应该只有一个为1");
-        }else if (userAvatars.size()==1){
+        } else if (userAvatars.size() == 1) {
             return userAvatars.get(0);
-        }else {
+        } else {
             return null;
         }
     }
@@ -155,13 +155,13 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
         criteria.andStatusEqualTo("1");
         criteria.andUserIdEqualTo(userId);
         int i = userAvatarMapper.updateByExampleSelective(userAvatar, userAvatarExample);
-        if(i!=1){
-            throw new RuntimeException("用户头像数据库异常，用户ID为 "+userId);
+        if (i != 1) {
+            throw new RuntimeException("用户头像数据库异常，用户ID为 " + userId);
         }
         userAvatar.setStatus("1");
         userAvatar.setUuid(newAvatarUuid);
         userAvatar.setLastUseTime(new Date());
-        return userAvatarMapper.updateByPrimaryKeySelective(userAvatar)==1;
+        return userAvatarMapper.updateByPrimaryKeySelective(userAvatar) == 1;
     }
 
 /*    @Override
@@ -178,15 +178,15 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
     }*/
 
     @Override
-    @CacheEvict(cacheNames = "userAvatar" , key = "#p0")
+    @CacheEvict(cacheNames = "userAvatar", key = "#p0")
     public int deleteUserAvatar(String deletedAvatarUuid) {
         UserAvatar userAvatar = userAvatarMapper.selectByPrimaryKey(deletedAvatarUuid);
-        if(userAvatar==null){
-            throw new RuntimeException("不存在这个主键，对于 "+deletedAvatarUuid);
+        if (userAvatar == null) {
+            throw new RuntimeException("不存在这个主键，对于 " + deletedAvatarUuid);
         }
         int i = userAvatarMapper.deleteByPrimaryKey(deletedAvatarUuid);
-        if(i==1){
-            return deleteFile(userAvatar.getAvatar())?1:0;
+        if (i == 1) {
+            return deleteFile(userAvatar.getAvatar()) ? 1 : 0;
         }
         return 0;
     }
@@ -194,7 +194,12 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
     @Override
     public Resource getAvatar(String uuid) {
         UserAvatar userAvatar = selectUserAvatarByUuid(uuid);
-        String avatar = userAvatar.getAvatar();
+        String avatar;
+        try {
+            avatar = userAvatar.getAvatar();
+        } catch (Exception e) {
+            return null;
+        }
         return getResource(avatar);
     }
 

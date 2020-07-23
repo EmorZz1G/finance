@@ -18,16 +18,15 @@
 
 </head>
 <body>
-<div class="lyear-layout-web" id="app">
+<div class="lyear-layout-web" >
   <div class="lyear-layout-container">
     <!--左侧导航-->
     <div th:replace="admin/common/leftbar::#leftbaraside"></div>
     <!--头部信息-->
-
     <div th:replace="admin/common/topbar::#topbarheader"></div>
 
     <!--页面主要内容-->
-    <main class="lyear-layout-content">
+    <main class="lyear-layout-content" id="app">
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">

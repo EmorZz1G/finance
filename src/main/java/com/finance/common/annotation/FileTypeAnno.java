@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileTypeAnno {
-    String[] includes() default "";
-    String[] excludes() default "";
+    String[] includes() default {""};
+    String[] excludes() default {""};
 }
