@@ -11,12 +11,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/*
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest*/
 class UserInfoServiceImplTest {
 
     @Autowired
@@ -28,11 +30,11 @@ class UserInfoServiceImplTest {
     @Test
     void selectUsersByQuery() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ParseException {
         Map<String, Object> stringStringMap = new HashMap<>();
-      /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date min = simpleDateFormat.parse("2020-06-15");
         Date max = simpleDateFormat.parse("2020-08-20");
         stringStringMap.put("min-createTime", min);
-        stringStringMap.put("max-createTime", max);*/
+        stringStringMap.put("max-createTime", max);
  /*       Object o = FuzzySearchUtils.autoWrapper(InfoExample.class, stringStringMap);
         List<Info> infos = infoMapper.selectByExample((InfoExample) o);
         System.out.println(infos);

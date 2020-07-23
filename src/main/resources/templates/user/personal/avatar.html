@@ -16,14 +16,12 @@
 
 </head>
 <body>
-<div class="lyear-layout-web">
+<div class="lyear-layout-web" id="app">
   <div class="lyear-layout-container">
     <!--左侧导航-->
     <div th:replace="user/common/leftbar::#leftbaraside"></div>
     <!--头部信息-->
-    <div id="app">
-      <div th:replace="user/common/topbar::#topbarheader"></div>
-    </div>
+    <div th:replace="user/common/topbar::#topbarheader"></div>
     <!--页面主要内容-->
     <main class="lyear-layout-content">
       <div class="container-fluid">
@@ -39,6 +37,7 @@
                   当前头像：
                   <div th:if="${session.userAvatar!=null}">
                     <img th:src="'/user/userAvatar/'+${session.userAvatar.uuid}"
+                         v-bind:src="'/user/userAvatar/' + curAvatar.uuid"
                          alt="头像"
                          class="img-circle "
                          style="width: 300px;height: 300px"
@@ -49,7 +48,7 @@
                          alt="头像"
                          class="img-circle "
                          style="width: 300px;height: 300px"
-                         >
+                    >
                     <br>
                   </div>
                   <form id="avatarForm"
@@ -72,6 +71,38 @@
                     </div>
                   </form>
 
+                </div>
+                <div class="card-header">
+                  <h4>历史头像</h4>
+                </div>
+                <div class="card-body">
+                  <div v-for="avatar in avatars"
+                       style="display: inline-block"
+                       v-bind:key="avatar.uuid"
+                  >
+                    <div>
+                      {{avatar.createTime | fixDate}}
+                    </div>
+                    <img v-bind:src="'/user/userAvatar/'+avatar.uuid"
+                         alt="头像"
+                         class="img-circle "
+                         style="width: 200px;height: 200px"
+                    >
+                    <div>
+                      <input type="button" value="删除"
+                             class="btn btn-danger btn-sm"
+                             :uuid="avatar.uuid"
+                             @click="avatarDelete"
+                             style="margin-left: 30px;">
+                      <input type="button" value="使用"
+                             class="btn btn-success btn-sm"
+                             v-bind:uuid="avatar.uuid"
+                             @click="avatarSelect"
+                             style="margin-left: 20px;">
+                    </div>
+                    <br>
+                    <br>
+                  </div>
                 </div>
               </div>
 
@@ -108,20 +139,31 @@
                 processData: false,
                 contentType: false,
                 success(result) {
-                    console.log(result.msg)
+                    console.log(result.msg);
                     $("#curAvatar").attr("src", "/user/userAvatar/" + result.extend.avatar);
                     $.alert({
-                        title:"提醒",
-                        content:result.msg,
+                        title: "提醒",
+                        content: result.msg,
+                        buttons: {
+                            ok: {
+                                text: "确定",
+                                action: function () {
+                                    window.location.href = "/user/personal/toAvatar.html";
+                                    console.log("hehe")
+                                }
+                            }
+
+                        }
+
                     })
                 },
-                error(){
+                error() {
                     $.alert({
-                        title:"提醒",
-                        content:"请检测您的网络"
+                        title: "提醒",
+                        content: "请检测您的网络"
                     })
                 }
-        })
+            })
         })
     });
 
@@ -140,22 +182,125 @@
         }
     }
 
+    function getHistoryAvatars(change) {
+        axios({
+            url: "/user/userAvatar",
+            method: "get"
+        }).then((result) => {
+            if (result.data.code === 100) {
+                change = result.data.extend.avatars;
+            } else {
+                console.log(result.data);
+            }
+        })
+    }
+
     const app = new Vue({
-        el: "#app",
-        data: {
-            msgNum: 0,
-        },
-        mounted: function () {
-            axios({
-                url: "/user/historyinfo/unread",
-                method: "get",
-            }).then((result) => {
-                if (result.data.code === 100) {
-                    this.msgNum = result.data.extend.msgNum;
+            el: "#app",
+            data: {
+                msgNum: 0,
+                avatars: undefined,
+                curAvatar:[[${session.userAvatar}]]
+            },
+            methods: {
+                avatarDelete() {
+                    var uuid = $(event.target).attr("uuid");
+                    $.confirm({
+                        title: "警告",
+                        content: "确定要删除吗？",
+                        type: "red",
+                        buttons: {
+                            "确定": function () {
+                                console.log(uuid);
+                                axios({
+                                    url: "/user/userAvatar/" + uuid,
+                                    method: "delete"
+                                }).then((result) => {
+                                    $.alert({
+                                        title: "提示",
+                                        content: result.data.msg,
+                                    });
+                                    console.log(uuid);
+                                    for (i in app.avatars) {
+                                        if (app.avatars[i].uuid === uuid) {
+                                            app.avatars.splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                })
+                            },
+
+                            '取消': function () {
+
+                            }
+                        }
+
+
+                    });
+
                 }
-            })
-        }
-    });
+                ,
+                avatarSelect() {
+                    let uuid = $(event.target).attr("uuid");
+                    axios({
+                        url: "/user/userAvatar/" + uuid,
+                        method: "put"
+                    }).then((result) => {
+                        $.alert({
+                            title: "提示",
+                            content: result.data.msg,
+                        });
+                        for (i in this.avatars) {
+                            if (this.avatars[i].uuid === uuid) {
+                                const before = this.curAvatar;
+                                this.curAvatar = this.avatars[i];
+                                this.avatars.splice(i,1,before);
+                                break;
+                            }
+                        }
+                        // TODO
+                        /*axios({
+                            url: "/user/userAvatar",
+                            method: "get"
+                        }).then((result) => {
+                            if (result.data.code === 100) {
+                                this.avatars = result.data.extend.avatars;
+                            } else {
+                                console.log(result.data);
+                            }
+                        })*/
+                    })
+                }
+            },
+            mounted: function () {
+                axios({
+                    url: "/user/historyinfo/unread",
+                    method: "get",
+                }).then((result) => {
+                    if (result.data.code === 100) {
+                        this.msgNum = result.data.extend.msgNum;
+                    }
+                });
+                axios({
+                    url: "/user/userAvatar",
+                    method: "get"
+                }).then((result) => {
+                    if (result.data.code === 100) {
+                        this.avatars = result.data.extend.avatars;
+                    } else {
+                        console.log(result.data);
+                    }
+                })
+            },
+            filters: {
+                fixDate(date) {
+                    let _d = new Date(date);
+                    _d.setHours(_d.getHours() + 8);
+                    return _d.toJSON().substring(0, 19).replace("T", " ");
+                }
+            }
+        })
+    ;
 
 </script>
 </body>

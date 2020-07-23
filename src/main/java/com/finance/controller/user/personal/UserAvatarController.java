@@ -6,6 +6,7 @@ import com.finance.common.annotation.UserAvatarAnno;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserAvatar;
 import com.finance.service.user.personal.avatar.UserAvatarService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -33,10 +35,11 @@ public class UserAvatarController {
     @UserAvatarAnno
     public Result uploadAvatar(@RequestParam("avatar") MultipartFile avatar,
                                @SessionAttribute("loginUser") User user){
+        String filename = avatar.getOriginalFilename();
         UserAvatar userAvatar = new UserAvatar();
         userAvatar.setUserId(user.getId());
         String uuid = UUID.randomUUID().toString();
-        String sysFilename = userAvatarService.generatorFilename(avatar.getOriginalFilename(), uuid);
+        String sysFilename = userAvatarService.generatorFilename(filename, uuid);
         userAvatarService.uploadAvatar(avatar,sysFilename);
         userAvatar.setUuid(uuid);
         userAvatar.setAvatar(sysFilename);
@@ -52,13 +55,50 @@ public class UserAvatarController {
     @ResponseBody
     public ResponseEntity<Resource> getUserAvatar(@PathVariable("uuid") String uuid) throws IOException {
         Resource avatar = userAvatarService.getAvatar(uuid);
+        System.out.println(uuid);
         if(avatar!=null){
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .contentLength(avatar.contentLength())
+                    .header("Cache-Control", "max-age=604800")
                     .body(avatar);
         }else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/user/userAvatar/{uuid}")
+    @ResponseBody
+    @UserAvatarAnno
+    public Result deleteUserAvatar(@PathVariable("uuid")String uuid,
+                                   @SessionAttribute("loginUser")User user){
+        boolean b = userAvatarService.updateUserAvatar(user.getId(), uuid);
+        if (b){
+            return Result.success("修改成功");
+        }else {
+            return Result.failure("修改失败");
+        }
+    }
+
+    @DeleteMapping("/user/userAvatar/{uuid}")
+    @ResponseBody
+    public Result deleteUserAvatar(@PathVariable("uuid")String uuid){
+        int i = userAvatarService.deleteUserAvatar(uuid);
+        if (i==1){
+            return Result.success("删除成功");
+        }else {
+            return Result.failure("删除失败");
+        }
+    }
+
+    @GetMapping("user/userAvatar")
+    @ResponseBody
+    public Result getUserHistoryAvatar(@SessionAttribute("loginUser") User user){
+        List<UserAvatar> userAvatars = userAvatarService.selectUserHistoryAvatars(user.getId());
+        if(userAvatars!=null){
+            return Result.success("查询成功").add("avatars",userAvatars);
+        }else {
+            return Result.failure("没有查询到您的历史头像");
         }
     }
 }

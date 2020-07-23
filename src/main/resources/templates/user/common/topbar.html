@@ -16,7 +16,9 @@
           <span class="lyear-toggler-bar"></span> <span
                 class="lyear-toggler-bar"></span> <span class="lyear-toggler-bar"></span>
         </div>
-        <span th:if="${session.loginUser!=null} and ${session.loginUser.phone==null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;快去填写<a th:href="@{/user/personal/toProfile.html}" style="color: #f84f4f">个人信息</a>才可以使用<a th:href="@{/user/personal/toProfile.html}" style="color:#f84f4f;">更多功能</a>哦！</span>
+        <span th:if="${session.loginUser!=null} and ${session.loginUser.phone==null}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;快去填写<a
+                th:href="@{/user/personal/toProfile.html}" style="color: #f84f4f">个人信息</a>才可以使用<a
+                th:href="@{/user/personal/toProfile.html}" style="color:#f84f4f;">更多功能</a>哦！</span>
         <!--/*@thymesVar id="pageTopBarInfo" type="java.lang.String"*/-->
         <span class="navbar-page-title" th:text="${pageTopBarInfo}"></span>
       </div>
@@ -30,17 +32,26 @@
             <span v-if="msgNum">
             <span style="color: #f84f4f;" v-text="msgNum">  </span>&nbsp;条未读&nbsp;</span>
             <template th:if="${session.userAvatar==null}">
-            <img
-                    id="img" class="img-avatar img-avatar-48 m-r-10" src="./images/pic.jpg"
-                    th:src="@{/images/pic.jpg}"
-                    th:alt="${session.loginUser.username}"/>
+              <img
+                      id="img" class="img-avatar img-avatar-48 m-r-10" src="./images/pic.jpg"
+                      th:src="@{/images/pic.jpg}"
+                      th:alt="${session.loginUser.username}"/>
             </template>
             <template th:if="${session.userAvatar!=null}">
-              <img
-                      id="img"
-                      class="img-avatar img-avatar-48 img-circle"
-                      th:src="'/user/userAvatar/'+${session.userAvatar.uuid}"
-                      th:alt="${session.loginUser.username}"/>
+              <template v-if="!!curAvatar">
+                <img
+                        id="img"
+                        class="img-avatar img-avatar-48 img-circle"
+                        :src="'/user/userAvatar/' + curAvatar.uuid"
+                        th:alt="${session.loginUser.username}"/>
+              </template>
+              <template v-else>
+                <img
+                        id="img"
+                        class="img-avatar img-avatar-48 img-circle"
+                        th:src="'/user/userAvatar/'+${session.userAvatar.uuid}"
+                        th:alt="${session.loginUser.username}"/>
+              </template>
             </template>
             <span th:text="${session.loginUser.username}">
 								<span class="caret"></span>
@@ -49,6 +60,8 @@
           <ul class="dropdown-menu dropdown-menu-right">
             <li><a th:href="@{/user/personal/toProfile.html}"><i
                     class="mdi mdi-account"></i> 个人信息</a></li>
+            <li><a th:href="@{/user/personal/toAvatar.html}"><i
+            ><span class="mdi mdi-account-settings-variant"></i> 设置头像</a></li>
             <li><a th:href="@{/user/personal/toMyInfo.html}"><i
                     class="mdi mdi-lock-outline"></i> 我的消息<span style="font-size:medium; color: #f84f4f;" v-if="msgNum">&nbsp;{{msgNum}}</span></a>
             </li>

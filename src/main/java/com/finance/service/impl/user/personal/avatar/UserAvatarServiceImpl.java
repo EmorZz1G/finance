@@ -8,11 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -20,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 
-@Service()
+@Service
 @PropertySource("classpath:/config/user.properties")
 public class UserAvatarServiceImpl implements UserAvatarService, InitializingBean {
     @Value("${user.user-avatar}")
@@ -52,7 +54,7 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
         int index = _filename.lastIndexOf(".");
         String __filename;
         String suffix;
-        String prefix = uuid;
+
         if (index == -1) {
             __filename = _filename;
             suffix = "";
@@ -63,9 +65,18 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
         StringBuilder sb = new StringBuilder();
         sb.append(__filename)
                 .append("_")
-                .append(prefix)
+                .append(uuid)
                 .append(suffix);
         return sb.toString();
+    }
+
+    @Override
+    public boolean deleteFile(String sysFilename) {
+        File file = new File(userAvatar, sysFilename);
+        if(file.isFile()){
+            return file.delete();
+        }
+        return false;
     }
 
     @Override
@@ -122,6 +133,62 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
         }else {
             return null;
         }
+    }
+
+    @Override
+    public List<UserAvatar> selectUserHistoryAvatars(int userId) {
+        UserAvatarExample userAvatarExample = new UserAvatarExample();
+        UserAvatarExample.Criteria criteria = userAvatarExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        criteria.andStatusEqualTo("0");
+        userAvatarExample.setOrderByClause("createTime asc");
+        return userAvatarMapper.selectByExample(userAvatarExample);
+    }
+
+    @Override
+    @Transactional
+    public boolean updateUserAvatar(int userId, String newAvatarUuid) {
+        UserAvatarExample userAvatarExample = new UserAvatarExample();
+        UserAvatarExample.Criteria criteria = userAvatarExample.createCriteria();
+        UserAvatar userAvatar = new UserAvatar();
+        userAvatar.setStatus("0");
+        criteria.andStatusEqualTo("1");
+        criteria.andUserIdEqualTo(userId);
+        int i = userAvatarMapper.updateByExampleSelective(userAvatar, userAvatarExample);
+        if(i!=1){
+            throw new RuntimeException("用户头像数据库异常，用户ID为 "+userId);
+        }
+        userAvatar.setStatus("1");
+        userAvatar.setUuid(newAvatarUuid);
+        userAvatar.setLastUseTime(new Date());
+        return userAvatarMapper.updateByPrimaryKeySelective(userAvatar)==1;
+    }
+
+/*    @Override
+    public int deleteUserAvatar(int userId, String deletedAvatarUuid) {
+        UserAvatar userAvatar = userAvatarMapper.selectByPrimaryKey(deletedAvatarUuid);
+        if(userAvatar==null){
+            throw new RuntimeException("不存在这个主键，对于 "+deletedAvatarUuid);
+        }
+        int i = userAvatarMapper.deleteByPrimaryKey(deletedAvatarUuid);
+        if(i==1){
+            return deleteFile(userAvatar.getAvatar())?1:0;
+        }
+        return 0;
+    }*/
+
+    @Override
+    @CacheEvict(cacheNames = "userAvatar" , key = "#p0")
+    public int deleteUserAvatar(String deletedAvatarUuid) {
+        UserAvatar userAvatar = userAvatarMapper.selectByPrimaryKey(deletedAvatarUuid);
+        if(userAvatar==null){
+            throw new RuntimeException("不存在这个主键，对于 "+deletedAvatarUuid);
+        }
+        int i = userAvatarMapper.deleteByPrimaryKey(deletedAvatarUuid);
+        if(i==1){
+            return deleteFile(userAvatar.getAvatar())?1:0;
+        }
+        return 0;
     }
 
     @Override

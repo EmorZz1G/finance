@@ -36,11 +36,9 @@ public class UserAvatarAspect {
         Object loginUser = session.getAttribute("loginUser");
         if (loginUser instanceof User) {
             User user = (User) loginUser;
-            Object _userAvatar = session.getAttribute("userAvatar");
-            if (_userAvatar==null) {
-                UserAvatar usingAvatar = userAvatarService.getUsingAvatar(user.getId());
-                session.setAttribute("userAvatar", usingAvatar);
-            }
+            // TODO BUG TEST
+            UserAvatar usingAvatar = userAvatarService.getUsingAvatar(user.getId());
+            session.setAttribute("userAvatar", usingAvatar);
         }
     }
 }
