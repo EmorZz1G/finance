@@ -3,9 +3,9 @@ package com.finance.service.admin.loan;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.others.Loan;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface LoanExamService {
@@ -24,5 +24,7 @@ public interface LoanExamService {
     List<Loan> overdue(int pageNum,int pageSize, int loanStatus);
 
     int updateOverdue();
+
+    List<Loan> selectLoanByQuery(Map<String,Object> query);
 
 }
