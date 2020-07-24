@@ -16,8 +16,9 @@ import java.util.Map;
 @Service
 @CacheConfig(cacheNames = "userInfo")
 public class UserInfoServiceImpl implements UserInfoService {
-    @Override
 
+
+    @Override
     public List<User> selectUsersByQuery(Map<String, Object> query) {
         try {
             UserExample example = (UserExample)FuzzySearchUtils.autoWrapper(UserExample.class, query);
@@ -45,7 +46,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     // TODO
-    @CacheEvict(key = "#id")
+    @CacheEvict(key = "#user.id")
     public int updateUser(User user) {
         return userMapper.updateByPrimaryKeySelective(user);
     }
@@ -57,8 +58,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    // TODO
-    @CacheEvict(key = "#id")
     public int insertUser(User user) {
         return userMapper.insertSelective(user);
     }

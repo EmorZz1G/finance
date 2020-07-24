@@ -65,7 +65,7 @@ public class UserInfoController {
         if (i == 1) {
             return Result.success();
         } else {
-            return Result.failure();
+            return Result.failure("用户名已经存在");
         }
     }
 

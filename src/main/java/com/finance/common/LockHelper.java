@@ -41,7 +41,12 @@ public class LockHelper {
     }
 
     public static ConcurrentHashMap removeSession(User user){
-        HttpSession preSession = helperMap.get(user.getId());
+        HttpSession preSession;
+        try {
+            preSession = helperMap.get(user.getId());
+        }catch (Exception e){
+            return helperMap;
+        }
         if(preSession==null){
             return helperMap;
         }

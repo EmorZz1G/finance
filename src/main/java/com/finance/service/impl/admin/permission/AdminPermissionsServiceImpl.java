@@ -123,7 +123,6 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "#id")
     public List<Admin> selectAdminsButId(int id) {
         AdminExample adminExample = new AdminExample();
         AdminExample.Criteria criteria = adminExample.createCriteria();
