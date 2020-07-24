@@ -2,8 +2,8 @@ package com.finance.mapper.ext.others;
 
 import com.finance.mapper.others.LoanMapper;
 import com.finance.pojo.others.Loan;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.finance.pojo.user.User;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -36,4 +36,34 @@ public interface LoanMapperExt extends LoanMapper {
             "WHERE loanStatus = 0\n" +
             "and DATE_ADD( loanTime,INTERVAL 1 day) <= now();")
     int updateOverdue();
+
+    @Select("SELECT\n" +
+            "\tid, loanId, examineId, loanTime, amount, term, rate, applyStatus,loanStatus \n" +
+            "FROM\n" +
+            "\tloan \n" +
+            "WHERE\n" +
+            "\tEXISTS ( SELECT * FROM `user` WHERE `user`.username LIKE concat('%',#{username},'%') AND USER.id = loan.loanId ) \n" +
+            "\tAND loan.loanStatus = #{loanStatus}")
+    @Results(id = "LoanMapperhaha", value = {
+            @Result(column = "loanId",
+                    javaType = User.class,
+                    property = "user",
+                    one = @One(select = "com.finance.mapper.user.UserMapper.selectByPrimaryKey"))
+    })
+    List<Loan> selectLoanFuzzy(String username,Integer loanStatus);
+
+    @Select("SELECT\n" +
+            "\tid, loanId, examineId, loanTime, amount, term, rate, applyStatus,loanStatus \n" +
+            "FROM\n" +
+            "\tloan \n" +
+            "WHERE\n" +
+            "\tEXISTS ( SELECT * FROM `user` WHERE `user`.username LIKE concat('%',#{username},'%') AND USER.id = loan.loanId ) \n")
+    @Results(id = "LoanMapperhahaha", value = {
+            @Result(column = "loanId",
+                    javaType = User.class,
+                    property = "user",
+                    one = @One(select = "com.finance.mapper.user.UserMapper.selectByPrimaryKey"))
+    })
+    List<Loan> selectLoanFuzzyHa(String username);
+
 }
