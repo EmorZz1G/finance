@@ -1,5 +1,6 @@
 package com.finance.service.impl.admin.loan;
 
+import com.finance.common.utils.FuzzySearchUtils;
 import com.finance.mapper.ext.others.LoanMapperExt;
 import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.others.InfoMapper;
@@ -9,17 +10,17 @@ import com.finance.pojo.others.FlowOfFunds;
 import com.finance.pojo.others.Info;
 import com.finance.pojo.others.Loan;
 import com.finance.pojo.others.LoanExample;
+import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserExample;
 import com.finance.service.admin.loan.LoanExamService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.sound.sampled.DataLine;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LoanExamServiceImpl implements LoanExamService {
@@ -116,6 +117,18 @@ public class LoanExamServiceImpl implements LoanExamService {
     @Override
     public int updateOverdue(){
         return loanMapperExt.updateOverdue();
+    }
+
+    @Override
+    public List<Loan> selectLoanByQuery(Map<String, Object> query) {
+        try {
+            LoanExample example = (LoanExample) FuzzySearchUtils.autoWrapper(LoanExample.class, query);
+            List<Loan> loans = loanMapper.selectByExample(example);
+            return loans;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

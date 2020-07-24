@@ -21,11 +21,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     public List<User> selectUsersByQuery(Map<String, Object> query) {
         try {
             UserExample example = (UserExample)FuzzySearchUtils.autoWrapper(UserExample.class, query);
-            return userMapper.selectByExample(example);
+            List<User> users = userMapper.selectByExample(example);
+            return users;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Resource
