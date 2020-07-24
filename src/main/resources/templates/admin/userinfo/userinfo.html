@@ -33,6 +33,25 @@
                                 <h4>用户信息</h4>
                             </div>
 
+                            <div style="overflow: hidden;" class="card-body">
+                                <form id="fuzzySearch">
+                                    用户名：<input type="text" name="search1" id="usernameSearch" placeholder="请输入用户名"
+                                               th:value="${query.username}"
+                                               style="width:180px;"/>
+                                    　　　姓名：<input type="text" name="search2" id="realnameSearch" placeholder="请输入真实姓名"
+                                                 th:value="${query.realname}"
+                                                 style="width:180px;"/>
+                                    　　　电话号码：<input type="text" name="search3" id="phoneSearch" placeholder="请输入手机号"
+                                                   th:value="${query.phone}"
+                                                   style="width:180px;"/>
+                                    　　　邮箱号：<input type="text" name="search4" id="emailSearch" placeholder="请输入邮箱号"
+                                                  th:value="${query.email}"
+                                                  style="width:180px;"/>
+                                    　　<input type="button" name="btn" id="btnSearch" value="搜  索"/>
+
+                                </form>
+                            </div>
+
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-striped">
@@ -101,7 +120,8 @@
                                             <ul class="dropdown-menu">
                                                 <li th:each="i:${#numbers.sequence(1,10)}">
                                                     <a th:text="${i}"
-                                                       th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${userPageInfo.pageNum},pageSize=${i})}"></a>
+                                                       th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${userPageInfo.pageNum},pageSize=${i}
+                                                       ,username=${query.username},realname=${query.realname},phone=${query.phone},email=${query.email})}"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -123,11 +143,13 @@
                                         <ul class="pagination pagination-lg pull-right"
                                             style="margin-top: 0">
                                             <li>
-                                                <a th:href="@{/admin/userinfo/toUserInfo.html(pageNum=1,pageSize=${userPageInfo.pageSize})}">首页</a>
+                                                <a th:href="@{/admin/userinfo/toUserInfo.html(pageNum=1,pageSize=${userPageInfo.pageSize}
+                                                ,username=${query.username},realname=${query.realname},phone=${query.phone},email=${query.email})}">首页</a>
                                             </li>
 
                                             <li th:if="${userPageInfo.hasPreviousPage }"><a
-                                                    th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${userPageInfo.pageNum}-1,pageSize=${userPageInfo.pageSize})}"
+                                                    th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${userPageInfo.pageNum}-1,pageSize=${userPageInfo.pageSize}
+                                                    ,username=${query.username},realname=${query.realname},phone=${query.phone},email=${query.email})}"
                                                     aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
                                             </a></li>
 
@@ -139,17 +161,20 @@
                                                 </a>
                                                 <a th:text="${page_Num}"
                                                    th:if="${page_Num != userPageInfo.pageNum}"
-                                                   th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${page_Num},pageSize=${userPageInfo.pageSize})}">
+                                                   th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${page_Num},pageSize=${userPageInfo.pageSize}
+                                                   ,username=${query.username},realname=${query.realname},phone=${query.phone},email=${query.email})}">
                                                 </a>
                                             </li>
 
                                             <li th:if="${userPageInfo.hasNextPage }"><a
-                                                    th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${userPageInfo.pageNum}+1,pageSize=${userPageInfo.pageSize})}"
+                                                    th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${userPageInfo.pageNum}+1,pageSize=${userPageInfo.pageSize}
+                                                    ,username=${query.username},realname=${query.realname},phone=${query.phone},email=${query.email})}"
                                                     aria-label="Next"> <span aria-hidden="true">&raquo;</span>
                                             </a></li>
 
                                             <li><a
-                                                    th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${userPageInfo.pages},pageSize=${userPageInfo.pageSize})}">末页</a>
+                                                    th:href="@{/admin/userinfo/toUserInfo.html(pageNum=${userPageInfo.pages},pageSize=${userPageInfo.pageSize}
+                                                    ,username=${query.username},realname=${query.realname},phone=${query.phone},email=${query.email})}">末页</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -336,6 +361,23 @@
 <!--自定义js脚本-->
 <script th:src="@{/lyear/js/main.min.js}"></script>
 <script type="text/javascript">
+
+    $("#btnSearch").click(function () {
+        var username = $("#usernameSearch").val();
+        var realname = $("#realnameSearch").val();
+        var phone = $("#phoneSearch").val();
+        var email = $("#emailSearch").val();
+        let pageNum = [[${userPageInfo.pageNum}]];
+        let pageSize = [[${userPageInfo.pageSize}]];
+        console.log(JSON.stringify($("#fuzzySearch").serialize()));
+        window.location.href = "/admin/userinfo/toUserInfo.html?"
+                + "username=" + username + "&"
+                + "realname=" + realname + "&"
+                + "phone=" + phone + "&"
+                + "email=" + email + "&"
+                + "pageNum=" + pageNum + "&"
+                + "pageSize=" + pageSize;
+    });
 
     //点击新增按钮弹出模态框。
     $("#user_add_modal_btn").click(function () {

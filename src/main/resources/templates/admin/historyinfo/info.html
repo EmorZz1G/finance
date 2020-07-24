@@ -32,6 +32,28 @@
               <div class="card-header">
                 <h4>历史消息</h4>
               </div>
+
+              <div style="overflow: hidden" class="card-body">
+                <form id="fuzzySearchBankcard">
+                  　　　　消息内容：<input type="text" name="search0" id="usernameSearch" placeholder="请描述消息内容"
+                                  th:value="${query.infoDesc}"
+                                             style="width:180px;"/>
+                  　　时间：<input type="date" name="search1" id="minDateSearch"
+                              th:value="${query.minDate}"
+                                             style="width:180px;"/>
+                  　　<input type="date" name="search2" id="maxDateSearch"
+                           th:value="${query.maxDate}"
+                              style="width:180px;"/>　
+                  状态：<select name="status" id="selectId" th:value="${query.status}">
+                  <option value="" disabled selected>请选择状态</option>
+                  <option value="2">删除</option>
+                  <option value="1">已读</option>
+                  <option value="0">未读</option>
+                </select>　　
+                  　　<input type="button" name="btn" id="btnSearch"  value="搜  索"/>
+                </form>
+              </div>
+
               <div th:if="${!infoList.isEmpty()}" class="card-body">
                 <div class="table-responsive">
                   <table class="table table-hover table-striped">
@@ -98,7 +120,8 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li th:each="i:${#numbers.sequence(1,10)}"><a th:text="${i}"
-                                                                        th:href="@{/admin/loan/toInfo.html(pageNum=${infoPageInfo.pageNum},pageSize=${i})}"></a>
+                                                                        th:href="@{/admin/loan/toInfo.html(pageNum=${infoPageInfo.pageNum},pageSize=${i}
+                                                                        ,username=${query.infoDesc},minDate=${query.minDate},maxDate=${query.maxDate},status=${query.status})}"></a>
                           </li>
                         </ul>
                       </div>
@@ -120,11 +143,13 @@
                       <ul class="pagination pagination-lg pull-right"
                           style="margin-top: 0">
                         <li>
-                          <a th:href="@{/admin/loan/toInfo.html(pageNum=1,pageSize=${infoPageInfo.pageSize})}">首页</a>
+                          <a th:href="@{/admin/historyinfo/toInfo.html(pageNum=1,pageSize=${infoPageInfo.pageSize}
+                          ,username=${query.infoDesc},minDate=${query.minDate},maxDate=${query.maxDate},status=${query.status})}">首页</a>
                         </li>
 
                         <li th:if="${infoPageInfo.hasPreviousPage }"><a
-                                th:href="@{/admin/historyinfo/toInfo.html(pageNum=${infoPageInfo.pageNum}-1,pageSize=${infoPageInfo.pageSize})}"
+                                th:href="@{/admin/historyinfo/toInfo.html(pageNum=${infoPageInfo.pageNum}-1,pageSize=${infoPageInfo.pageSize}
+                                ,username=${query.infoDesc},minDate=${query.minDate},maxDate=${query.maxDate},status=${query.status})}"
                                 aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
                         </a></li>
 
@@ -136,17 +161,20 @@
                           </a>
                           <a th:text="${page_Num}"
                              th:if="${page_Num != infoPageInfo.pageNum}"
-                             th:href="@{/admin/historyinfo/toInfo.html(pageNum=${page_Num},pageSize=${infoPageInfo.pageSize})}">
+                             th:href="@{/admin/historyinfo/toInfo.html(pageNum=${page_Num},pageSize=${infoPageInfo.pageSize}
+                             ,username=${query.infoDesc},minDate=${query.minDate},maxDate=${query.maxDate},status=${query.status})}">
                           </a>
                         </li>
 
                         <li th:if="${infoPageInfo.hasNextPage }"><a
-                                th:href="@{/admin/historyinfo/toInfo.html(pageNum=${infoPageInfo.pageNum}+1,pageSize=${infoPageInfo.pageSize})}"
+                                th:href="@{/admin/historyinfo/toInfo.html(pageNum=${infoPageInfo.pageNum}+1,pageSize=${infoPageInfo.pageSize}
+                                ,username=${query.infoDesc},minDate=${query.minDate},maxDate=${query.maxDate},status=${query.status})}"
                                 aria-label="Next"> <span aria-hidden="true">&raquo;</span>
                         </a></li>
 
                         <li><a
-                                th:href="@{/admin/historyinfo/toInfo.html(pageNum=${infoPageInfo.pages},pageSize=${infoPageInfo.pageSize})}">末页</a>
+                                th:href="@{/admin/historyinfo/toInfo.html(pageNum=${infoPageInfo.pages},pageSize=${infoPageInfo.pageSize}
+                                ,username=${query.infoDesc},minDate=${query.minDate},maxDate=${query.maxDate},status=${query.status})}">末页</a>
                         </li>
                       </ul>
                     </nav>
@@ -242,7 +270,7 @@
 
               <div th:if="${infoList.isEmpty()}" class="card-body">
                 <div class="table-responsive">
-                  <h4>很抱歉！暂时还没有消息</h4>
+                  <h4>很抱歉！没有查到匹配的消息</h4>
                 </div>
               </div>
 
@@ -264,8 +292,65 @@
 <script th:src="@{/lyear/jconfirm/jquery-confirm.min.js}"></script>
 <!--自定义js脚本-->
 <script th:src="@{/lyear/js/main.min.js}"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 
+    var Status = [[${query.status}]]
+
+    $(function () {
+        console.log(Status)
+        if(Status==="null"){
+            Status="";
+        }
+        $("#selectId").val(Status);
+    });
+
+    function Search(){
+        var minDate = $("#minDateSearch").val();
+        //alert(minDate);
+        var maxDate = $("#maxDateSearch").val();
+        if((!minDate && maxDate)||(minDate && !maxDate)){
+            $.alert({
+                title: "提示",
+                content: "时间应该是应该区间哦~"
+            })
+
+            return;
+        }
+        // 1 1 0 1
+        // 0 0 0 1
+        // 1 0 1 0
+        /*if(!((!!minDate) ^ (!!maxDate))){
+            console.log("呵呵")
+        }*/
+        if(minDate > maxDate){
+            $.alert({
+                title: "提示",
+                content: "左边时间专家建议要小于等于右边"
+            })
+
+            return;
+        }
+        //alert(maxDate);
+        var username = $("#usernameSearch").val();
+        var status = $("#selectId").find("option:selected").val();
+        // alert(status);
+        let pageNum = [[${infoList.pageNum}]];
+        let pageSize = [[${infoList.pageSize}]];
+        console.log(JSON.stringify($("#fuzzySearch").serialize()));
+        window.location.href = "/admin/historyinfo/toInfo.html?"
+            + "minDate=" + minDate + "&"
+            + "maxDate=" + maxDate + "&"
+            + "username=" + username + "&"
+            + "status=" + status + "&"
+            + "pageNum=" + pageNum + "&"
+            + "pageSize=" + pageSize;
+    };
+
+    $("#btnSearch").click(function () {
+        console.log("....")
+        Search();
+        console.log("....")
+    })
     //清空表单样式及内容
     function reset_form(ele) {
         $(ele)[0].reset();

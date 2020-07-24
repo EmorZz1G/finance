@@ -32,6 +32,20 @@
                             <div class="card-header">
                                 <h4>网贷审核</h4>
                             </div>
+                            <div style="overflow: hidden" class="card-body">
+                                <form id="fuzzySearchBankcard">
+                                    　　　　　期限(天)：<input type="number" min="1" max="9999999" name="search1" id="termSearch" placeholder="请输入期限"
+                                                   th:value="${query.term}"
+                                                    style="width:180px;"/>　　　　　　　　
+                                    　　　　　审核状态：<select name="type" id="selectId" th:value="${query.applyStatus}">
+                                    <option value="" disabled selected>请选择状态</option>
+                                    <option value="2">审核通过</option>
+                                    <option value="1">审核未通过</option>
+                                    <option value="0">未审核</option>
+                                </select>
+                                    　　<input type="button" name="btn" id="btnSearch" value="搜  索"/>
+                                </form>
+                            </div>
 
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -103,7 +117,8 @@
                                             <ul class="dropdown-menu">
                                                 <li th:each="i:${#numbers.sequence(1,10)}">
                                                     <a th:text="${i}"
-                                                       th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum},pageSize=${i})}"></a>
+                                                       th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum},pageSize=${i}
+                                                       ,term=${query.term},applyStatus=${query.applyStatus})}"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -125,11 +140,13 @@
                                         <ul class="pagination pagination-lg pull-right"
                                             style="margin-top: 0">
                                             <li>
-                                                <a th:href="@{/admin/loan/toLoanexam.html(pageNum=1,pageSize=${loanPageInfo.pageSize})}">首页</a>
+                                                <a th:href="@{/admin/loan/toLoanexam.html(pageNum=1,pageSize=${loanPageInfo.pageSize}
+                                                ,term=${query.term},applyStatus=${query.applyStatus})}">首页</a>
                                             </li>
 
                                             <li th:if="${loanPageInfo.hasPreviousPage }"><a
-                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum}-1,pageSize=${loanPageInfo.pageSize})}"
+                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum}-1,pageSize=${loanPageInfo.pageSize}
+                                                    ,term=${query.term},applyStatus=${query.applyStatus})}"
                                                     aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
                                             </a></li>
 
@@ -141,17 +158,20 @@
                                                 </a>
                                                 <a th:text="${page_Num}"
                                                    th:if="${page_Num != loanPageInfo.pageNum}"
-                                                   th:href="@{/admin/loan/toLoanexam.html(pageNum=${page_Num},pageSize=${loanPageInfo.pageSize})}">
+                                                   th:href="@{/admin/loan/toLoanexam.html(pageNum=${page_Num},pageSize=${loanPageInfo.pageSize}
+                                                   ,term=${query.term},applyStatus=${query.applyStatus})}">
                                                 </a>
                                             </li>
 
                                             <li th:if="${loanPageInfo.hasNextPage }"><a
-                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum}+1,pageSize=${loanPageInfo.pageSize})}"
+                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pageNum}+1,pageSize=${loanPageInfo.pageSize}
+                                                    ,term=${query.term},applyStatus=${query.applyStatus})}"
                                                     aria-label="Next"> <span aria-hidden="true">&raquo;</span>
                                             </a></li>
 
                                             <li><a
-                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pages},pageSize=${loanPageInfo.pageSize})}">末页</a>
+                                                    th:href="@{/admin/loan/toLoanexam.html(pageNum=${loanPageInfo.pages},pageSize=${loanPageInfo.pageSize}
+                                                    ,term=${query.term},applyStatus=${query.applyStatus})}">末页</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -177,9 +197,33 @@
 <script th:src="@{/lyear/jconfirm/jquery-confirm.min.js}"></script>
 <!--自定义js脚本-->
 <script th:src="@{/lyear/js/main.min.js}"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
+    var status = [[${query.applyStatus}]]
 
-    //通过审核
+    $(function () {
+        console.log(status)
+        if(status==="null"){
+            status="";
+        }
+        $("#selectId").val(status);
+    });
+
+    $("#btnSearch").click(function () {
+        var term = $("#termSearch").val();
+        var applyStatus = $("#selectId").find("option:selected").val();
+        let pageNum = [[${loanPageInfo.pageNum}]];
+        let pageSize = [[${loanPageInfo.pageSize}]];
+        console.log(JSON.stringify($("#fuzzySearch").serialize()));
+        window.location.href = "/admin/loan/toLoanexam.html?"
+                + "term=" + term + "&"
+                + "applyStatus=" + applyStatus + "&"
+                + "pageNum=" + pageNum + "&"
+                + "pageSize=" + pageSize;
+    });
+
+
+
+//通过审核
     $(document).on("click", ".pass_update_btn", function () {
 
         var id = $(this).attr("update-id");

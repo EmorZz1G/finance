@@ -27,6 +27,7 @@
     <!--头部信息-->
     <div th:replace="admin/common/topbar::#topbarheader"></div>
 
+
     <!--页面主要内容-->
     <main class="lyear-layout-content" id="app">
       <div class="container-fluid">
@@ -37,6 +38,19 @@
                 <h4>资金记录</h4><br>
 
               </div>
+
+              <div style="overflow: hidden" class="card-body">
+                <form id="fuzzySearchBankcard">
+                  　　　　　　　　　　　　　　　　　时间：<input type="date" name="search1" id="minDateSearch"
+                                             th:value="${query.minDate}"
+                                             style="width:180px;"/>
+                  　　　　　<input type="date" name="search2" id="maxDateSearch"
+                              th:value="${query.maxDate}"
+                              style="width:180px;"/>　　　　　　　　
+                  　　<input type="button" name="btn" id="btnSearch" onclick="Search();" value="搜  索"/>
+                </form>
+              </div>
+
               <div class="card-body">
                 <p class="text-info">点击用户名查看详情</p>
                 <div class="table-responsive">
@@ -76,6 +90,8 @@
                   </table>
                 </div>
               </div>
+
+
 
               <div th:if="${!flowOfFundsList.isEmpty()}" class="card-body">
                 <div class="table-responsive">
@@ -134,7 +150,8 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li th:each="i:${#numbers.sequence(1,10)}"><a th:text="${i}"
-                                                                        th:href="@{/admin/loan/toRecord.html(pageNum=${flowOfFundsPageInfo.pageNum},pageSize=${i})}"></a>
+                                                                        th:href="@{/admin/historyinfo/toRecord.html(pageNum=${flowOfFundsPageInfo.pageNum},pageSize=${i}
+                                                                        ,minDate=${query.minDate},maxDate=${query.maxDate})}"></a>
                           </li>
                         </ul>
                       </div>
@@ -156,11 +173,13 @@
                       <ul class="pagination pagination-lg pull-right"
                           style="margin-top: 0">
                         <li>
-                          <a th:href="@{/admin/historyinfo/toRecord.html(pageNum=1,pageSize=${flowOfFundsPageInfo.pageSize})}">首页</a>
+                          <a th:href="@{/admin/historyinfo/toRecord.html(pageNum=1,pageSize=${flowOfFundsPageInfo.pageSize}
+                          ,minDate=${query.minDate},maxDate=${query.maxDate})}">首页</a>
                         </li>
 
                         <li th:if="${flowOfFundsPageInfo.hasPreviousPage }"><a
-                                th:href="@{/admin/historyinfo/toRecord.html(pageNum=${flowOfFundsPageInfo.pageNum}-1,pageSize=${flowOfFundsPageInfo.pageSize})}"
+                                th:href="@{/admin/historyinfo/toRecord.html(pageNum=${flowOfFundsPageInfo.pageNum}-1,pageSize=${flowOfFundsPageInfo.pageSize}
+                                ,minDate=${query.minDate},maxDate=${query.maxDate})}"
                                 aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
                         </a></li>
 
@@ -172,17 +191,20 @@
                           </a>
                           <a th:text="${page_Num}"
                              th:if="${page_Num != flowOfFundsPageInfo.pageNum}"
-                             th:href="@{/admin/historyinfo/toRecord.html(pageNum=${page_Num},pageSize=${flowOfFundsPageInfo.pageSize})}">
+                             th:href="@{/admin/historyinfo/toRecord.html(pageNum=${page_Num},pageSize=${flowOfFundsPageInfo.pageSize}
+                             ,minDate=${query.minDate},maxDate=${query.maxDate})}">
                           </a>
                         </li>
 
                         <li th:if="${flowOfFundsPageInfo.hasNextPage }"><a
-                                th:href="@{/admin/historyinfo/toRecord.html(pageNum=${flowOfFundsPageInfo.pageNum}+1,pageSize=${flowOfFundsPageInfo.pageSize})}"
+                                th:href="@{/admin/historyinfo/toRecord.html(pageNum=${flowOfFundsPageInfo.pageNum}+1,pageSize=${flowOfFundsPageInfo.pageSize}
+                                ,minDate=${query.minDate},maxDate=${query.maxDate})}"
                                 aria-label="Next"> <span aria-hidden="true">&raquo;</span>
                         </a></li>
 
                         <li><a
-                                th:href="@{/admin/historyinfo/toRecord.html(pageNum=${flowOfFundsPageInfo.pages},pageSize=${flowOfFundsPageInfo.pageSize})}">末页</a>
+                                th:href="@{/admin/historyinfo/toRecord.html(pageNum=${flowOfFundsPageInfo.pages},pageSize=${flowOfFundsPageInfo.pageSize}
+                                ,minDate=${query.minDate},maxDate=${query.maxDate})}">末页</a>
                         </li>
                       </ul>
                     </nav>
@@ -303,7 +325,23 @@
 <script th:src="@{/lyear/jconfirm/jquery-confirm.min.js}"></script>
 <!--自定义js脚本-->
 <script th:src="@{/lyear/js/main.min.js}"></script>
-<script th:inline="javascript">
+<script type="text/javascript" th:inline="javascript">
+
+
+  function Search(){
+      var minDate = $("#minDateSearch").val();
+      //alert(minDate);
+      var maxDate = $("#maxDateSearch").val();
+      //alert(maxDate);
+      let pageNum = [[${flowOfFundsList.pageNum}]];
+      let pageSize = [[${flowOfFundsList.pageSize}]];
+      console.log(JSON.stringify($("#fuzzySearch").serialize()));
+      window.location.href = "/admin/historyinfo/toRecord.html?"
+          + "minDate=" + minDate + "&"
+          + "maxDate=" + maxDate + "&"
+          + "pageNum=" + pageNum + "&"
+          + "pageSize=" + pageSize;
+  };
 
     //点击编辑按钮时触发事件
     $(document).on("click", ".update_btn", function () {

@@ -33,6 +33,18 @@
                                 <h4>银行卡管理</h4>
                             </div>
 
+                            <div style="overflow: hidden" class="card-body">
+                                <form id="fuzzySearchBankcard">
+                                    　　　　　　　　　　　　　用户名：<input type="text" name="search1" id="usernameSearch" placeholder="请输入用户名"
+                                                            th:value="${query.username}"
+                                               style="width:180px;"/>
+                                    　　　　　银行：<input type="text" name="search1" id="cardBankSearch" placeholder="请输入银行"
+                                                   th:value="${query.cardBank}"
+                                               style="width:180px;"/>
+                                    　　<input type="button" name="btn" id="btnSearch" value="搜  索"/>
+                                </form>
+                            </div>
+
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-striped">
@@ -96,7 +108,8 @@
                                             <ul class="dropdown-menu">
                                                 <li th:each="i:${#numbers.sequence(1,10)}">
                                                     <a th:text="${i}"
-                                                       th:href="@{/admin/userinfo/toBankCard.html(pageNum=${bankcardPageInfo.pageNum},pageSize=${i})}"></a>
+                                                       th:href="@{/admin/userinfo/toBankCard.html(pageNum=${bankcardPageInfo.pageNum},pageSize=${i}
+                                                       ,username=${query.username},cardBank=${query.cardBank})}"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -118,11 +131,13 @@
                                         <ul class="pagination pagination-lg pull-right"
                                             style="margin-top: 0">
                                             <li>
-                                                <a th:href="@{/admin/userinfo/toBankCard.html(pageNum=1,pageSize=${bankcardPageInfo.pageSize})}">首页</a>
+                                                <a th:href="@{/admin/userinfo/toBankCard.html(pageNum=1,pageSize=${bankcardPageInfo.pageSize}
+                                                ,username=${query.username},cardBank=${query.cardBank})}">首页</a>
                                             </li>
 
                                             <li th:if="${bankcardPageInfo.hasPreviousPage }"><a
-                                                    th:href="@{/admin/userinfo/toBankCard.html(pageNum=${bankcardPageInfo.pageNum}-1,pageSize=${bankcardPageInfo.pageSize})}"
+                                                    th:href="@{/admin/userinfo/toBankCard.html(pageNum=${bankcardPageInfo.pageNum}-1,pageSize=${bankcardPageInfo.pageSize}
+                                                    ,username=${query.username},cardBank=${query.cardBank})}"
                                                     aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
                                             </a></li>
 
@@ -134,17 +149,20 @@
                                                 </a>
                                                 <a th:text="${page_Num}"
                                                    th:if="${page_Num != bankcardPageInfo.pageNum}"
-                                                   th:href="@{/admin/userinfo/toBankCard.html(pageNum=${page_Num},pageSize=${bankcardPageInfo.pageSize})}">
+                                                   th:href="@{/admin/userinfo/toBankCard.html(pageNum=${page_Num},pageSize=${bankcardPageInfo.pageSize}
+                                                   ,username=${query.username},cardBank=${query.cardBank})}">
                                                 </a>
                                             </li>
 
                                             <li th:if="${bankcardPageInfo.hasNextPage }"><a
-                                                    th:href="@{/admin/userinfo/toBankCard.html(pageNum=${bankcardPageInfo.pageNum}+1,pageSize=${bankcardPageInfo.pageSize})}"
+                                                    th:href="@{/admin/userinfo/toBankCard.html(pageNum=${bankcardPageInfo.pageNum}+1,pageSize=${bankcardPageInfo.pageSize}
+                                                    ,username=${query.username},cardBank=${query.cardBank})}"
                                                     aria-label="Next"> <span aria-hidden="true">&raquo;</span>
                                             </a></li>
 
                                             <li><a
-                                                    th:href="@{/admin/userinfo/toBankCard.html(pageNum=${bankcardPageInfo.pages},pageSize=${bankcardPageInfo.pageSize})}">末页</a>
+                                                    th:href="@{/admin/userinfo/toBankCard.html(pageNum=${bankcardPageInfo.pages},pageSize=${bankcardPageInfo.pageSize}
+                                                    ,username=${query.username},cardBank=${query.cardBank})}">末页</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -253,6 +271,19 @@
 <!--自定义js脚本-->
 <script th:src="@{/lyear/js/main.min.js}"></script>
 <script type="text/javascript">
+
+    $("#btnSearch").click(function () {
+        var username = $("#usernameSearch").val();
+        var cardBank = $("#cardBankSearch").val();
+        let pageNum = [[${bankcardPageInfo.pageNum}]];
+        let pageSize = [[${bankcardPageInfo.pageSize}]];
+        console.log(JSON.stringify($("#fuzzySearchBankcard").serialize()));
+        window.location.href = "/admin/userinfo/toBankCard.html?"
+                + "username=" + username + "&"
+                + "cardBank=" + cardBank + "&"
+                + "pageNum=" + pageNum + "&"
+                + "pageSize=" + pageSize;
+    });
 
     //点击编辑按钮时触发事件
     $(document).on("click", ".update_btn", function () {

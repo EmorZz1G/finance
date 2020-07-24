@@ -33,6 +33,21 @@
                                 <h4>网贷信息</h4>
                             </div>
 
+                            <div style="overflow: hidden" class="card-body">
+                                <form id="fuzzySearchBankcard">
+                                    　　　　　用户名：<input type="text" name="search1" id="usernameSearch" placeholder="请输入用户名"
+                                                    th:value="${query.username}"
+                                                      style="width:180px;"/>
+                                    　　　　　审核状态：<select name="type" id="selectId" th:value="${query.loanStatus}">
+                                    <option value="" disabled selected>请选择状态</option>
+                                    <option value="2">已还清</option>
+                                    <option value="1">逾期</option>
+                                    <option value="0">未逾期</option>
+                                </select>　　　　　　　
+                                    　　<input type="button" name="btn" id="btnSearch" value="搜  索"/>
+                                </form>
+                            </div>
+
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-striped">
@@ -99,7 +114,8 @@
                                             <ul class="dropdown-menu">
                                                 <li th:each="i:${#numbers.sequence(1,10)}">
                                                     <a th:text="${i}"
-                                                       th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum},pageSize=${i})}"></a>
+                                                       th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum},pageSize=${i}
+                                                       ,username=${query.username})}"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -121,11 +137,13 @@
                                         <ul class="pagination pagination-lg pull-right"
                                             style="margin-top: 0">
                                             <li>
-                                                <a th:href="@{/admin/loan/toLoaninfo.html(pageNum=1,pageSize=${loanPageInfo.pageSize})}">首页</a>
+                                                <a th:href="@{/admin/loan/toLoaninfo.html(pageNum=1,pageSize=${loanPageInfo.pageSize}
+                                                ,username=${query.username})}">首页</a>
                                             </li>
 
                                             <li th:if="${loanPageInfo.hasPreviousPage }"><a
-                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum}-1,pageSize=${loanPageInfo.pageSize})}"
+                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum}-1,pageSize=${loanPageInfo.pageSize}
+                                                    ,username=${query.username})}"
                                                     aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
                                             </a></li>
 
@@ -137,17 +155,20 @@
                                                 </a>
                                                 <a th:text="${page_Num}"
                                                    th:if="${page_Num != loanPageInfo.pageNum}"
-                                                   th:href="@{/admin/loan/toLoaninfo.html(pageNum=${page_Num},pageSize=${loanPageInfo.pageSize})}">
+                                                   th:href="@{/admin/loan/toLoaninfo.html(pageNum=${page_Num},pageSize=${loanPageInfo.pageSize}
+                                                   ,username=${query.username})}">
                                                 </a>
                                             </li>
 
                                             <li th:if="${loanPageInfo.hasNextPage }"><a
-                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum}+1,pageSize=${loanPageInfo.pageSize})}"
+                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pageNum}+1,pageSize=${loanPageInfo.pageSize}
+                                                    ,username=${query.username})}"
                                                     aria-label="Next"> <span aria-hidden="true">&raquo;</span>
                                             </a></li>
 
                                             <li><a
-                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pages},pageSize=${loanPageInfo.pageSize})}">末页</a>
+                                                    th:href="@{/admin/loan/toLoaninfo.html(pageNum=${loanPageInfo.pages},pageSize=${loanPageInfo.pageSize}
+                                                    ,username=${query.username})}">末页</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -173,7 +194,29 @@
 <script th:src="@{/lyear/jconfirm/jquery-confirm.min.js}"></script>
 <!--自定义js脚本-->
 <script th:src="@{/lyear/js/main.min.js}"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
+
+    var status = [[${query.loanStatus}]]
+
+    $(function () {
+        console.log(status)
+        if(status==="null"){
+            status="";
+        }
+        $("#selectId").val(status);
+    });
+
+    $("#btnSearch").click(function () {
+        var username = $("#usernameSearch").val();
+        var loanStatus = $("#selectId").find("option:selected").val();
+        let pageNum = [[${loanPageInfo.pageNum}]];
+        let pageSize = [[${loanPageInfo.pageSize}]];
+        window.location.href = "/admin/loan/toLoaninfo.html?"
+                + "username=" + username + "&"
+                + "loanStatus=" + loanStatus + "&"
+                + "pageNum=" + pageNum + "&"
+                + "pageSize=" + pageSize;
+    });
 
     //提醒还款
     $(document).on("click", ".update_btn", function () {
