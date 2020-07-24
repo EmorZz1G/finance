@@ -41,7 +41,6 @@ public class BankcardController {
             model.addAttribute("bankcardList", bankcards);
             return "admin/userinfo/bankcard";
         }*/
-        System.out.println(query);
         PageHelper.startPage(pageNum,pageSize);
         List<Bankcard> bankcards = bankcardService.selectUsersByQuery(query);
         PageInfo<Bankcard> bankcardPageInfo = new PageInfo<>(bankcards);

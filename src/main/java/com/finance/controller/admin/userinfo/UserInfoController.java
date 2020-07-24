@@ -86,15 +86,12 @@ public class UserInfoController {
                              @RequestParam(value = "email",defaultValue = "") String email,
                              Model model) {
         HashMap<String, Object> query = new HashMap<>();
-        System.out.println(username);
         query.put("username", username);
         query.put("realname", realname);
         query.put("phone", phone);
         query.put("email", email);
-        System.out.println(query);
         PageHelper.startPage(pageNum,pageSize);
         List<User> users = userInfoService.selectUsersByQuery(query);
-        System.out.println(users);
         PageInfo<User> userPageInfo = new PageInfo<>(users);
         model.addAttribute("userList",users);
         model.addAttribute("query",query);

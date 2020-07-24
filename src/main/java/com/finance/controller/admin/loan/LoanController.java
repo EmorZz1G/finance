@@ -31,14 +31,10 @@ public class LoanController {
                             Model model) {
         //引入pageHelper插件
         HashMap<String, Object> query = new HashMap<>();
-        System.out.println(term);
-        System.out.println(applyStatus);
         query.put("applyStatus",applyStatus);
         query.put("term",term);
-        System.out.println(query);
         PageHelper.startPage(pageNum, pageSize);
         List<Loan> loanList = loanExamService.selectLoanByQuery(query);
-        System.out.println(loanList);
         //PageInfo封装分页信息
         PageInfo<Loan> pageInfo = new PageInfo<Loan>(loanList);
         model.addAttribute("loanPageInfo", pageInfo);
