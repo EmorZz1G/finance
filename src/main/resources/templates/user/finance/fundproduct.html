@@ -13,7 +13,12 @@
     <link th:href="@{/lyear/jconfirm/jquery-confirm.min.css}" rel="stylesheet" type="text/css"/>
     <!--自定义样式-->
     <link href="../lyear/css/style.min.css" th:href="@{/lyear/css/style.min.css}" rel="stylesheet" type="text/css"/>
-
+    <style>
+        body {
+            background-image: url(../../images/bg.jpg);
+            background-size: 100% 100%;
+        }
+    </style>
 </head>
 <body>
 <!-- vue -->
@@ -224,6 +229,10 @@
     }
 
     var leastMoney = undefined;
+    var userId = undefined;
+    var fundProductId= undefined;
+    var paymoney = undefined;
+
 
     function verifyPay() {
         if (!$("#paymoney").val()) {
@@ -232,7 +241,15 @@
             pay_btn_value = false;
             return false;
         } else {
-
+            let x = $("#paymoney").val()
+            // NaN
+            // num
+            let  y = x-leastMoney
+            if(isNaN(y)){
+                show_validate_msg("#paymoney", "error", "输入不合法");
+                pay_btn_value = false;
+                return false;
+            }
             if (($("#paymoney").val() - leastMoney) < 0) {
                 show_validate_msg("#paymoney", "error", "金额太少了哦。该产品最低起投为" + leastMoney + "元");
                 pay_btn_value = false;
@@ -248,9 +265,71 @@
         $(ele).find("*").removeClass("has-error has-success");
         //$(ele).find(".help-block").text("");
     }
+    $("#save_btn").click(function () {
+        let paypassword =  $("#paypassword").val()
+        if (verifyLogin()) {
+            $.ajax({
+                url: "/user/verifyPayPassword",
+                type: "POST",
+                data: {
+                    paypassword: paypassword
+                },
+            }).then((data) =>{
+                let result = data;
+
+                    if (result.code === 100) {
+
+
+                        $.ajax({
+                            url : "/user/buyFundProduct",
+                            type : "POST",
+                            data : {
+                                fundProductId:fundProductId,
+                                userId:userId,
+                                paymoney: paymoney
+                            },
+                        }).then( (result) =>{
+                                if (result.code===100){
+                                    $("#addModal").modal('hide');
+                                    $.alert('买入成功!');
+                                }else {
+                                    $.alert('买入失败!');
+                                }
+                        })
+                    }else{
+                        var message = result.msg;
+                        if (message != null) {
+                            show_validate_msg("#paypassword", "error", message);
+                            app.toProfile = true;
+                        } else {
+                            show_validate_msg("#paypassword", "error",
+                                "密码错误");
+                            // $("#save_btn")
+                            //     .attr("disabled", "disabled");
+                        }
+                    }
+            })
+        }
+    });
+    $("#pay_btn").click(function () {
+
+        paymoney = $("#paymoney").val()
+
+
+        if (verifyPay()) {
+            $("#payModal").modal('hide');
+            reset_form("#addModal form");
+            $("#addModal").modal({
+                //点击增加框背景不删除增加框
+                backdrop: "static"
+            });
+
+        }
+    });
     $(document).on("click",".buy_btn",function () {
-        var fundProductId = $(this).attr("buyBtnId");
-        var userId = [[${session.loginUser.id}]];
+        fundProductId = $(this).attr("buyBtnId");
+
+         userId = [[${session.loginUser.id}]];
         leastMoney = $(this).attr("leastMoney");
         show_validate_msg("#paymoney", "error", "");
         //alert(userId);
@@ -272,64 +351,7 @@
                             backdrop: "static"
                         });
 
-                        $("#pay_btn").click(function () {
 
-                            var paymoney = $("#paymoney").val()
-
-
-                                if (verifyPay()) {
-                                    $("#payModal").modal('hide');
-                                    reset_form("#addModal form");
-                                    $("#addModal").modal({
-                                        //点击增加框背景不删除增加框
-                                        backdrop: "static"
-                                    });
-                                    $("#save_btn").click(function () {
-
-                                        if (verifyLogin()) {
-                                            $.ajax({
-                                                url: "/user/verifyPayPassword",
-                                                type: "POST",
-                                                data: {
-                                                    "paypassword": $("#paypassword").val()
-                                                },
-                                                success: function (result) {
-                                                    if (result.code === 100) {
-                                                        $.ajax({
-                                                            url : "/user/buyFundProduct",
-                                                            type : "POST",
-                                                            data : {
-                                                                "fundProductId":fundProductId,
-                                                                "userId":userId,
-                                                                paymoney: paymoney
-                                                            },
-                                                            success : function(result) {
-                                                                if (result.code===100){
-                                                                    $("#addModal").modal('hide');
-                                                                    $.alert('买入成功!');
-                                                                }else {
-                                                                    $.alert('买入失败!');
-                                                                }
-                                                            }
-                                                        });
-                                                    }else{
-                                                        var message = result.msg;
-                                                        if (message != null) {
-                                                            show_validate_msg("#paypassword", "error", message);
-                                                            app.toProfile = true;
-                                                        } else {
-                                                            show_validate_msg("#paypassword", "error",
-                                                                "密码错误");
-                                                            $("#save_btn")
-                                                                .attr("disabled", "disabled");
-                                                        }
-                                                    }
-                                                }
-                                            })
-                                        }
-                                    });
-                                }
-                        });
                     }
                 },
                 cancel: {

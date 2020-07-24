@@ -11,9 +11,14 @@
   <link th:href="@{/lyear/css/materialdesignicons.min.css}" rel="stylesheet" type="text/css"/>
   <!--自定义样式-->
   <link href="../lyear/css/style.min.css" th:href="@{/lyear/css/style.min.css}" rel="stylesheet" type="text/css"/>
-<style>
-
-</style>
+  <style>
+    body {
+      background-image: url(../images/bg.jpg);
+      background-size: 100% 100%;
+      /*filter: blur(3px);*/
+      background-color:rgba(255,255,255,0.1);
+    }
+  </style>
 </head>
 <body>
 <div class="lyear-layout-web">
@@ -90,7 +95,7 @@
             axios({
                 url: "/user/historyinfo/unread",
                 method: "get",
-            }).then((result)=>{
+            }).then((result) => {
                 if (result.data.code === 100) {
                     this.msgNum = result.data.extend.msgNum;
                 }

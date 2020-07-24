@@ -30,8 +30,8 @@ public class BankController {
         PageInfo<Bank> pageInfo=new PageInfo<Bank>(financeList);
         modelAndView.addObject("financePageInfo",pageInfo);
         modelAndView.addObject("financeList",financeList);
-
         return modelAndView;
+
 
     }
     @PostMapping("/admin/addBank")

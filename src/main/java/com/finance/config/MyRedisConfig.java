@@ -23,11 +23,12 @@ public class MyRedisConfig {
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         // 配置序列化
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
-        Duration duration = Duration.ZERO.plusDays(1);
+        Duration duration = Duration.ZERO.plusSeconds(300);
         config.entryTtl(duration);
         RedisCacheConfiguration redisCacheConfiguration = config
                 // 键序列化方式 redis字符串序列化
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
+                .entryTtl(duration)
                 // 值序列化方式 简单json序列化
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(genericJackson2JsonRedisSerializer));
         return RedisCacheManager.builder(factory).cacheDefaults(redisCacheConfiguration).build();

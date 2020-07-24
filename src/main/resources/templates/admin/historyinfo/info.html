@@ -308,19 +308,24 @@
         var minDate = $("#minDateSearch").val();
         //alert(minDate);
         var maxDate = $("#maxDateSearch").val();
-        if((!minDate && maxDate)||(minDate && !maxDate)){
+        // if((!minDate && maxDate)||(minDate && !maxDate)){
+        if (((!!minDate) + 0) ^ ((!!maxDate) + 0)) {
             $.alert({
                 title: "提示",
                 content: "时间应该是应该区间哦~"
-            })
-
+            });
             return;
-        }
+        };
+
         // 1 1 0 1
         // 0 0 0 1
         // 1 0 1 0
-        /*if(!((!!minDate) ^ (!!maxDate))){
-            console.log("呵呵")
+        /*console.log(!!minDate);
+        console.log(!!maxDate);
+        console.log("=====");
+        console.log( !!minDate+0 ^ !!maxDate+0);
+        if(((!!minDate)+0) ^ ( (!!maxDate)+0  )){
+            console.log("时间应该是应该区间哦~")
         }*/
         if(minDate > maxDate){
             $.alert({
@@ -337,13 +342,13 @@
         let pageNum = [[${infoList.pageNum}]];
         let pageSize = [[${infoList.pageSize}]];
         console.log(JSON.stringify($("#fuzzySearch").serialize()));
-        window.location.href = "/admin/historyinfo/toInfo.html?"
+        /*window.location.href = "/admin/historyinfo/toInfo.html?"
             + "minDate=" + minDate + "&"
             + "maxDate=" + maxDate + "&"
             + "username=" + username + "&"
             + "status=" + status + "&"
             + "pageNum=" + pageNum + "&"
-            + "pageSize=" + pageSize;
+            + "pageSize=" + pageSize;*/
     };
 
     $("#btnSearch").click(function () {

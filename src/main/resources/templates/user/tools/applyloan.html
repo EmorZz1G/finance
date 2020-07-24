@@ -13,7 +13,12 @@
   <link th:href="@{/lyear/jconfirm/jquery-confirm.min.css}" rel="stylesheet" type="text/css"/>
   <!--自定义样式-->
   <link href="../lyear/css/style.min.css" th:href="@{/lyear/css/style.min.css}" rel="stylesheet" type="text/css"/>
-
+  <style>
+    body {
+      background-image: url(../../images/bg.jpg);
+      background-size: 100% 100%;
+    }
+  </style>
 </head>
 <body>
 <div class="lyear-layout-web" id="app">
@@ -270,8 +275,8 @@
                                 } else {
                                   show_validate_msg("#paypassword", "error",
                                           "密码错误");
-                                  $("#save_btn")
-                                          .attr("disabled", "disabled");
+                                  // $("#save_btn")
+                                  //         .attr("disabled", "disabled");
                                 }
                               }
                             }
@@ -280,17 +285,19 @@
 
                       });
 
-                    }
+                    },
 
 
+                  },
+              cancel: {
+                text: '取消',
+                action: function () {
+                  $.alert('已取消!');
                 }
-            },
-                cancel: {
-                    text: '取消',
-                    action: function () {
-                        $.alert('已取消!');
-                    }
-                }
+              },
+                },
+
+
 
         });
     }

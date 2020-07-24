@@ -333,6 +333,23 @@
       //alert(minDate);
       var maxDate = $("#maxDateSearch").val();
       //alert(maxDate);
+
+      if (((!!minDate) + 0) ^ ((!!maxDate) + 0)) {
+          $.alert({
+              title: "提示",
+              content: "时间应该是应该区间哦~"
+          });
+          return;
+      };
+      if(minDate > maxDate){
+          $.alert({
+              title: "提示",
+              content: "左边时间专家建议要小于等于右边"
+          })
+
+          return;
+      }
+
       let pageNum = [[${flowOfFundsList.pageNum}]];
       let pageSize = [[${flowOfFundsList.pageSize}]];
       console.log(JSON.stringify($("#fuzzySearch").serialize()));
