@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -41,8 +42,21 @@ public class ReputationController {
     @GetMapping("admin/userinfo/toReputation.html")
     public String toReputation(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+                               @RequestParam(value = "username",defaultValue = "") String username,
+                               @RequestParam(value = "reputation",defaultValue = "") String reputation,
                                Model model) {
-        extraction(pageNum, pageSize, model,reputationService);
+        HashMap<String, Object> query = new HashMap<>();
+        System.out.println(username);
+        query.put("username", username);
+        query.put("reputation", reputation);
+        System.out.println(query);
+        PageHelper.startPage(pageNum,pageSize);
+        List<User> users = reputationService.selectUsersByQuery(query);
+        System.out.println(users);
+        PageInfo<User> userPageInfo = new PageInfo<>(users);
+        model.addAttribute("userList",users);
+        model.addAttribute("query",query);
+        model.addAttribute("userPageInfo",userPageInfo);
         return "admin/userinfo/reputation.html";
     }
 

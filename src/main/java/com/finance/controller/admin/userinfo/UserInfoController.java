@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
@@ -78,8 +80,25 @@ public class UserInfoController {
     @RequestMapping("/admin/userinfo/toUserInfo.html")
     public String toUserInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+                             @RequestParam(value = "username",defaultValue = "") String username,
+                             @RequestParam(value = "realname",defaultValue = "") String realname,
+                             @RequestParam(value = "phone",defaultValue = "") String phone,
+                             @RequestParam(value = "email",defaultValue = "") String email,
                              Model model) {
-        ReputationController.extraction(pageNum,pageSize,model,userInfoService);
+        HashMap<String, Object> query = new HashMap<>();
+        System.out.println(username);
+        query.put("username", username);
+        query.put("realname", realname);
+        query.put("phone", phone);
+        query.put("email", email);
+        System.out.println(query);
+        PageHelper.startPage(pageNum,pageSize);
+        List<User> users = userInfoService.selectUsersByQuery(query);
+        System.out.println(users);
+        PageInfo<User> userPageInfo = new PageInfo<>(users);
+        model.addAttribute("userList",users);
+        model.addAttribute("query",query);
+        model.addAttribute("userPageInfo",userPageInfo);
         return "admin/userinfo/userinfo.html";
     }
 }
