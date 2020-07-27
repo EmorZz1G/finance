@@ -17,6 +17,9 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * 文件检查
+ */
 @Component
 @Aspect
 public class FileTypeAspect {
@@ -24,6 +27,12 @@ public class FileTypeAspect {
     @Pointcut("@annotation(com.finance.common.annotation.FileTypeAnno)")
     public void checkFileType(){}
 
+    /**
+     * 检查是否是注解里的文件类型
+     * @param pjp
+     * @return
+     * @throws Throwable
+     */
     @Around(value = "checkFileType()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature signature = (MethodSignature) pjp.getSignature();

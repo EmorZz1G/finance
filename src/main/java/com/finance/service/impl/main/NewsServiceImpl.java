@@ -16,6 +16,10 @@ public class NewsServiceImpl implements NewsService {
     NewsMapper newsMapper;
 
 
+    /**
+     * 查询新闻信息
+     * @return 返回查询到的结果
+     */
     @Override
     public List<News> selectNewsAll() {
         return newsMapper.selectByExample(null);

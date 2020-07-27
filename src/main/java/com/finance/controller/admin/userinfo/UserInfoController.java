@@ -77,6 +77,16 @@ public class UserInfoController {
         return LogoutUserById(id, i);
     }
 
+    /**
+     * 去用户信息页面，查询用户信息
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @param username 用户名
+     * @param realname 真实姓名
+     * @param phone 用户电话
+     * @param email 用户邮箱
+     * @return
+     */
     @RequestMapping("/admin/userinfo/toUserInfo.html")
     public String toUserInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,

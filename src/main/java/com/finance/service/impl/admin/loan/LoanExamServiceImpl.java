@@ -41,6 +41,13 @@ public class LoanExamServiceImpl implements LoanExamService {
         return loanMapper.selectByExample(null);
     }
 
+    /**
+     * 更新网待审核信息
+     * @param loan 网贷实体类
+     * @param admin  管理员实体类
+     * @param type 类型
+     * @return
+     */
     @Override
     @Transactional
     public int updateLoanExam(Loan loan, Admin admin, int type) {
@@ -79,6 +86,12 @@ public class LoanExamServiceImpl implements LoanExamService {
         }
     }
 
+    /**
+     * 提醒还款
+     * @param loan 网贷实体类
+     * @param admin 管理员实体类
+     * @return
+     */
     @Override
     public int remindPay(Loan loan, Admin admin) {
         Loan loan1 = loanMapper.selectByPrimaryKey(loan.getId());

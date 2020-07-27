@@ -25,6 +25,15 @@ public class AdminRecordController {
     @Autowired
     AdminRecordService adminRecordService;
 
+    /**
+     * 去资金记录页面，查询资金记录
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @param minDate 查询开始时间
+     * @param maxDate 结束时间
+     * @return
+     * @throws ParseException
+     */
     @GetMapping("/admin/historyinfo/toRecord.html")
     public String toRecord(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                  @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,

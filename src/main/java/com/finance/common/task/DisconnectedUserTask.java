@@ -20,6 +20,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 定期修改用户状态
+ */
 @Configuration
 public class DisconnectedUserTask {
     Logger log = LoggerFactory.getLogger(DisconnectedUserTask.class);

@@ -17,9 +17,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * shiro授权与认证的核心
+ */
 @Configuration
 public class ShiroConfig {
 
+    /**
+     * 添加访问规则
+     * @param securityManager
+     * @return
+     */
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager")DefaultSecurityManager securityManager){
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
@@ -109,6 +117,13 @@ public class ShiroConfig {
         return factoryBean;
     }
 
+
+    /**
+     * 配置安全管理器
+     * @param userRealm
+     * @param adminRealm
+     * @return 安全管理器
+     */
     @Bean("securityManager")
     public DefaultWebSecurityManager getDefaultSecurityManager(@Qualifier("userRealm")UserRealm userRealm,
                                                                @Qualifier("adminRealm")AdminRealm adminRealm){

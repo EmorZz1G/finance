@@ -7,11 +7,17 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpSession;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 管理SESSION
+ */
 public class LockHelper {
     private static Logger log = LoggerFactory.getLogger(LockHelper.class);
     private static Integer count = 0;
 
     public static ConcurrentHashMap<Integer, HttpSession> getHelperMap() {
+        if(helperMap==null){
+            helperMap = new ConcurrentHashMap<>();
+        }
         return helperMap;
     }
 
@@ -21,6 +27,12 @@ public class LockHelper {
         return count;
     }
 
+    /**
+     * 增加用户
+     * @param curSession 当前SESSION
+     * @param user 当前用户
+     * @return MAP
+     */
     public static ConcurrentHashMap addUser(HttpSession curSession, User user){
         if(curSession==null){
             return helperMap;
@@ -40,6 +52,11 @@ public class LockHelper {
         return helperMap;
     }
 
+    /**
+     * 移除用户
+     * @param user 当前用户
+     * @return MAP
+     */
     public static ConcurrentHashMap removeSession(User user){
         HttpSession preSession;
         try {

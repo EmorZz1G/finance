@@ -14,10 +14,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+
 @Controller
 public class BankController {
     @Autowired
      BankService bankService;
+
+    /**
+     * 去银行页面 查询银行
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @return
+     */
     @RequestMapping ("/admin/finance/toBank.html")
     public ModelAndView toBank(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                 @RequestParam(value = "pageSize",defaultValue = "5")int pageSize
@@ -34,6 +42,12 @@ public class BankController {
 
 
     }
+
+    /**
+     *添加银行信息
+     * @param bank 银行实体类
+     * @return
+     */
     @PostMapping("/admin/addBank")
     @ResponseBody
     public Result addBank(Bank bank){
@@ -44,6 +58,12 @@ public class BankController {
             return Result.failure();
         }
     }
+
+    /**
+     * 通过银行id获取银行信息
+     * @param id 银行id
+     * @return
+     */
     @GetMapping("/admin/getBankInfoById/{id}")
     @ResponseBody
     public Result getBankById(@PathVariable("id") int id) {
@@ -51,6 +71,13 @@ public class BankController {
         Result result = Result.success().add("bank", bank);
         return result;
     }
+
+    /**
+     * 通过银行id更新银行信息
+     * @param id 银行id
+     * @param bank 银行实体类
+     * @return
+     */
     @PutMapping("/admin/updateBank/{id}")
     @ResponseBody
     public Result updateBank(@PathVariable("id") int id, Bank bank) {
@@ -62,6 +89,12 @@ public class BankController {
             return Result.failure();
         }
     }
+
+    /**
+     * 通过银行id删除
+     * @param id 银行id
+     * @return
+     */
     @DeleteMapping("/admin/deleteBankById/{id}")
     @ResponseBody
     public Result deleteBankById(@PathVariable("id") int id) {

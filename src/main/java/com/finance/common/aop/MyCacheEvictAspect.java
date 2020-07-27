@@ -16,6 +16,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+
+/**
+ * 清空缓存，自带的好像也可以用
+ */
 @Aspect
 @Component
 @Order(99999999)
@@ -29,6 +33,10 @@ public class MyCacheEvictAspect {
     public void evict(){}
 
 
+    /**
+     * 代替原注解清空缓存
+     * @param joinPoint
+     */
     @After(value = "evict()")
     public void  afterReturning(JoinPoint joinPoint){
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();

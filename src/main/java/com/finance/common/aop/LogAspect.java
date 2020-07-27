@@ -15,6 +15,10 @@ import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
+
+/**
+ * 日志系统
+ */
 @Aspect
 @Component
 public class LogAspect {
@@ -25,6 +29,10 @@ public class LogAspect {
     public void controllerLog(){}
 
 
+    /**
+     * 请求注入
+     * @param joinPoint
+     */
     @Before("controllerLog()")
     public void doBefore(JoinPoint joinPoint){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

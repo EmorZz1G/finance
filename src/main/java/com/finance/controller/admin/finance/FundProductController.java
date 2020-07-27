@@ -17,6 +17,13 @@ import java.util.List;
 public class FundProductController {
     @Autowired
     FundProductService fundProductService;
+
+    /**
+     * 去基金理财管理页面，查询基金理财信息
+     * @param pageNum 页数
+     * @param pageSize  页大小
+     * @return
+     */
     @RequestMapping("/admin/finance/toFundProduct.html")
     public ModelAndView toFundProduct(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                       @RequestParam(value = "pageSize",defaultValue = "5")int pageSize

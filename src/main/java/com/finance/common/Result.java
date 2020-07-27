@@ -3,6 +3,9 @@ package com.finance.common;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 统一返回结果
+ */
 public class Result {
     private int code;
     private String msg;

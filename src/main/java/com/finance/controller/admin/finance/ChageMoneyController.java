@@ -17,6 +17,13 @@ import java.util.List;
 public class ChageMoneyController {
     @Autowired
     ChangeMoneyService changeMoneyService;
+
+    /**
+     * 去零钱理财管理页面
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @return
+     */
     @RequestMapping("/admin/finance/toChangeMoney.html")
     public ModelAndView toChangeMoney(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                @RequestParam(value = "pageSize",defaultValue = "5")int pageSize

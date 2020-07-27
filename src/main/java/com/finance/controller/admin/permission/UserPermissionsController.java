@@ -29,6 +29,12 @@ public class UserPermissionsController {
     UserInfoService userInfoService;
 
 
+    /**
+     *  去用户权限管理页面
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @return
+     */
     @GetMapping("/admin/permission/toUserPermissions.html")
     public ModelAndView toAdminPermissions(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,

@@ -24,6 +24,17 @@ public class InfoController {
     @Autowired
     InfoService infoService;
 
+    /**
+     * 去历史消息页面，查询历史消息
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @param minDate 查询开始时间
+     * @param maxDate 结束时间
+     * @param username  用户名
+     * @param status   状态
+     * @return
+     * @throws ParseException
+     */
     @GetMapping("/admin/historyinfo/toInfo.html")
     public String toMyInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                  @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,

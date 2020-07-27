@@ -52,6 +52,13 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     @Resource
     AdminMapper adminMapper;
 
+    /**
+     *管理员权限
+     * @param adminId 管理员id
+     * @param _newPerms 新权限
+     * @return
+     * @throws RuntimeException
+     */
     @Override
     @MyCacheEvict(cacheNames = {"adminPermsList", "adminPermsSet"})
     @Transactional
@@ -109,11 +116,21 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     @Resource
     UserMapper userMapper;
 
+    /**
+     * 根据管理员id删除管理员信息
+     * @param id
+     * @return
+     */
     @Override
     public int deleteAdminId(int id) {
         return adminMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 插入管理员信息
+     * @param admin 管理员实体类
+     * @return
+     */
     @Override
     public int insertAdmin(Admin admin) {
         UserExample userExample = new UserExample();
@@ -125,6 +142,11 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
         return adminMapper.insertSelective(admin);
     }
 
+    /**
+     * 通过管理员id查询管理员信息
+     * @param id 管理员id
+     * @return
+     */
     @Override
     public List<Admin> selectAdminsButId(int id) {
         AdminExample adminExample = new AdminExample();

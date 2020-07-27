@@ -17,6 +17,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 注入头像
+ */
 @Aspect
 @Component
 public class UserAvatarAspect {
@@ -28,6 +31,9 @@ public class UserAvatarAspect {
     @Autowired
     UserAvatarService userAvatarService;
 
+    /**
+     * 把头像注入到SESSION里面
+     */
     @After("avatar()")
     public void setAvatar() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

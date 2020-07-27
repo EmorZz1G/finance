@@ -9,7 +9,6 @@ public interface BankService {
     List<Bank> selectBankAll();
     int insertBank(Bank bank);
 
-
     Bank selectBankById(int id);
 
     int updateBank(Bank bank);

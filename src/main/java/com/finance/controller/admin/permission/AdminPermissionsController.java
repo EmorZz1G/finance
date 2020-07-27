@@ -22,6 +22,12 @@ public class AdminPermissionsController {
     @Autowired
     AdminPermissionsService permissionsService;
 
+    /**
+     * 去管理员权限管理页面
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @return
+     */
     @GetMapping("/admin/permission/toAdminPermissions.html")
     public ModelAndView toAdminPermissions(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,

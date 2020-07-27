@@ -23,6 +23,14 @@ public class LoanController {
     @Autowired
     private LoanExamService loanExamService;
 
+    /**
+     * 去网待审核页面，查询网待审核信息
+     * @param pageNum  页数
+     * @param pageSize  页大小
+     * @param term  期限
+     * @param applyStatus  申请状态
+     * @return
+     */
     @RequestMapping(value = "/toLoanexam.html",method = RequestMethod.GET)
     public String selectAllExam(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
@@ -46,6 +54,14 @@ public class LoanController {
     @Autowired
     private LoanInfoService loanInfoService;
 
+    /**
+     * 去网贷信息页面，查询网贷信息
+     * @param pageNum 页数
+     * @param pageSize  页大小
+     * @param username 用户名
+     * @param loanStatus 借贷状态
+     * @return
+     */
     @RequestMapping(value = "/toLoaninfo.html",method = RequestMethod.GET)
     public String selectAllInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                             @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,

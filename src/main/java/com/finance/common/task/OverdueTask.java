@@ -18,6 +18,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 把逾期的状态修改
+ */
 @Configuration
 public class OverdueTask {
     Logger log = LoggerFactory.getLogger(RepayTask.class);
@@ -37,6 +40,10 @@ public class OverdueTask {
 
     private int errorRow = 0;
 
+
+    /**
+     * 逾期任务
+     */
     @Scheduled(cron = "0/30 0 7 * * ?")
 //    @Scheduled(cron = "* * * * * ?")
     public void overdue(){

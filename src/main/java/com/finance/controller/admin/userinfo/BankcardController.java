@@ -23,6 +23,15 @@ public class BankcardController {
     BankcardService bankcardService;
 
 
+    /**
+     * 去银行卡管理页面，管理银行卡
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @param username 用户名
+     * @param cardBank 所属银行
+     * @param model
+     * @return
+     */
     @GetMapping("/admin/userinfo/toBankCard.html")
     public String toBankCard(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,

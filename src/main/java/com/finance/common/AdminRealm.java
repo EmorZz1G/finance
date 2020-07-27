@@ -22,8 +22,12 @@ public class AdminRealm extends AuthorizingRealm {
     @Autowired
     AdminPermissionsService permissionsService;
 
+    /**
+     * 授权
+     * @param principals
+     * @return
+     */
     @Override
-    // 授权
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Object primaryPrincipal = SecurityUtils.getSubject().getPrincipal();
         Admin admin;
@@ -41,8 +45,13 @@ public class AdminRealm extends AuthorizingRealm {
         return authorizationInfo;
     }
 
+    /**
+     * 认证
+     * @param token1
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
-    // 认证
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token1) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) token1;
         String username = token.getUsername();

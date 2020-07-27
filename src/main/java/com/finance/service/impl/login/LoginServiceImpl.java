@@ -23,6 +23,11 @@ public class LoginServiceImpl implements LoginService {
     AdminMapper adminMapper;
 
 
+    /**
+     *  公用的处理方法，用于判断查询是否成功，且用于将List<xxx>转化为xxx并只取首个结果
+     * @param example 要查询的example对象
+     * @return 返回查询结果，成功返回查询结果中的首个结果，失败返回null
+     */
     public Object getObject(Object example){
         if(example instanceof AdminExample){
             List<Admin> objs = adminMapper.selectByExample((AdminExample)example);
@@ -38,6 +43,11 @@ public class LoginServiceImpl implements LoginService {
         return null;
     }
 
+    /**
+     * 查询管理员用户名是否存在
+     * @param username 要验证管理员的用户名
+     * @return 返回查询结果
+     */
     @Override
     public Admin loginVerifyUsername(String username) {
         AdminExample adminExample = new AdminExample();
@@ -46,6 +56,11 @@ public class LoginServiceImpl implements LoginService {
         return (Admin) getObject(adminExample);
     }
 
+    /**
+     * 查询用户用户名是否存在
+     * @param username 要验证用户的用户名
+     * @return 返回查询结果
+     */
     @Override
     public User loginVerifyUsernameForUser(String username) {
         UserExample userExample = new UserExample();
@@ -54,6 +69,12 @@ public class LoginServiceImpl implements LoginService {
         return (User) getObject(userExample);
     }
 
+    /**
+     * 查询与传过来的用户的用户名密码相同的用户账号
+     * @param username 用户的用户名
+     * @param password 密码
+     * @return 返回查询结果
+     */
     @Override
     public User loginForUser(String username, String password) {
         UserExample userExample = new UserExample();
@@ -63,6 +84,12 @@ public class LoginServiceImpl implements LoginService {
         return (User) getObject(userExample);
     }
 
+    /**
+     * 查询与传过来的管理员的用户名密码相同的用户账号
+     * @param username 管理员的用户名
+     * @param password 密码
+     * @return 返回查询结果
+     */
     @Override
     public Admin loginForAdmin(String username, String password) {
         AdminExample adminExample = new AdminExample();
@@ -72,12 +99,22 @@ public class LoginServiceImpl implements LoginService {
         return (Admin) getObject(adminExample);
     }
 
+    /**
+     * 修改用户为在线状态
+     * @param user 要修改的用户
+     * @return 返回更新是否成功（成功为1，失败为0）
+     */
     @Override
     public int status2online(User user) {
         user.setStatus(1);
         return userMapper.updateByPrimaryKeySelective(user);
     }
 
+    /**
+     * 修改用户为离线状态
+     * @param user 要修改的用户
+     * @return 返回更新是否成功（成功为1，失败为0）
+     */
     @Override
     public int status2Disconnected(User user) {
         user.setStatus(0);

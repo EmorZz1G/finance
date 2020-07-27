@@ -17,6 +17,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * 自动发信息提醒还款
+ */
 @Configuration
 public class RepayTask {
 

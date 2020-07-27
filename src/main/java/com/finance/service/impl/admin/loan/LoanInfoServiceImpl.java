@@ -20,6 +20,10 @@ public class LoanInfoServiceImpl implements LoanInfoService {
     @Resource
     private LoanMapperExt loanMapperExt;
 
+    /**
+     * 查询所有网贷信息
+     * @return
+     */
     @Override
     public List<Loan> selectAllLoanInfo(){
         return loanMapper.selectByExample(null);

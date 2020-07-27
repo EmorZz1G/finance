@@ -43,6 +43,16 @@ public class FuzzySearchUtils {
         return example;
     }*/
 
+    /**
+     * 自动封装查询
+     * @param clazz Example的类
+     * @param queries 查询的Query
+     * @return Example类实例
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     */
     public static Object autoWrapper(Class clazz, Map<String, Object> queries) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         Object example = clazz.newInstance();
         Method createCriteria = example.getClass().getDeclaredMethod("createCriteria");

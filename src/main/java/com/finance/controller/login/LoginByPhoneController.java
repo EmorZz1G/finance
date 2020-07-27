@@ -22,11 +22,20 @@ public class LoginByPhoneController {
     @Autowired
     LoginByPhoneService loginByPhoneService;
 
+    /**
+     * 实现按手机号登录请求到手机号登入方式的界面
+     * @return 返回html文件，实现请求路径和界面的绑定
+     */
     @GetMapping("/tologinByPhone.html")
     public String loginByPhone(){
         return "loginbyphone";
     }
 
+    /**
+     * 查询判断要登入的手机号是否存在
+     * @param userPhone 用户账号绑定的手机号
+     * @return 返回查询结果（查询成功(存在)/查询失败（不存在））
+     */
     @GetMapping("/login/loginByPhone/loginVerifyUserPhone/{userPhone}")
     @ResponseBody
     public Result loginVerifyUserPhone(@PathVariable("userPhone") String userPhone){
@@ -37,6 +46,13 @@ public class LoginByPhoneController {
         return Result.failure();
     }
 
+    /**
+     *  判断登录密码是否正确
+     * @param userPhone 要登录的手机账号
+     * @param password 密码
+     * @param session 浏览器的session，以便将要登入的信息存入session中
+     * @return 返回验证结果，密码正确或错误，正确则再返回个url路径，跳转到用户主界面
+     */
     @GetMapping("/login/loginByPhone/verifyLogin")
     @ResponseBody
     @UserAvatarAnno

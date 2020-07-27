@@ -18,11 +18,19 @@ public class AdminRecordServiceImpl implements AdminRecordService {
     @Resource
     FlowOfFundsMapper flowOfFundsMapper;
 
+    /**
+     * 查询所有资金记录
+     * @return
+     */
     @Override
     public List<FlowOfFunds> selectAll() {
         return flowOfFundsMapper.selectByExample(null);
     }
 
+    /**
+     *查询资金记录
+     * @return
+     */
     @Override
     public List<FlowOfFunds> selectFlowOfFundsByQuery(Map<String, Object> query) {
         try {

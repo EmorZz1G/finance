@@ -18,6 +18,11 @@ import java.time.Duration;
 @Configuration
 public class MyRedisConfig {
 
+    /**
+     * Redis工厂配置
+     * @param factory
+     * @return
+     */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
@@ -35,6 +40,12 @@ public class MyRedisConfig {
         return RedisCacheManager.builder(factory).cacheDefaults(redisCacheConfiguration).build();
     }
 
+
+    /**
+     * 使用JSON序列化配置
+     * @param redisConnectionFactory
+     * @return
+     */
     @Bean
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<Object, Object>();

@@ -68,6 +68,12 @@ public class TermFinancialController {
     }
 
 
+    /**
+     * 去期限理财管理页面，获取期限理财信息
+     * @param pageNum 页数
+     * @param pageSize  页大小
+     * @return
+     */
     @RequestMapping(value = "/admin/finance/toTermFinancial.html",
             method = RequestMethod.GET)
     public ModelAndView toTermFinancial(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,

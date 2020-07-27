@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 用户授权认证
+ */
 public class UserRealm extends AuthorizingRealm {
 
     @Autowired
@@ -29,8 +32,13 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     com.finance.service.admin.permission.UserPermissionsService permissionsService;
 
+
+    /**
+     * 授权
+     * @param principals
+     * @return
+     */
     @Override
-    // 授权
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Object principal = SecurityUtils.getSubject().getPrincipal();
         User user;
@@ -48,8 +56,13 @@ public class UserRealm extends AuthorizingRealm {
         return authorizationInfo;
     }
 
+    /**
+     * 认证
+     * @param token1
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
-    // 认证
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token1) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) token1;
         String username = token.getUsername();

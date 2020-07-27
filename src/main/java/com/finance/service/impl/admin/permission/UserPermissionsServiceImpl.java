@@ -37,6 +37,13 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
 
     Logger log = LoggerFactory.getLogger(UserPermissionsServiceImpl.class);
 
+    /**
+     * 用户权限管理
+     * @param userId 用户id
+     * @param _newPerms 新权限
+     * @return
+     * @throws RuntimeException
+     */
     @Override
     @CacheEvict(cacheNames = {"userPermsList", "userPermsSet"}, allEntries = true)
     @Transactional

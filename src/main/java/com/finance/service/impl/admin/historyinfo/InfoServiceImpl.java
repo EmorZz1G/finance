@@ -19,16 +19,30 @@ public class InfoServiceImpl implements InfoService {
     InfoMapper infoMapper;
 
 
+    /**
+     * 查询所有历史消息
+     * @return
+     */
     @Override
     public List<Info> selectAllInfo() {
         return infoMapper.selectByExample(null);
     }
 
+    /**
+     * 根据历史消息id删除历史信息
+     * @param id
+     * @return
+     */
     @Override
     public int deleteInfoById(int id) {
         return infoMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     *查询历史信息
+     * @param query
+     * @return
+     */
     @Override
     public List<Info> selectInfoByQuery(Map<String, Object> query) {
         try {

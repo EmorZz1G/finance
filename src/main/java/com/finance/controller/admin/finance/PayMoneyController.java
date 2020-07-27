@@ -17,6 +17,7 @@ public class PayMoneyController {
     @Autowired
     PayMoneyService payMoneyService;
 
+
     @RequestMapping(value = "/admin/deletePayMoneyById/{id}",
             method = RequestMethod.DELETE)
     @ResponseBody
@@ -66,6 +67,12 @@ public class PayMoneyController {
         }
     }
 
+    /**
+     * 去工资理财页面，获取工资理财信息
+     * @param pageNum 页数
+     * @param pageSize  页大小
+     * @return
+     */
     @GetMapping("/admin/finance/toPayMoney.html")
     public ModelAndView toPayMoney(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {

@@ -39,6 +39,14 @@ public class ReputationController {
         model.addAttribute("count", LockHelper.getCount());
     }
 
+    /**
+     * 去用户信誉管理页面，管理用户信誉
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @param username 用户名
+     * @param reputation 用户信誉
+     * @return
+     */
     @GetMapping("admin/userinfo/toReputation.html")
     public String toReputation(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
