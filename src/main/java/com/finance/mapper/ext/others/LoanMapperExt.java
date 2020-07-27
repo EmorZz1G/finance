@@ -57,7 +57,7 @@ public interface LoanMapperExt extends LoanMapper {
             "FROM\n" +
             "\tloan \n" +
             "WHERE\n" +
-            "\tEXISTS ( SELECT * FROM `user` WHERE `user`.username LIKE concat('%',#{username},'%') AND USER.id = loan.loanId ) \n")
+            "\tEXISTS ( SELECT * FROM `user` WHERE `user`.username LIKE concat('%',#{username},'%') AND `user`.id = loan.loanId ) \n")
     @Results(id = "LoanMapperhahaha", value = {
             @Result(column = "loanId",
                     javaType = User.class,
