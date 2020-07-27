@@ -21,6 +21,14 @@ public class ApplyLoanController {
     @Autowired
     ApplyLoanService applyLoanService;
 
+    /**
+     * 显示贷款信息
+     * @param amount：金额
+     * @param term：利率
+     * @param rate：期限
+     * @param request
+     * @return
+     */
     @PostMapping("/user/applyLoan")
     @ResponseBody
     public Result applyLoan(@PathParam("amount" ) BigDecimal amount,
@@ -51,7 +59,10 @@ public class ApplyLoanController {
         }
     }
 
-
+    /**
+     * 还款
+     * @return
+     */
     @GetMapping("/user/tools/toApplyLoan.html")
     public String toApplyLoan(){
         return "user/tools/applyloan";

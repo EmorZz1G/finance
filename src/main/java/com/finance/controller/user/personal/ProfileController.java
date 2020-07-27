@@ -25,7 +25,12 @@ public class ProfileController {
     @Autowired
     UserPermissionsService permissionsService;
 
-
+    /**
+     * 查询显示信息
+     * @param modelAndView：显示信息
+     * @param session
+     * @return
+     */
     @GetMapping("/user/personal/toProfile.html")
     public ModelAndView toProfile(ModelAndView modelAndView,
                                   HttpSession session) {

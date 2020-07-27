@@ -28,6 +28,13 @@ public class MainController {
     @Resource
     MyInfoService myInfoService;
 
+    /**
+     *显示新闻的信息
+     * @param pageNum：分页数
+     * @param pageSize：页大小
+     * @param model：声明变量
+     * @return
+     */
     @GetMapping({"/user/toUserMain",
             "/user/index.html"})
     public String toAdminMain(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,

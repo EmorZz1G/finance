@@ -20,36 +20,38 @@ public class FundProductController {
 
     /**
      * 去基金理财管理页面，查询基金理财信息
-     * @param pageNum 页数
-     * @param pageSize  页大小
+     *
+     * @param pageNum  页数
+     * @param pageSize 页大小
      * @return
      */
     @RequestMapping("/admin/finance/toFundProduct.html")
-    public ModelAndView toFundProduct(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
-                                      @RequestParam(value = "pageSize",defaultValue = "5")int pageSize
+    public ModelAndView toFundProduct(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                      @RequestParam(value = "pageSize", defaultValue = "5") int pageSize
 
-    )
-    {
+    ) {
         ModelAndView modelAndView = new ModelAndView("admin/finance/fundproduct.html");
-        PageHelper.startPage(pageNum,pageSize);
-        List<FundProduct> financeList=fundProductService.selectFundProductAll();
-        PageInfo<FundProduct> pageInfo=new PageInfo<FundProduct>(financeList);
-        modelAndView.addObject("financePageInfo",pageInfo);
-        modelAndView.addObject("financeList",financeList);
+        PageHelper.startPage(pageNum, pageSize);
+        List<FundProduct> financeList = fundProductService.selectFundProductAll();
+        PageInfo<FundProduct> pageInfo = new PageInfo<FundProduct>(financeList);
+        modelAndView.addObject("financePageInfo", pageInfo);
+        modelAndView.addObject("financeList", financeList);
 
         return modelAndView;
 
     }
+
     @PostMapping("/admin/addFundProduct")
     @ResponseBody
-    public Result addFundProduct(FundProduct fundProduct){
+    public Result addFundProduct(FundProduct fundProduct) {
         int i = fundProductService.insertFundProduct(fundProduct);
-        if(i==1){
+        if (i == 1) {
             return Result.success();
-        }else {
+        } else {
             return Result.failure();
         }
     }
+
     @GetMapping("/admin/getFundProductInfoById/{id}")
     @ResponseBody
     public Result getFundProductById(@PathVariable("id") int id) {
@@ -57,24 +59,26 @@ public class FundProductController {
         Result result = Result.success().add("fundProduct", fundProduct);
         return result;
     }
+
     @PutMapping("/admin/updateFundProduct/{id}")
     @ResponseBody
     public Result updateFundProduct(@PathVariable("id") int id, FundProduct fundProduct) {
         fundProduct.setId(id);
         int i = fundProductService.updateFundProduct(fundProduct);
-        if(i==1){
+        if (i == 1) {
             return Result.success();
-        }else {
+        } else {
             return Result.failure();
         }
     }
+
     @DeleteMapping("/admin/deleteFundProductById/{id}")
     @ResponseBody
     public Result deleteFundProductById(@PathVariable("id") int id) {
         int i = fundProductService.deleteFundProductById(id);
-        if(i==1){
+        if (i == 1) {
             return Result.success();
-        }else {
+        } else {
             return Result.failure();
         }
     }

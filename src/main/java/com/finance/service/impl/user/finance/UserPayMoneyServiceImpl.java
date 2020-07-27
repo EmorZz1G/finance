@@ -22,20 +22,40 @@ public class UserPayMoneyServiceImpl implements UserPayMoneyService {
     @Resource
     private FlowOfFundsMapper flowOfFundsMapper;
 
+    /**
+     * 查询所有工资理财产品信息
+     * @return
+     */
     @Override
     public List<PayMoney> selectAllUserPayMoney(){
         return payMoneyMapper.selectByExample(null);
     }
 
+    /**
+     * 向数据库插入信息
+     * @param userPayMoney
+     * @return
+     */
     @Override
     public int insertUserPayMoney(UserPayMoney userPayMoney) {
         return userPayMoneyMapper.insertSelective(userPayMoney);
     }
 
+    /**
+     * 根据id查找工资理财产品
+     * @param id
+     * @return
+     */
     @Override
     public PayMoney selectById(Integer id){
         return payMoneyMapper.selectByPrimaryKey(id);
     }
+
+    /**
+     * 向数据库插入信息
+     * @param flowOfFunds
+     * @return
+     */
     @Override
     public int insertFlowOfFunds(FlowOfFunds flowOfFunds){
         return flowOfFundsMapper.insertSelective(flowOfFunds);

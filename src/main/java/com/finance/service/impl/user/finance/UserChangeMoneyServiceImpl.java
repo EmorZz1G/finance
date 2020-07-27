@@ -27,11 +27,22 @@ public class UserChangeMoneyServiceImpl implements UserChangeMoneyService {
     @Resource
     private FlowOfFundsMapper flowOfFundsMapper;
 
+    /**
+     * 查询所有零钱理财产品信息
+     * @return
+     */
     @Override
     public List<ChangeMoney> selectChangeMoneyAll() {
         return changeMoneyMapper.selectByExample(null);
     }
 
+    /**
+     * 向想换数据库插入信息
+     * @param user：用户
+     * @param changeMoney：零钱理财
+     * @param money：用户输入金额
+     * @return
+     */
     @Override
     @Transactional
     public int insertUserChangeMoney(User user, ChangeMoney changeMoney,BigDecimal money) {

@@ -32,6 +32,10 @@ public class UserChangeMoneyController {
     @Autowired
     UserInfoService userInfoService;
 
+    /**
+     * 查询显示所有零钱理财产品的信息
+     *
+     */
 
     @GetMapping("/user/finance/toChangeMoney.html")
     public ModelAndView toChangeMoney()
@@ -44,6 +48,13 @@ public class UserChangeMoneyController {
 
     }
 
+    /**
+     * 对前端购买零钱理财的ajax请求进行处理，在对应数据库里添加信息
+     * @param id：用户点击的产品id
+     * @param money：用户输入的购买资金
+     * @param user：当前登录的用户实体
+     * @return
+     */
 
     @PostMapping("/user/buyChangeMoney")
     @ResponseBody

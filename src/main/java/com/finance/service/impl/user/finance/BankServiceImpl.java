@@ -14,7 +14,11 @@ public class BankServiceImpl implements BankService {
     @Resource
     BankMapper bankMapper;
 
-
+    /**
+     * 查询所有银行信息
+     *
+     * @return
+     */
     @Override
     public List<Bank> selectAllBank() {
         return bankMapper.selectByExample(null);

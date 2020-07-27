@@ -19,6 +19,12 @@ public class MyFinanceController {
     @Autowired
     MyFinanceService myFinanceService;
 
+    /**
+     *零钱理财信息
+     * @param userChangeMoneyId：理财产品id
+     * @param userChangeMoney：理财产品
+     * @return
+     */
     @PutMapping("/user/revokeUserChangeMoney")
     @ResponseBody
     public Result revokeUserChangeMoney(@PathParam("userChangeMoneyId") int userChangeMoneyId,UserChangeMoney userChangeMoney){
@@ -32,6 +38,12 @@ public class MyFinanceController {
         }
     }
 
+    /**
+     * 工资理财信息
+     * @param userPayMoneyId：理财产品id
+     * @param userPayMoney：理财产品
+     * @return
+     */
     @PutMapping("/user/revokeUserPayMoney")
     @ResponseBody
     public Result revokeUserPayMoney(@PathParam("userPayMoneyId") int userPayMoneyId,UserPayMoney userPayMoney){
@@ -45,6 +57,12 @@ public class MyFinanceController {
         }
     }
 
+    /**
+     * 期限理财信息
+     * @param userTermFinancialId：理财产品id
+     * @param userTermFinancial：理财产品
+     * @return
+     */
     @PutMapping("/user/revokeUserTermFinancial")
     @ResponseBody
     public Result revokeUserTermFinancial(@PathParam("userTermFinancialId") int userTermFinancialId,UserTermFinancial userTermFinancial){
@@ -58,6 +76,12 @@ public class MyFinanceController {
         }
     }
 
+    /**
+     * 个人基金理财信息
+     * @param userFundProductId：理财产品id
+     * @param userFundProduct：理财产品
+     * @return
+     */
     @PutMapping("/user/revokeUserFundProduct")
     @ResponseBody
     public Result revokeUserFundProduct(@PathParam("userFundProductId") int userFundProductId,UserFundProduct userFundProduct){
@@ -71,6 +95,11 @@ public class MyFinanceController {
         }
     }
 
+    /**
+     * 显示个人理财产品信息
+     * @param request
+     * @return
+     */
     @GetMapping("/user/personal/toMyFinance.html")
     public ModelAndView toMyFinance(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("/user/personal/myfinance.html");

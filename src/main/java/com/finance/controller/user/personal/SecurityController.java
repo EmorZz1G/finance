@@ -21,6 +21,13 @@ public class SecurityController {
         return "/user/personal/security";
     }
 
+    /**
+     * 修改登录密码
+     * @param id：当前用户id
+     * @param oldpwd：旧密码
+     * @param newpwd：新密码
+     * @return
+     */
     @PutMapping("/user/updatePwd")
     @ResponseBody
     public Result updatePwd(@RequestParam("id")int id,

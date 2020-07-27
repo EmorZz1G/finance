@@ -16,6 +16,12 @@ public class PayPasswordController {
     @Autowired
     UserInfoService userInfoService;
 
+    /**
+     * 对前端支付密码的ajax请求进行处理，对其进行验证
+     * @param paypassword：用户输入的支付密码
+     * @param user：当前登录的用户实体
+     * @return
+     */
     @PostMapping("/user/verifyPayPassword")
     @ResponseBody
     public Result payPassword(@RequestParam("paypassword") Integer paypassword, @SessionAttribute("loginUser") User user) {

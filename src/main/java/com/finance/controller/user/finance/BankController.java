@@ -15,6 +15,12 @@ public class BankController {
     @Autowired
     BankService bankService;
 
+    /**
+     * 查询显示所有推荐银行的信息
+     * @return
+     */
+
+
     @RequestMapping(value = "/user/finance/toBank.html",
     method = RequestMethod.GET)
     public ModelAndView toBank(){

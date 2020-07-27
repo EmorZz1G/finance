@@ -30,6 +30,11 @@ public class UserFundProductController {
     UserFundProductService userFundProductService;
     @Autowired
     UserInfoService userInfoService;
+
+    /**
+     * 查询显示所有的基金理财产品的信息
+     * @return
+     */
     @GetMapping ("/user/finance/toFundProduct.html")
     public ModelAndView toFundProduct()
     {
@@ -41,6 +46,13 @@ public class UserFundProductController {
 
     }
 
+    /**
+     * 对前端购买基金理财的ajax请求进行处理，在对应数据库里添加信息
+     * @param id：用户点击的产品id
+     * @param money：用户输入的购买资金
+     * @param user：当前登录的用户实体
+     * @return
+     */
     @PostMapping("/user/buyFundProduct")
     @ResponseBody
     public Result addUserFundProduct(@RequestParam("fundProductId")int id,@RequestParam("paymoney")BigDecimal money, @SessionAttribute("loginUser") User user){

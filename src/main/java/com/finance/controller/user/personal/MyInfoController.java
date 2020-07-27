@@ -21,6 +21,14 @@ public class MyInfoController {
     @Autowired
     MyInfoService myInfoService;
 
+    /**
+     * 显示个人信息
+     * @param pageNum：页数
+     * @param pageSize：页大小
+     * @param modelAndView
+     * @param session
+     * @return
+     */
     @GetMapping("/user/personal/toMyInfo.html")
     public ModelAndView toMyInfo(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                  @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
@@ -36,6 +44,11 @@ public class MyInfoController {
         return modelAndView;
     }
 
+    /**
+     * 更新消息
+     * @param infoId：用户id
+     * @return
+     */
     @PutMapping("/user/updateInfo/{infoId}")
     @ResponseBody
     public Result updateInfo(@PathVariable("infoId")int infoId){
@@ -47,6 +60,11 @@ public class MyInfoController {
         }
     }
 
+    /**
+     * 删除消息
+     * @param infoId；用户id
+     * @return
+     */
     @DeleteMapping("/user/deleteInfo/{infoId}")
     @ResponseBody
     public Result deleteInfo(@PathVariable("infoId")int infoId){

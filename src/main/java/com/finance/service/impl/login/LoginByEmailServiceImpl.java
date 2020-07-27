@@ -21,7 +21,7 @@ public class LoginByEmailServiceImpl implements LoginByEmailService {
      * @param example 要查询的example对象
      * @return 返回查询结果，成功返回查询结果中的首个结果，失败返回null
      */
-    public Object getObject(Object example){
+    private Object getObject(Object example){
         if (example instanceof UserExample){
             List<User> objs = userMapper.selectByExample((UserExample)example);
             if (objs!=null&&objs.size()==1){

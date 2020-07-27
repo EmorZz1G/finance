@@ -22,6 +22,10 @@ public class UserTermFinancialController {
     @Autowired
     UserTermFinancialService userTermFinancialService;
 
+    /**
+     * 查询显示所有期限理财的信息
+     * @return
+     */
     @RequestMapping(value = "/user/finance/toTermFinancial.html",
             method = RequestMethod.GET)
     public ModelAndView toTermFinancial(){
@@ -31,6 +35,13 @@ public class UserTermFinancialController {
         return modelAndView;
     }
 
+    /**
+     * 对前端购买期限理财的ajax请求进行处理，在对应数据库里添加信息
+     * @param userId：当前登录的用户id
+     * @param money：用户输入的资金
+     * @param termFinancialId：用户点击的理财产品id
+     * @return
+     */
     @RequestMapping(value = "/user/buyTermFinancial",
             method = RequestMethod.POST)
     @ResponseBody

@@ -34,13 +34,22 @@ public class UserFundProductServiceImpl implements UserFundProductService {
     @Resource
     private UserFundProductMapper userFundProductMapper;
 
-
+    /**
+     * 查询所有基金理财产品信息
+     * @return
+     */
     @Override
     public List<FundProduct> selectFundProductAll() {
         return fundProductMapper.selectByExample(null);
     }
 
-
+    /**
+     * 向相关数据库插入信息
+     * @param user：用户
+     * @param fundProduct：基金理财产品
+     * @param money：用户输入金额
+     * @return
+     */
     @Override
     @Transactional
     public int insertUserFundProduct(User user, FundProduct fundProduct,BigDecimal money) {

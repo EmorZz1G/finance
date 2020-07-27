@@ -16,11 +16,22 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * 查询显示所有资金信息
+ */
 @Controller
 public class MyLoanController {
     @Autowired
     MyLoanService myLoanService;
 
+    /**
+     * 查询显示借贷记录
+     * @param pageNum：页数
+     * @param pageSize：页大小
+     * @param modelAndView：显示实体
+     * @param session
+     * @return
+     */
     @GetMapping("/user/personal/toMyLoan.html")
     public ModelAndView toMyLoan(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "5")int pageSize,
@@ -36,6 +47,12 @@ public class MyLoanController {
         return modelAndView;
     }
 
+    /**
+     * 还款
+     * @param id：用户id
+     * @param session
+     * @return
+     */
     @PutMapping("/user/repayment/{id}")
     @ResponseBody
     public Result repayment(@PathVariable("id")int id,

@@ -30,6 +30,10 @@ public class UserPayMoneyController {
     @Autowired
     PayMoneyService payMoneyService;
 
+    /**查询显示所有工资理财产品的信息
+     *
+     * @return
+     */
     @RequestMapping(value = "/user/finance/toPayMoney.html",
     method = RequestMethod.GET)
     public ModelAndView toPayMoney(){
@@ -39,7 +43,12 @@ public class UserPayMoneyController {
         return modelAndView;
     }
 
-
+    /**
+     * 对前端购买工资理财的ajax请求进行处理，在对应数据库里添加信息
+     * @param userId：当前登录用户的id
+     * @param payMoneyId：用户点击的理财产品的id
+     * @return
+     */
     @RequestMapping(value = "/user/buyPayMoney",
             method = RequestMethod.POST)
     @ResponseBody

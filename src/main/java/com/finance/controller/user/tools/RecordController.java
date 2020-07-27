@@ -20,6 +20,13 @@ public class RecordController {
     @Autowired
     RecordService recordService;
 
+    /**
+     * 显示资金出入信息
+     * @param pageNum：页数
+     * @param pageSize：页大小
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/user/tools/toRecord.html",method = RequestMethod.GET)
     public ModelAndView toRecord(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                  @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,

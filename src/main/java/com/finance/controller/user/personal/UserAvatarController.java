@@ -31,6 +31,12 @@ public class UserAvatarController {
         return "user/personal/avatar";
     }
 
+    /**
+     * 上传头像
+     * @param avatar：图片
+     * @param user：当前登录用户实体
+     * @return
+     */
     @PostMapping("/user/userAvatar")
     @ResponseBody
     @UserAvatarAnno
@@ -53,6 +59,12 @@ public class UserAvatarController {
         }
     }
 
+    /**
+     * 查询头像信息
+     * @param uuid：用户历史上传头像id
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/user/userAvatar/{uuid}")
     @ResponseBody
     public ResponseEntity<Resource> getUserAvatar(@PathVariable("uuid") String uuid) throws IOException {
@@ -68,6 +80,12 @@ public class UserAvatarController {
         }
     }
 
+    /**
+     * 修改头像
+     * @param uuid：用户历史上传头像id
+     * @param user：当前登录用户实体
+     * @return
+     */
     @PutMapping("/user/userAvatar/{uuid}")
     @ResponseBody
     @UserAvatarAnno
@@ -81,6 +99,11 @@ public class UserAvatarController {
         }
     }
 
+    /**
+     * 删除已上传头像
+     * @param uuid：用户历史上传头像id
+     * @return
+     */
     @DeleteMapping("/user/userAvatar/{uuid}")
     @ResponseBody
     public Result deleteUserAvatar(@PathVariable("uuid")String uuid){
@@ -92,6 +115,11 @@ public class UserAvatarController {
         }
     }
 
+    /**
+     * 查询历史头像
+     * @param user：当前登录用户实体
+     * @return
+     */
     @GetMapping("user/userAvatar")
     @ResponseBody
     public Result getUserHistoryAvatar(@SessionAttribute("loginUser") User user){

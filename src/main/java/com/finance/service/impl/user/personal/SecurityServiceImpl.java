@@ -16,7 +16,13 @@ public class SecurityServiceImpl implements SecurityService {
     @Resource
     UserMapper userMapper;
 
-
+    /**
+     * 修改密码
+     * @param id：用户id
+     * @param oldpwd：旧密码
+     * @param newpwd：新密码
+     * @return
+     */
     @Override
     public int updateUserPassword(int id, String oldpwd, String newpwd) {
         UserExample userExample = new UserExample();

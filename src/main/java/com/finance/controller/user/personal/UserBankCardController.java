@@ -20,6 +20,12 @@ public class UserBankCardController {
     @Autowired
     UserBankCardService userBankCardService;
 
+    /**
+     * 添加绑定银行卡
+     * @param bankcard：银行卡实体
+     * @param request：实体变量
+     * @return
+     */
     @PostMapping("/user/addBankCard")
     @ResponseBody
     public Result addBankCard(Bankcard bankcard,HttpServletRequest request){
@@ -35,7 +41,11 @@ public class UserBankCardController {
     }
 
 
-
+    /**
+     * 显示用户所绑定的银行卡
+     * @param request：定义的实体变量
+     * @return
+     */
     @GetMapping("/user/personal/toBankCard.html")
     public ModelAndView toBankCard(HttpServletRequest request){
         ModelAndView modelAndView =new ModelAndView("/user/personal/bankcard.html");
