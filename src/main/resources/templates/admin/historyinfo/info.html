@@ -120,7 +120,7 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li th:each="i:${#numbers.sequence(1,10)}"><a th:text="${i}"
-                                                                        th:href="@{/admin/loan/toInfo.html(pageNum=${infoPageInfo.pageNum},pageSize=${i}
+                                                                        th:href="@{/admin/historyinfo/toInfo.html(pageNum=${infoPageInfo.pageNum},pageSize=${i}
                                                                         ,username=${query.infoDesc},minDate=${query.minDate},maxDate=${query.maxDate},status=${query.status})}"></a>
                           </li>
                         </ul>
@@ -342,13 +342,13 @@
         let pageNum = [[${infoList.pageNum}]];
         let pageSize = [[${infoList.pageSize}]];
         console.log(JSON.stringify($("#fuzzySearch").serialize()));
-        /*window.location.href = "/admin/historyinfo/toInfo.html?"
+        window.location.href = "/admin/historyinfo/toInfo.html?"
             + "minDate=" + minDate + "&"
             + "maxDate=" + maxDate + "&"
             + "username=" + username + "&"
             + "status=" + status + "&"
             + "pageNum=" + pageNum + "&"
-            + "pageSize=" + pageSize;*/
+            + "pageSize=" + pageSize;
     };
 
     $("#btnSearch").click(function () {

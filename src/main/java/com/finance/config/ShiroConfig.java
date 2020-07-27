@@ -19,6 +19,7 @@ import java.util.Set;
 
 @Configuration
 public class ShiroConfig {
+
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager")DefaultSecurityManager securityManager){
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();

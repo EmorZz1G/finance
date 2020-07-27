@@ -1,13 +1,9 @@
 package com.finance.service.impl.admin.permission;
 
 
-import com.finance.mapper.others.PermissionsMapper;
 import com.finance.mapper.perms.UserPermsViewMapper;
 import com.finance.mapper.user.UserPermissionsMapper;
-import com.finance.pojo.admin.AdminPermissions;
-import com.finance.pojo.admin.AdminPermissionsExample;
 import com.finance.pojo.others.Permissions;
-import com.finance.pojo.others.PermissionsExample;
 import com.finance.pojo.perms.UserPermsView;
 import com.finance.pojo.perms.UserPermsViewExample;
 import com.finance.pojo.user.User;
@@ -17,10 +13,10 @@ import com.finance.service.admin.permission.CommonPermissionService;
 import com.finance.service.admin.permission.UserPermissionsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -42,7 +38,8 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     Logger log = LoggerFactory.getLogger(UserPermissionsServiceImpl.class);
 
     @Override
-    @CacheEvict(cacheNames = {"userPermsList","userPermsSet"} ,key = "#p0")
+    @CacheEvict(cacheNames = {"userPermsList", "userPermsSet"}, allEntries = true)
+    @Transactional
     public int updatePerms(int userId, String[] _newPerms) throws RuntimeException {
         Set<String> prePerms = selectPermsSetByUserId(userId);
         Set<String> newPerms = new HashSet<>(Arrays.asList(_newPerms));
@@ -63,7 +60,7 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
         int effectRow = 0;
         Map<String, List<Permissions>> permissionss = commonPermissionService.selectPermsAll();
         for (String s : addPerms) {
-            if(s==null||s.equals("")){
+            if (s == null || s.equals("")) {
                 continue;
             }
             UserPermissions userPermissions = new UserPermissions();
@@ -77,10 +74,12 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
             effectRow += userPermissionsMapper.insert(userPermissions);
         }
         UserPermissionsExample userPermissionsExample = new UserPermissionsExample();
-        UserPermissionsExample.Criteria criteria = userPermissionsExample.createCriteria();
-        criteria.andUserIdEqualTo(userId);
+        UserPermissionsExample.Criteria criteria;// = userPermissionsExample.createCriteria();
         for (String s : delPerms) {
             try {
+                userPermissionsExample.clear();
+                criteria = userPermissionsExample.createCriteria();
+                criteria.andUserIdEqualTo(userId);
                 criteria.andPermissionIdEqualTo(permissionss.get(s).get(0).getId());
             } catch (Exception e) {
                 log.info("这个权限不存在，请检查传入的权限字符串:{}", s);
@@ -105,7 +104,7 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "userPermsList" , key = "#id")
+    @Cacheable(cacheNames = "userPermsList", key = "#id")
     public List<UserPermsView> selectPermsByUserId(int id) {
         UserPermsViewExample example = new UserPermsViewExample();
         UserPermsViewExample.Criteria criteria = example.createCriteria();
@@ -114,7 +113,7 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "userPermsList" ,key = "#p0.id")
+    @Cacheable(cacheNames = "userPermsList", key = "#p0.id")
     public List<UserPermsView> selectPermsByUser(User user) {
         UserPermsViewExample example = new UserPermsViewExample();
         UserPermsViewExample.Criteria criteria = example.createCriteria();
@@ -123,7 +122,7 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "userPermsList" ,key = "#p0.id")
+    @Cacheable(cacheNames = "userPermsList", key = "#p0.id")
     public List<String> selectPermsListByUser(User user) {
         List<UserPermsView> userPermsViews = selectPermsByUser(user);
         return userPermsViews.stream().
@@ -132,7 +131,7 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "userPermsList" ,key = "#id")
+    @Cacheable(cacheNames = "userPermsList", key = "#id")
     public List<String> selectPermsListByUserId(int id) {
         List<UserPermsView> userPermsViews = selectPermsByUserId(id);
         return userPermsViews.stream().
@@ -141,7 +140,7 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "userPermsSet" ,key = "#p0.id")
+    @Cacheable(cacheNames = "userPermsSet", key = "#p0.id")
     public Set<String> selectPermsSetByUser(User user) {
         List<UserPermsView> userPermsViews = selectPermsByUser(user);
         return userPermsViews.stream().
@@ -150,7 +149,7 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "userPermsSet" ,key = "#id")
+    @Cacheable(cacheNames = "userPermsSet", key = "#id")
     public Set<String> selectPermsSetByUserId(int id) {
         List<UserPermsView> userPermsViews = selectPermsByUserId(id);
         return userPermsViews.stream().

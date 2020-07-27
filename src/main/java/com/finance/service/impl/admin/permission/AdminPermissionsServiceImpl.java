@@ -1,6 +1,7 @@
 package com.finance.service.impl.admin.permission;
 
 
+import com.finance.common.annotation.MyCacheEvict;
 import com.finance.mapper.admin.AdminMapper;
 import com.finance.mapper.admin.AdminPermissionsMapper;
 import com.finance.mapper.others.PermissionsMapper;
@@ -23,6 +24,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -44,7 +46,6 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     AdminPermissionsMapper adminPermissionsMapper;
 
 
-
     @Resource
     CommonPermissionService commonPermissionService;
 
@@ -52,11 +53,12 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     AdminMapper adminMapper;
 
     @Override
-    @CacheEvict(cacheNames = {"adminPermsList","adminPermsSet"} ,key = "#p0")
+    @MyCacheEvict(cacheNames = {"adminPermsList", "adminPermsSet"})
+    @Transactional
     public int updatePerms(int adminId, String[] _newPerms) throws RuntimeException {
         Set<String> prePerms = selectPermsSetByAdminId(adminId);
         Set<String> newPerms = new HashSet<>(Arrays.asList(_newPerms));
-        int max = Math.max(prePerms.size(),newPerms.size());
+        int max = Math.max(prePerms.size(), newPerms.size());
         HashSet<String> delPerms = new HashSet<>(max);
         HashSet<String> addPerms = new HashSet<>(max);
 
@@ -73,7 +75,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
         int effectRow = 0;
         Map<String, List<Permissions>> permissionss = commonPermissionService.selectPermsAll();
         for (String s : addPerms) {
-            if(s==null||s.equals("")){
+            if (s == null || s.equals("")) {
                 continue;
             }
             AdminPermissions adminPermissions = new AdminPermissions();
@@ -84,13 +86,15 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
                 log.info("这个权限不存在，请检查传入的权限字符串:{}", s);
                 continue;
             }
-            effectRow += adminPermissionsMapper.insert(adminPermissions);
+            effectRow += adminPermissionsMapper.insertSelective(adminPermissions);
         }
         AdminPermissionsExample adminPermissionsExample = new AdminPermissionsExample();
-        AdminPermissionsExample.Criteria criteria = adminPermissionsExample.createCriteria();
-        criteria.andAdminIdEqualTo(adminId);
+        AdminPermissionsExample.Criteria criteria;//= adminPermissionsExample.createCriteria();
         for (String s : delPerms) {
             try {
+                adminPermissionsExample.clear();
+                criteria = adminPermissionsExample.createCriteria();
+                criteria.andAdminIdEqualTo(adminId);
                 criteria.andPermissionIdEqualTo(permissionss.get(s).get(0).getId());
             } catch (Exception e) {
                 log.info("这个权限不存在，请检查传入的权限字符串:{}", s);
@@ -100,7 +104,6 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
         }
         return effectRow;
     }
-
 
 
     @Resource
@@ -116,7 +119,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(admin.getUsername());
-        if(userMapper.countByExample(userExample)!=0){
+        if (userMapper.countByExample(userExample) != 0) {
             return 0;
         }
         return adminMapper.insertSelective(admin);
@@ -131,7 +134,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "#id")
+    @Cacheable(cacheNames = "adminPermsList", key = "#id")
     public List<AdminPermsView> selectPermsByAdminId(int id) {
         AdminPermsViewExample example = new AdminPermsViewExample();
         AdminPermsViewExample.Criteria criteria = example.createCriteria();
@@ -140,7 +143,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "#admin.id")
+    @Cacheable(cacheNames = "adminPermsList", key = "#admin.id")
     public List<AdminPermsView> selectPermsByAdmin(Admin admin) {
         AdminPermsViewExample example = new AdminPermsViewExample();
         AdminPermsViewExample.Criteria criteria = example.createCriteria();
@@ -149,7 +152,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "#admin.id")
+    @Cacheable(cacheNames = "adminPermsList", key = "#admin.id")
     public List<String> selectPermsListByAdmin(Admin admin) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdmin(admin);
         return adminPermsViews.stream().
@@ -158,7 +161,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsList" , key = "#id")
+    @Cacheable(cacheNames = "adminPermsList", key = "#id")
     public List<String> selectPermsListByAdminId(int id) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdminId(id);
         return adminPermsViews.stream().
@@ -167,7 +170,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsSet",key = "#admin.id")
+    @Cacheable(cacheNames = "adminPermsSet", key = "#admin.id")
     public Set<String> selectPermsSetByAdmin(Admin admin) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdmin(admin);
         return adminPermsViews.stream().
@@ -176,7 +179,7 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     }
 
     @Override
-    @Cacheable(cacheNames = "adminPermsSet" , key = "#id")
+    @Cacheable(cacheNames = "adminPermsSet", key = "#id")
     public Set<String> selectPermsSetByAdminId(int id) {
         List<AdminPermsView> adminPermsViews = selectPermsByAdminId(id);
         return adminPermsViews.stream().

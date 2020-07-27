@@ -9,7 +9,6 @@ import java.util.Map;
 
 public interface CommonPermissionService {
 
-    @Cacheable
     Map<String, List<Permissions>> selectPermsAll();
 
 
