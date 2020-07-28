@@ -18,7 +18,7 @@ public class SecurityController {
 
     @GetMapping("/user/personal/toSecurity.html")
     public String toSecurity(){
-        return "/user/personal/security";
+        return "user/personal/security";
     }
 
     /**

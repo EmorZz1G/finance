@@ -18,7 +18,7 @@ public interface BankcardMapperExt extends BankcardMapper {
             "FROM\n" +
             "\tbankcard \n" +
             "WHERE\n" +
-            "\tEXISTS ( SELECT * FROM `user` WHERE `user`.username LIKE concat('%',#{username},'%') AND USER.id = bankcard.userId ) \n" +
+            "\tEXISTS ( SELECT * FROM `user` WHERE `user`.username LIKE concat('%',#{username},'%') AND `user`.id = bankcard.userId ) \n" +
             "\tAND bankcard.cardBank LIKE concat('%',#{cardBank},'%')")
     @Results(id = "bankMapperhehe", value = {
             @Result(column = "userId",

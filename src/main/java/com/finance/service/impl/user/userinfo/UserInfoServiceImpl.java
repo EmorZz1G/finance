@@ -5,7 +5,9 @@ import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserExample;
 import com.finance.service.user.userinfo.UserInfoService;
-import org.springframework.cache.annotation.*;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,7 +47,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    // TODO
     @CacheEvict(key = "#user.id")
     public int updateUser(User user) {
         return userMapper.updateByPrimaryKeySelective(user);

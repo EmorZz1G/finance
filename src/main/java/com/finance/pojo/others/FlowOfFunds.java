@@ -6,7 +6,86 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class FlowOfFunds {
-    User user;
+
+
+    public static class Builder {
+        private User user;
+
+        public Builder user(User user) {
+            this.user = user;
+            return this;
+        }
+
+        private Integer id;
+
+        public Builder id(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        private Integer userId;
+
+        public Builder userId(Integer userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        private BigDecimal flowMoney;
+
+        public Builder flowMoney(BigDecimal flowMoney) {
+            this.flowMoney = flowMoney;
+            return this;
+        }
+
+        private Integer type;
+
+        public Builder type(Integer type) {
+            this.type = type;
+            return this;
+        }
+
+        private String source;
+
+        public Builder source(String source) {
+            this.source = source;
+            return this;
+        }
+
+        private Date createTime;
+
+        public Builder createTime(Date createTime) {
+            this.createTime = createTime;
+            return this;
+        }
+
+        private String fundDesc;
+
+        public Builder fundDesc(String fundDesc) {
+            this.fundDesc = fundDesc;
+            return this;
+        }
+
+        public Builder() {
+        }
+
+        public FlowOfFunds build() {
+            return new FlowOfFunds(this);
+        }
+
+    }
+
+    private static final Integer flowIn = 2;
+    private static final Integer flowOut = 1;
+
+    public static Integer flowIn() {
+        return flowIn;
+    }
+
+    public static Integer flowOut() {
+        return flowOut;
+    }
+
+    private User user;
 
     public User getUser() {
         return user;
@@ -17,6 +96,16 @@ public class FlowOfFunds {
     }
 
     public FlowOfFunds() {
+    }
+
+    private FlowOfFunds(Builder builder) {
+        this.id = builder.id;
+        this.userId = builder.userId;
+        this.flowMoney = builder.flowMoney;
+        this.type = builder.type;
+        this.source = builder.source;
+        this.createTime = builder.createTime;
+        this.fundDesc = builder.fundDesc;
     }
 
     @Override
@@ -105,7 +194,6 @@ public class FlowOfFunds {
      * This method returns the value of the database column flow_of_funds.id
      *
      * @return the value of flow_of_funds.id
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public Integer getId() {
@@ -117,7 +205,6 @@ public class FlowOfFunds {
      * This method sets the value of the database column flow_of_funds.id
      *
      * @param id the value for flow_of_funds.id
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public void setId(Integer id) {
@@ -129,7 +216,6 @@ public class FlowOfFunds {
      * This method returns the value of the database column flow_of_funds.userId
      *
      * @return the value of flow_of_funds.userId
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public Integer getUserId() {
@@ -141,7 +227,6 @@ public class FlowOfFunds {
      * This method sets the value of the database column flow_of_funds.userId
      *
      * @param userId the value for flow_of_funds.userId
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public void setUserId(Integer userId) {
@@ -153,7 +238,6 @@ public class FlowOfFunds {
      * This method returns the value of the database column flow_of_funds.flowMoney
      *
      * @return the value of flow_of_funds.flowMoney
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public BigDecimal getFlowMoney() {
@@ -165,7 +249,6 @@ public class FlowOfFunds {
      * This method sets the value of the database column flow_of_funds.flowMoney
      *
      * @param flowMoney the value for flow_of_funds.flowMoney
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public void setFlowMoney(BigDecimal flowMoney) {
@@ -177,7 +260,6 @@ public class FlowOfFunds {
      * This method returns the value of the database column flow_of_funds.type
      *
      * @return the value of flow_of_funds.type
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public Integer getType() {
@@ -189,7 +271,6 @@ public class FlowOfFunds {
      * This method sets the value of the database column flow_of_funds.type
      *
      * @param type the value for flow_of_funds.type
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public void setType(Integer type) {
@@ -201,7 +282,6 @@ public class FlowOfFunds {
      * This method returns the value of the database column flow_of_funds.source
      *
      * @return the value of flow_of_funds.source
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public String getSource() {
@@ -213,7 +293,6 @@ public class FlowOfFunds {
      * This method sets the value of the database column flow_of_funds.source
      *
      * @param source the value for flow_of_funds.source
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public void setSource(String source) {
@@ -225,7 +304,6 @@ public class FlowOfFunds {
      * This method returns the value of the database column flow_of_funds.createTime
      *
      * @return the value of flow_of_funds.createTime
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public Date getCreateTime() {
@@ -237,7 +315,6 @@ public class FlowOfFunds {
      * This method sets the value of the database column flow_of_funds.createTime
      *
      * @param createTime the value for flow_of_funds.createTime
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public void setCreateTime(Date createTime) {
@@ -249,7 +326,6 @@ public class FlowOfFunds {
      * This method returns the value of the database column flow_of_funds.fundDesc
      *
      * @return the value of flow_of_funds.fundDesc
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public String getFundDesc() {
@@ -261,7 +337,6 @@ public class FlowOfFunds {
      * This method sets the value of the database column flow_of_funds.fundDesc
      *
      * @param fundDesc the value for flow_of_funds.fundDesc
-     *
      * @mbggenerated Wed Jul 15 08:54:07 CST 2020
      */
     public void setFundDesc(String fundDesc) {

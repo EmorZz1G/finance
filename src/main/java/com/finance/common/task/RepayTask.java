@@ -56,7 +56,7 @@ public class RepayTask {
     }
 
 
-    @Scheduled(cron = "0/30 0/20 8 1/5 * ?")
+    @Scheduled(cron = "0/30 0/20 10 * * ?")
     public void repayReminder() {
         if (count == 0) {
             count = loanExamService.getTotalCount(1);
@@ -97,7 +97,7 @@ public class RepayTask {
 
     }
 
-    @Scheduled(cron = "0/30 0/20 8 1/5 * ?")
+    @Scheduled(cron = "0/30 0/20 8 * * ?")
     // 未逾期提醒
     public void NotOverdueReminder() {
         if (count2 == 0) {

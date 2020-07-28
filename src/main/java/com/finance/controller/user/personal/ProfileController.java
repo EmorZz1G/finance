@@ -8,7 +8,10 @@ import com.finance.service.user.personal.ProfileService;
 import com.finance.service.user.userinfo.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -34,7 +37,7 @@ public class ProfileController {
     @GetMapping("/user/personal/toProfile.html")
     public ModelAndView toProfile(ModelAndView modelAndView,
                                   HttpSession session) {
-        modelAndView.setViewName("/user/personal/profile");
+        modelAndView.setViewName("user/personal/profile");
         User loginUser = (User) session.getAttribute("loginUser");
         User user = profileService.selectUserById(loginUser.getId());
         modelAndView.addObject("user", user);

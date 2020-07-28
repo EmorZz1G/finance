@@ -15,13 +15,10 @@ public class LockHelper {
     private static Integer count = 0;
 
     public static ConcurrentHashMap<Integer, HttpSession> getHelperMap() {
-        if(helperMap==null){
-            helperMap = new ConcurrentHashMap<>();
-        }
         return helperMap;
     }
 
-    private static ConcurrentHashMap<Integer, HttpSession> helperMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, HttpSession> helperMap = new ConcurrentHashMap<>();
 
     public static Integer getCount() {
         return count;

@@ -7,7 +7,6 @@ import com.finance.common.annotation.UserAvatarAnno;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserAvatar;
 import com.finance.service.user.personal.avatar.UserAvatarService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -55,7 +54,7 @@ public class UserAvatarController {
         if (i==1){
             return Result.success("上传成功").add("avatar",uuid);
         }else {
-            return Result.failure("上传失败");
+            return Result.success("上传失败，可能是因为图片过大，建议不要超过1M");
         }
     }
 

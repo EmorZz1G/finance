@@ -3,8 +3,6 @@ package com.finance.common.task;
 
 import com.finance.mapper.others.InfoMapper;
 import com.finance.mapper.others.task.AutoTaskMapper;
-import com.finance.pojo.others.Info;
-import com.finance.pojo.others.Loan;
 import com.finance.pojo.others.task.AutoTask;
 import com.finance.service.admin.loan.LoanExamService;
 import org.slf4j.Logger;
@@ -14,9 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 把逾期的状态修改
@@ -44,7 +40,7 @@ public class OverdueTask {
     /**
      * 逾期任务
      */
-    @Scheduled(cron = "0/30 0 7 * * ?")
+    @Scheduled(cron = "0/30 0 9 * * ?")
 //    @Scheduled(cron = "* * * * * ?")
     public void overdue(){
         if (count == 0) {

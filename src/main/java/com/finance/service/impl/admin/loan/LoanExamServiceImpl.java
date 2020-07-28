@@ -10,10 +10,7 @@ import com.finance.pojo.others.FlowOfFunds;
 import com.finance.pojo.others.Info;
 import com.finance.pojo.others.Loan;
 import com.finance.pojo.others.LoanExample;
-import com.finance.pojo.user.User;
-import com.finance.pojo.user.UserExample;
 import com.finance.service.admin.loan.LoanExamService;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,13 +60,20 @@ public class LoanExamServiceImpl implements LoanExamService {
             info.setTitle("网贷审核通过");
             desc = "用户"+loan1.getUser().getUsername()+"的"+loan1.getAmount()
                     +"元网贷申请审核通过！审核人为："+admin.getUsername();
-            FlowOfFunds flowOfFunds = new FlowOfFunds(null,
+            FlowOfFunds flowOfFunds = new FlowOfFunds.Builder()
+                    .userId(loan1.getLoanId())
+                    .flowMoney(loan1.getAmount())
+                    .type(FlowOfFunds.flowIn())
+                    .source("网贷")
+                    .createTime(new Date())
+                    .fundDesc("网贷").build();
+            /*FlowOfFunds flowOfFunds = new FlowOfFunds(null,
                     loan1.getLoanId(),
                     loan1.getAmount(),
                     2,
                     "网贷",
                     new Date(),
-                    "网贷");
+                    "网贷");*/
             flowOfFundsMapper.insertSelective(flowOfFunds);
         } else {
             loan.setApplyStatus(1);

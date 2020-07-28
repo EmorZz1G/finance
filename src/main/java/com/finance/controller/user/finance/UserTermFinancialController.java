@@ -30,7 +30,7 @@ public class UserTermFinancialController {
             method = RequestMethod.GET)
     public ModelAndView toTermFinancial(){
         List<TermFinancial> termFinancialList = userTermFinancialService.selectAllUserTermFinancial();
-        ModelAndView modelAndView = new ModelAndView("/user/finance/termfinancial.html");
+        ModelAndView modelAndView = new ModelAndView("user/finance/termfinancial.html");
         modelAndView.addObject("termFinancialList",termFinancialList);
         return modelAndView;
     }

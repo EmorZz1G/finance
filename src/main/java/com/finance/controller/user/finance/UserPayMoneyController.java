@@ -1,18 +1,13 @@
 package com.finance.controller.user.finance;
 
 import com.finance.common.Result;
-import com.finance.pojo.others.Bank;
 import com.finance.pojo.others.FlowOfFunds;
-import com.finance.pojo.others.Loan;
 import com.finance.pojo.others.PayMoney;
 import com.finance.pojo.user.UserPayMoney;
 import com.finance.service.admin.finance.PayMoneyService;
 import com.finance.service.user.finance.UserPayMoneyService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +33,7 @@ public class UserPayMoneyController {
     method = RequestMethod.GET)
     public ModelAndView toPayMoney(){
         List<PayMoney> payMoneyList = userPayMoneyService.selectAllUserPayMoney();
-        ModelAndView modelAndView = new ModelAndView("/user/finance/paymoney.html");
+        ModelAndView modelAndView = new ModelAndView("user/finance/paymoney.html");
         modelAndView.addObject("payMoneyList",payMoneyList);
         return modelAndView;
     }

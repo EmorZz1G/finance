@@ -102,7 +102,7 @@ public class MyFinanceController {
      */
     @GetMapping("/user/personal/toMyFinance.html")
     public ModelAndView toMyFinance(HttpServletRequest request){
-        ModelAndView modelAndView = new ModelAndView("/user/personal/myfinance.html");
+        ModelAndView modelAndView = new ModelAndView("user/personal/myfinance.html");
         User user = (User) request.getSession().getAttribute("loginUser");
         int id = user.getId();
         List<UserPayMoney> userPayMoneyList = myFinanceService.selectUserPayMoneyById(id);

@@ -1,7 +1,6 @@
 package com.finance.controller.user.personal;
 
 import com.finance.common.Result;
-import com.finance.pojo.others.Bank;
 import com.finance.pojo.others.Bankcard;
 import com.finance.pojo.user.User;
 import com.finance.service.user.personal.UserBankCardService;
@@ -48,7 +47,7 @@ public class UserBankCardController {
      */
     @GetMapping("/user/personal/toBankCard.html")
     public ModelAndView toBankCard(HttpServletRequest request){
-        ModelAndView modelAndView =new ModelAndView("/user/personal/bankcard.html");
+        ModelAndView modelAndView = new ModelAndView("user/personal/bankcard.html");
         User user = (User) request.getSession().getAttribute("loginUser");
         int id = user.getId();
         List<Bankcard> bankcardList = userBankCardService.selectBankCardById(id);

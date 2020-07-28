@@ -25,7 +25,7 @@ public class BankController {
     method = RequestMethod.GET)
     public ModelAndView toBank(){
        List<Bank> bankList = bankService.selectAllBank();
-       ModelAndView modelAndView = new ModelAndView("/user/finance/bank.html");
+        ModelAndView modelAndView = new ModelAndView("user/finance/bank.html");
        modelAndView.addObject("bankList",bankList);
        return modelAndView;
     }
