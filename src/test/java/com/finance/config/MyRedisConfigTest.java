@@ -23,7 +23,7 @@ class MyRedisConfigTest {
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
-@Autowired
+    @Autowired
     AdminPermissionsService permissionsService;
 
     @Test
@@ -32,7 +32,7 @@ class MyRedisConfigTest {
         user.setUsername("hehe");
         List<String> strings = permissionsService.selectPermsListByAdminId(1);
         System.out.println(strings);
-        redisTemplate.opsForValue().set("myList::"+1,strings);
+        redisTemplate.opsForValue().set("myList::" + 1, strings);
 
     }
 }

@@ -36,7 +36,7 @@ public class LoginController {
      * 实现用户（管理员）登录请求路径请求到登录界面
      * @return 返回html文件，实现请求路径和界面的绑定
      */
-    @GetMapping({"/", "/login"})
+    @GetMapping({"/", "/login","/index.html"})
     public String toLogin() {
         return "login";
     }

@@ -11,7 +11,6 @@ public interface UserPermissionsService {
 
     int updatePerms(int userId,String[] newPerms) throws RuntimeException;
 
-    @Async
     int giveAuthorization(User user);
 
     List<UserPermsView> selectPermsByUserId(int id);
