@@ -2,6 +2,7 @@ package com.finance.controller.user.personal;
 
 
 import com.finance.common.Result;
+import com.finance.common.annotation.UserAvatarAnno;
 import com.finance.pojo.user.User;
 import com.finance.service.admin.permission.UserPermissionsService;
 import com.finance.service.user.personal.ProfileService;
@@ -46,17 +47,20 @@ public class ProfileController {
 
     @PutMapping("/user/updateUserProfile/{id}")
     @ResponseBody
+    @UserAvatarAnno
     public Result updateUserProfile(@PathVariable("id") int id,
                                     User user,
                                     HttpSession session) {
         user.setId(id);
         int i = userInfoService.updateUser(user);
         if (i == 1) {
+            Result success = Result.success();
             if(user.getPhone()!=null&&user.getIDcard()!=null){
                 permissionsService.giveAuthorization(user);
+                success.setMsg("修改成功！");
             }
             session.setAttribute("loginUser",user);
-            return Result.success();
+            return success;
         } else {
             return Result.failure();
         }

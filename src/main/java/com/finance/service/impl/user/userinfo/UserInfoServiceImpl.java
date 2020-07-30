@@ -8,6 +8,7 @@ import com.finance.service.user.userinfo.UserInfoService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +24,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public List<User> selectUsersByQuery(Map<String, Object> query) {
         try {
-            UserExample example = (UserExample)FuzzySearchUtils.autoWrapper(UserExample.class, query);
+            UserExample example = (UserExample) FuzzySearchUtils.autoWrapper(UserExample.class, query);
             List<User> users = userMapper.selectByExample(example);
             return users;
         } catch (Exception e) {
@@ -34,6 +35,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Resource
     UserMapper userMapper;
+
+    private int checkUserValid(User user) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria c1 = userExample.createCriteria();
+        c1.andPhoneEqualTo(user.getPhone());
+        UserExample.Criteria c2 = userExample.createCriteria();
+        c2.andEmailEqualTo(user.getEmail());
+        userExample.or(c2);
+        List<User> users = userMapper.selectByExample(userExample);
+        if (users != null && users.size() > 0) {
+            return 0;
+        }
+        return 1;
+    }
+
 
     @Override
     public List<User> selectUsers() {
@@ -47,9 +63,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    @CacheEvict(key = "#user.id")
+    @Caching(evict = {@CacheEvict(cacheNames = "userInfo", key = "#user.id"),
+            @CacheEvict(cacheNames = {"userPermsSet", "userPermsList"}, key = "#user.id")})
     public int updateUser(User user) {
-        return userMapper.updateByPrimaryKeySelective(user);
+        if (checkUserValid(user) == 1) {
+            return userMapper.updateByPrimaryKeySelective(user);
+        }
+        return 0;
     }
 
     @Override
@@ -60,6 +80,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public int insertUser(User user) {
+        if (checkUserValid(user) == 1) {
+            return userMapper.updateByPrimaryKeySelective(user);
+        }
         return userMapper.insertSelective(user);
     }
 

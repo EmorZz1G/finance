@@ -218,10 +218,13 @@
                 if (result.code === 100) {
                     $.alert('个人信息修改成功！');
                     setTimeout(function () {
-                        location.href = "/user/personal/toProfile.html";
+                        if (!!result.msg) {
+                            // location.href = "/logout?logout=userLogout";
+                            location.href = "/user/index.html"
+                        }
                     }, 1000);
                 } else {
-                    $.alert('抱歉！哪里好像出现了问题？');
+                    $.alert('抱歉！可能是手机号或邮箱已存在');
                 }
             }
         })
