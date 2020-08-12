@@ -1,6 +1,7 @@
 package com.finance.controller.user.tools;
 
 import com.finance.common.Result;
+import com.finance.common.utils.DateUtils;
 import com.finance.pojo.others.Loan;
 import com.finance.pojo.user.User;
 import com.finance.service.user.tools.ApplyLoanService;
@@ -13,6 +14,9 @@ import javax.websocket.server.PathParam;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Controller
@@ -48,7 +52,9 @@ public class ApplyLoanController {
         }
         loan.setLoanId(id);
         loan.setAmount(amount);
-        loan.setLoanTime(time_date);
+        LocalDate localDate = DateUtils.from(time_date);
+        // TODO
+        loan.setLoanTime(localDate);
         loan.setRate(rate);
         loan.setTerm(term);
         int i = applyLoanService.insertApplyLoan(loan);

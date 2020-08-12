@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class LoanExamServiceImpl implements LoanExamService {
     public int updateLoanExam(Loan loan, Admin admin, int type) {
         Info info = new Info();
         info.setStatus(0);
-        info.setCreateTime(new Date());
+        info.setCreateTime(LocalDate.now());
         info.setSendId(admin.getId());
         Loan loan1 = loanMapper.selectByPrimaryKey(loan.getId());
         info.setReceiveId(loan1.getLoanId());
@@ -65,7 +66,7 @@ public class LoanExamServiceImpl implements LoanExamService {
                     .flowMoney(loan1.getAmount())
                     .type(FlowOfFunds.flowIn())
                     .source("网贷")
-                    .createTime(new Date())
+                    .createTime(LocalDate.now())
                     .fundDesc("网贷").build();
             /*FlowOfFunds flowOfFunds = new FlowOfFunds(null,
                     loan1.getLoanId(),
@@ -103,7 +104,7 @@ public class LoanExamServiceImpl implements LoanExamService {
         info.setTitle("还款通知");
         info.setSendId(admin.getId());
         info.setReceiveId(loan1.getLoanId());
-        info.setCreateTime(new Date());
+        info.setCreateTime(LocalDate.now());
         String desc = "用户" + loan1.getUser().getUsername()
                 + "申请的" + loan1.getAmount() + "元网贷该还款了！该提醒发送人为：" + admin.getUsername();
         info.setInfoDesc(desc);

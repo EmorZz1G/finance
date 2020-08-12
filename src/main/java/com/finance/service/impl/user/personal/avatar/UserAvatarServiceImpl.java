@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -104,8 +106,8 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
 
     @Override
     public int insertAvatar(UserAvatar avatar) {
-        avatar.setCreateTime(new Date());
-        avatar.setLastUseTime(new Date());
+        avatar.setCreateTime(LocalDateTime.now());
+        avatar.setLastUseTime(LocalDateTime.now());
         avatar.setStatus("1");
         UserAvatarExample userAvatarExample = new UserAvatarExample();
         UserAvatarExample.Criteria criteria = userAvatarExample.createCriteria();
@@ -160,7 +162,7 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
         }
         userAvatar.setStatus("1");
         userAvatar.setUuid(newAvatarUuid);
-        userAvatar.setLastUseTime(new Date());
+        userAvatar.setLastUseTime(LocalDateTime.now());
         return userAvatarMapper.updateByPrimaryKeySelective(userAvatar) == 1;
     }
 

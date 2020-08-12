@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class UserPayMoneyController {
 
         userPayMoney.setUserId(userId);
         userPayMoney.setPayId(payMoneyId);
-        userPayMoney.setStartTime(new Date());
+        userPayMoney.setStartTime(LocalDate.now());
         BigDecimal param1 = payMoney.getMonthMoney();
         BigDecimal param2 = new BigDecimal("0.03123");
         BigDecimal param3 = param1.multiply(param2);
@@ -67,7 +68,7 @@ public class UserPayMoneyController {
 
 
         flowOfFunds.setUserId(userId);
-        flowOfFunds.setCreateTime(new Date());
+        flowOfFunds.setCreateTime(LocalDate.now());
         flowOfFunds.setFlowMoney(payMoney.getMonthMoney());
         flowOfFunds.setSource("工资理财");
         flowOfFunds.setType(1);

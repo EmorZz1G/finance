@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class UserTermFinancialController {
 
         userTermFinancial.setUserId(userId);
         userTermFinancial.setTermId(termFinancialId);
-        userTermFinancial.setStartTime(new Date());
+        userTermFinancial.setStartTime(LocalDate.now());
         userTermFinancial.setAverYield(termFinancial.getAnnualIncome());
         BigDecimal param1 = termFinancial.getAnnualIncome();
 
@@ -62,7 +63,7 @@ public class UserTermFinancialController {
         userTermFinancial.setStatus(1);
 
         flowOfFunds.setUserId(userId);
-        flowOfFunds.setCreateTime(new Date());
+        flowOfFunds.setCreateTime(LocalDate.now());
         flowOfFunds.setFlowMoney(money);
         flowOfFunds.setSource(termFinancial.getName());
         flowOfFunds.setType(1);

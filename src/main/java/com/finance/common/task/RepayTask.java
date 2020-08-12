@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class RepayTask {
         info.setStatus(0);
         info.setTitle("还款提醒");
         info.setSendId(3);
-        info.setCreateTime(new Date());
+        info.setCreateTime(LocalDate.now());
         return info;
     }
 

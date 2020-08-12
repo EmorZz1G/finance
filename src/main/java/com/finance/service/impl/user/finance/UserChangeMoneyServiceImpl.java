@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -55,21 +57,21 @@ public class UserChangeMoneyServiceImpl implements UserChangeMoneyService {
         userChangeMoney.setAverYield(averYield);
         userChangeMoney.setProfit(profit);
         userChangeMoney.setChangeId(changeMoney.getId());
-        userChangeMoney.setStartTime(new Date());
+        userChangeMoney.setStartTime(LocalDate.now());
         userChangeMoney.setStatus(1);
         String source = changeMoney.getName();
         FlowOfFunds flowOfFunds = new FlowOfFunds(null,
                 user.getId(),
                 money,
                 1, source,
-                new Date(),
+                LocalDate.now(),
                 "零钱理财");
 
 /*        flowOfFunds.setUserId(changeMoney.getId());
         flowOfFunds.setFlowMoney(invesMoney);
         flowOfFunds.setType(1);
         flowOfFunds.setSource(source);
-        flowOfFunds.setCreateTime(new Date());
+        flowOfFunds.setCreateTime(LocalDate.now());
         flowOfFunds.setFundDesc("零钱理财");*/
         int i = userChangeMoneyMapper.insertSelective(userChangeMoney);
         if (i == 1) {

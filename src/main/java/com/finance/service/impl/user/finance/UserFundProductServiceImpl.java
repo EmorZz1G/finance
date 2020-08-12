@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class UserFundProductServiceImpl implements UserFundProductService {
      * @param user：用户
      * @param fundProduct：基金理财产品
      * @param money：用户输入金额
-     * @return
+     * @return num
      */
     @Override
     @Transactional
@@ -61,7 +62,7 @@ public class UserFundProductServiceImpl implements UserFundProductService {
         userFundProduct.setAverYield(averYield);
         userFundProduct.setProfit(profit);
         userFundProduct.setFundId(fundProduct.getId());
-        userFundProduct.setStartTime(new Date());
+        userFundProduct.setStartTime(LocalDate.now());
         userFundProduct.setStatus(1);
         String source = fundProduct.getFundDesc();
         FlowOfFunds flowOfFunds = new FlowOfFunds();
@@ -69,7 +70,7 @@ public class UserFundProductServiceImpl implements UserFundProductService {
         flowOfFunds.setFlowMoney(money);
         flowOfFunds.setType(1);
         flowOfFunds.setSource(source);
-        flowOfFunds.setCreateTime(new Date());
+        flowOfFunds.setCreateTime(LocalDate.now());
         flowOfFunds.setFundDesc("基金理财");
         int i = userFundProductMapper.insertSelective(userFundProduct);
         if (i == 1) {
