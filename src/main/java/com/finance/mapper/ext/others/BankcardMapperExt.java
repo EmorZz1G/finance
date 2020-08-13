@@ -24,7 +24,7 @@ public interface BankcardMapperExt extends BankcardMapper {
             @Result(column = "userId",
                     javaType = User.class,
                     property = "user",
-            one = @One(select = "com.finance.mapper.user.UserMapper.selectByPrimaryKey"))
+            one = @One(select = "com.finance.mapper.plus.user.UserMapperPlus.selectById"))
     })
     List<Bankcard> selectBankcardsFuzzy(String username, String cardBank);
 }

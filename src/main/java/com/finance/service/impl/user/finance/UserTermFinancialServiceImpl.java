@@ -2,6 +2,9 @@ package com.finance.service.impl.user.finance;
 
 import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.others.TermFinancialMapper;
+import com.finance.mapper.plus.others.FlowOfFundsMapperPlus;
+import com.finance.mapper.plus.others.TermFinancialMapperPlus;
+import com.finance.mapper.plus.user.UserTermFinancialMapperPlus;
 import com.finance.mapper.user.UserTermFinancialMapper;
 import com.finance.pojo.others.FlowOfFunds;
 import com.finance.pojo.others.TermFinancial;
@@ -21,6 +24,12 @@ public class UserTermFinancialServiceImpl implements UserTermFinancialService {
     private UserTermFinancialMapper userTermFinancialMapper;
     @Resource
     private FlowOfFundsMapper flowOfFundsMapper;
+    @Resource
+    private TermFinancialMapperPlus termFinancialMapperPlus;
+    @Resource
+    private UserTermFinancialMapperPlus userTermFinancialMapperPlus;
+    @Resource
+    private FlowOfFundsMapperPlus flowOfFundsMapperPlus;
 
     /**
      * 查询所有期限理财产品信息
@@ -28,7 +37,7 @@ public class UserTermFinancialServiceImpl implements UserTermFinancialService {
      */
     @Override
     public List<TermFinancial> selectAllUserTermFinancial(){
-        return termFinancialMapper.selectByExample(null);
+        return termFinancialMapperPlus.selectList(null);
     }
 
     /**
@@ -39,7 +48,7 @@ public class UserTermFinancialServiceImpl implements UserTermFinancialService {
      */
     @Override
     public int insertUserTermFinancial(UserTermFinancial userTermFinancial, BigDecimal money){
-        return userTermFinancialMapper.insertSelective(userTermFinancial);
+        return userTermFinancialMapperPlus.insert(userTermFinancial);
     }
 
     /**
@@ -49,7 +58,7 @@ public class UserTermFinancialServiceImpl implements UserTermFinancialService {
      */
     @Override
     public TermFinancial selectById(Integer id){
-        return termFinancialMapper.selectByPrimaryKey(id);
+        return termFinancialMapperPlus.selectById(id);
     }
 
     /**
@@ -60,7 +69,7 @@ public class UserTermFinancialServiceImpl implements UserTermFinancialService {
      */
     @Override
     public int insertFlowOfFunds(FlowOfFunds flowOfFunds, BigDecimal money){
-        return flowOfFundsMapper.insertSelective(flowOfFunds);
+        return flowOfFundsMapperPlus.insert(flowOfFunds);
     }
 
 }

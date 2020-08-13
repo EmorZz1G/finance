@@ -29,6 +29,7 @@ public class Loan implements Serializable {
         this.user = user;
     }
 
+    @TableField(exist = false)
     private User user;
 
     @Override

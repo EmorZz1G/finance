@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Emor
  * @since 2020-08-12
  */
-public interface UserPermsViewMapper extends BaseMapper<UserPermsView> {
+public interface UserPermsViewMapperPlus extends BaseMapper<UserPermsView> {
 
 }

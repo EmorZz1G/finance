@@ -1,6 +1,6 @@
 package com.finance.mapper.plus.others;
 
-import com.finance.pojo.others.Loan;
+import com.finance.pojo.others.TermFinancial;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Emor
  * @since 2020-08-12
  */
-public interface LoanMapper extends BaseMapper<Loan> {
+public interface TermFinancialMapperPlus extends BaseMapper<TermFinancial> {
 
 }

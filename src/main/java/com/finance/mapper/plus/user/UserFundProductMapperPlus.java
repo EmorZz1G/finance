@@ -1,6 +1,6 @@
 package com.finance.mapper.plus.user;
 
-import com.finance.pojo.user.UserChangeMoney;
+import com.finance.pojo.user.UserFundProduct;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Emor
  * @since 2020-08-12
  */
-public interface UserChangeMoneyMapper extends BaseMapper<UserChangeMoney> {
+public interface UserFundProductMapperPlus extends BaseMapper<UserFundProduct> {
 
 }

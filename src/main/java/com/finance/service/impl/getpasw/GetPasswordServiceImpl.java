@@ -1,5 +1,8 @@
 package com.finance.service.impl.getpasw;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.finance.mapper.plus.user.UserMapperPlus;
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.admin.AdminExample;
@@ -15,6 +18,9 @@ import java.util.List;
 public class GetPasswordServiceImpl implements GetPasswordService {
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    UserMapperPlus userMapperPlus;
 
     /**
      *  公用的处理方法，用于判断是否成功，且用于将List<xxx>转化为xxx并只取首个结果
@@ -39,10 +45,11 @@ public class GetPasswordServiceImpl implements GetPasswordService {
      */
     @Override
     public User getPasswordVerifyUsername(String username) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(username);
-        return (User) getObject(userExample);
+        return (User) getObject(userExample);*/
+        return userMapperPlus.selectOne(new QueryWrapper<User>().eq("username",username));
     }
 
     /**
@@ -53,11 +60,13 @@ public class GetPasswordServiceImpl implements GetPasswordService {
      */
     @Override
     public User getPasswordVerifyUserInfoByPhone(String username, String getPasw) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(username);
         criteria.andPhoneEqualTo(getPasw);
-        return (User) getObject(userExample);
+        return (User) getObject(userExample);*/
+        return userMapperPlus.selectOne(new QueryWrapper<User>().eq("username",username)
+                .eq("phone",getPasw));
     }
 
     /**
@@ -68,11 +77,13 @@ public class GetPasswordServiceImpl implements GetPasswordService {
      */
     @Override
     public User getPasswordVerifyUserInfoByEmail(String username, String getPasw) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(username);
         criteria.andEmailEqualTo(getPasw);
-        return (User) getObject(userExample);
+        return (User) getObject(userExample);*/
+        return userMapperPlus.selectOne(new QueryWrapper<User>().eq("username",username)
+                .eq("email",getPasw));
     }
 
     /**
@@ -82,9 +93,11 @@ public class GetPasswordServiceImpl implements GetPasswordService {
      */
     @Override
     public boolean getPassword(User user) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(user.getUsername());
-        return userMapper.updateByExampleSelective(user,userExample)==1;
+        return userMapper.updateByExampleSelective(user,userExample)==1;*/
+        return userMapperPlus.update(user,new UpdateWrapper<User>().lambda()
+        .eq(User::getUsername,user.getUsername()))==1;
     }
 }

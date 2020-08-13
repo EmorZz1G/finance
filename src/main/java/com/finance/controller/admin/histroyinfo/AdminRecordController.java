@@ -55,14 +55,15 @@ public class AdminRecordController {
         HashMap<String, Object> query = new HashMap<>();
         query.put("min-createTime",min_Date);
         query.put("max-createTime",max_Date);
-        query.put("minDate",minDate);
-        query.put("maxDate",maxDate);
+
         PageHelper.startPage(pageNum,pageSize);
         List<FlowOfFunds> flowOfFundsList = adminRecordService.selectFlowOfFundsByQuery(query);
         PageInfo<FlowOfFunds> flowOfFundsPageInfo = new PageInfo<>(flowOfFundsList);
         System.out.println(flowOfFundsList);
         model.addAttribute("flowOfFundsPageInfo",flowOfFundsPageInfo);
         model.addAttribute("flowOfFundsList",flowOfFundsList);
+        query.put("minDate",minDate);
+        query.put("maxDate",maxDate);
         model.addAttribute("query",query);
         return "admin/historyinfo/record.html";
     }

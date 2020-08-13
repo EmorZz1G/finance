@@ -1,11 +1,15 @@
 package com.finance.service.impl.admin.permission;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.finance.common.annotation.MyCacheEvict;
 import com.finance.mapper.admin.AdminMapper;
 import com.finance.mapper.admin.AdminPermissionsMapper;
 import com.finance.mapper.others.PermissionsMapper;
 import com.finance.mapper.perms.AdminPermsViewMapper;
+import com.finance.mapper.plus.admin.AdminMapperPlus;
+import com.finance.mapper.plus.admin.AdminPermissionsMapperPlus;
+import com.finance.mapper.plus.perms.AdminPermsViewMapperPlus;
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.admin.AdminExample;
@@ -43,7 +47,12 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
     AdminPermsViewMapper permsViewMapper;
 
     @Resource
+    AdminPermsViewMapperPlus permsViewMapperPlus;
+
+    @Resource
     AdminPermissionsMapper adminPermissionsMapper;
+    @Resource
+    AdminPermissionsMapperPlus adminPermissionsMapperPlus;
 
 
     @Resource
@@ -51,6 +60,8 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
 
     @Resource
     AdminMapper adminMapper;
+    @Resource
+    AdminMapperPlus adminMapperPlus;
 
     /**
      *管理员权限
@@ -133,13 +144,14 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
      */
     @Override
     public int insertAdmin(Admin admin) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
-        criteria.andUsernameEqualTo(admin.getUsername());
-        if (userMapper.countByExample(userExample) != 0) {
+        criteria.andUsernameEqualTo(admin.getUsername());*/
+        Integer count = adminMapperPlus.selectCount(new QueryWrapper<Admin>().eq("username", admin.getUsername()));
+        if (count != 0) {
             return 0;
         }
-        return adminMapper.insertSelective(admin);
+        return adminMapperPlus.insert(admin);
     }
 
     /**
@@ -149,28 +161,31 @@ public class AdminPermissionsServiceImpl implements AdminPermissionsService {
      */
     @Override
     public List<Admin> selectAdminsButId(int id) {
-        AdminExample adminExample = new AdminExample();
+        /*AdminExample adminExample = new AdminExample();
         AdminExample.Criteria criteria = adminExample.createCriteria();
         criteria.andIdNotEqualTo(id);
-        return adminMapper.selectByExample(adminExample);
+        return adminMapper.selectByExample(adminExample);*/
+        return adminMapperPlus.selectList(new QueryWrapper<Admin>().ne("id", id));
     }
 
     @Override
     @Cacheable(cacheNames = "adminPermsList", key = "#id")
     public List<AdminPermsView> selectPermsByAdminId(int id) {
-        AdminPermsViewExample example = new AdminPermsViewExample();
+        /*AdminPermsViewExample example = new AdminPermsViewExample();
         AdminPermsViewExample.Criteria criteria = example.createCriteria();
         criteria.andAdminIdEqualTo(id);
-        return permsViewMapper.selectByExample(example);
+        return permsViewMapper.selectByExample(example);*/
+        return permsViewMapperPlus.selectList(new QueryWrapper<AdminPermsView>().eq("adminId",id));
     }
 
     @Override
     @Cacheable(cacheNames = "adminPermsList", key = "#admin.id")
     public List<AdminPermsView> selectPermsByAdmin(Admin admin) {
-        AdminPermsViewExample example = new AdminPermsViewExample();
+        /*AdminPermsViewExample example = new AdminPermsViewExample();
         AdminPermsViewExample.Criteria criteria = example.createCriteria();
         criteria.andAdminIdEqualTo(admin.getId());
-        return permsViewMapper.selectByExample(example);
+        return permsViewMapper.selectByExample(example);*/
+        return permsViewMapperPlus.selectList(new QueryWrapper<AdminPermsView>().eq("adminId",admin.getId()));
     }
 
     @Override

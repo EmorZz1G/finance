@@ -2,6 +2,7 @@ package com.finance.common.task;
 
 import com.finance.mapper.others.InfoMapper;
 import com.finance.mapper.others.task.AutoTaskMapper;
+import com.finance.mapper.plus.others.InfoMapperPlus;
 import com.finance.pojo.others.Info;
 import com.finance.pojo.others.Loan;
 import com.finance.pojo.others.task.AutoTask;
@@ -32,6 +33,8 @@ public class RepayTask {
 
     @Resource
     InfoMapper infoMapper;
+    @Resource
+    InfoMapperPlus infoMapperPlus;
 
     @Resource
     AutoTaskMapper autoTaskMapper;
@@ -78,7 +81,8 @@ public class RepayTask {
             Integer loanId = loan.getLoanId();
             info.setInfoDesc("您申请的" + amount + "元网贷已经逾期了，请尽快还款了。（该消息由系统自动发送）");
             info.setReceiveId(loanId);
-            int i = infoMapper.insertSelective(info);
+//            int i = infoMapper.insertSelective(info);
+            int i = infoMapperPlus.insert(info);
             if (i == 1) {
                 ++effectRow;
             } else {
@@ -94,6 +98,7 @@ public class RepayTask {
         autoTask.setType(1);
         autoTask.setTargetStatus("执行成功的消息提示数量：" + effectRow + "；失败的数量：" + errorRow);
         log.info("执行成功的消息提示数量：" + effectRow + "；失败的数量：" + errorRow);
+//        autoTaskMapper.insertSelective(autoTask);
         autoTaskMapper.insertSelective(autoTask);
 
     }

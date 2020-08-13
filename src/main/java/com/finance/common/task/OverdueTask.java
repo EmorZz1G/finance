@@ -3,6 +3,7 @@ package com.finance.common.task;
 
 import com.finance.mapper.others.InfoMapper;
 import com.finance.mapper.others.task.AutoTaskMapper;
+import com.finance.mapper.plus.others.InfoMapperPlus;
 import com.finance.pojo.others.task.AutoTask;
 import com.finance.service.admin.loan.LoanExamService;
 import org.slf4j.Logger;
@@ -26,6 +27,8 @@ public class OverdueTask {
 
     @Resource
     InfoMapper infoMapper;
+    @Resource
+    InfoMapperPlus infoMapperPlus;
 
     @Resource
     AutoTaskMapper autoTaskMapper;

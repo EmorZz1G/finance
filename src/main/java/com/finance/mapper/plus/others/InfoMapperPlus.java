@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Emor
  * @since 2020-08-12
  */
-public interface InfoMapper extends BaseMapper<Info> {
+public interface InfoMapperPlus extends BaseMapper<Info> {
 
 }

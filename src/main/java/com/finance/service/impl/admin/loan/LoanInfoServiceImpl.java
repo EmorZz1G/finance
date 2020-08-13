@@ -2,6 +2,7 @@ package com.finance.service.impl.admin.loan;
 
 import com.finance.mapper.ext.others.LoanMapperExt;
 import com.finance.mapper.others.LoanMapper;
+import com.finance.mapper.plus.others.LoanMapperPlus;
 import com.finance.pojo.others.Loan;
 import com.finance.service.admin.loan.LoanInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class LoanInfoServiceImpl implements LoanInfoService {
 
     @Resource
     private LoanMapper loanMapper;
+    @Resource
+    private LoanMapperPlus loanMapperPlus;
 
     @Resource
     private LoanMapperExt loanMapperExt;
@@ -26,7 +29,7 @@ public class LoanInfoServiceImpl implements LoanInfoService {
      */
     @Override
     public List<Loan> selectAllLoanInfo(){
-        return loanMapper.selectByExample(null);
+        return loanMapperPlus.selectList(null);
     }
 
     @Override

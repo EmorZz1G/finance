@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finance.mapper.plus.others.InfoMapperPlus">
+  <resultMap id="BaseResultMap" type="com.finance.pojo.others.Info">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sendId" jdbcType="INTEGER" property="sendId" />
+    <result column="receiveId" jdbcType="INTEGER" property="receiveId" />
+    <result column="createTime" jdbcType="DATE" property="createTime" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="infoDesc" jdbcType="VARCHAR" property="infoDesc" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="admin"
+                 column="sendId"
+                 javaType="com.finance.pojo.admin.Admin"
+                 select="com.finance.mapper.plus.admin.AdminMapperPlus.selectById">
+    </association>
+  </resultMap>
+
+</mapper>

@@ -3,6 +3,9 @@ package com.finance.service.impl.user.finance;
 import com.finance.common.Result;
 import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.others.FundProductMapper;
+import com.finance.mapper.plus.others.FlowOfFundsMapperPlus;
+import com.finance.mapper.plus.others.FundProductMapperPlus;
+import com.finance.mapper.plus.user.UserFundProductMapperPlus;
 import com.finance.mapper.user.UserFundProductMapper;
 import com.finance.pojo.others.ChangeMoney;
 import com.finance.pojo.others.FlowOfFunds;
@@ -34,6 +37,12 @@ public class UserFundProductServiceImpl implements UserFundProductService {
     private FlowOfFundsMapper flowOfFundsMapper;
     @Resource
     private UserFundProductMapper userFundProductMapper;
+    @Resource
+    private FundProductMapperPlus fundProductMapperPlus;
+    @Resource
+    private FlowOfFundsMapperPlus flowOfFundsMapperPlus;
+    @Resource
+    private UserFundProductMapperPlus userFundProductMapperPlus;
 
     /**
      * 查询所有基金理财产品信息
@@ -41,7 +50,7 @@ public class UserFundProductServiceImpl implements UserFundProductService {
      */
     @Override
     public List<FundProduct> selectFundProductAll() {
-        return fundProductMapper.selectByExample(null);
+        return fundProductMapperPlus.selectList(null);
     }
 
     /**
@@ -72,9 +81,9 @@ public class UserFundProductServiceImpl implements UserFundProductService {
         flowOfFunds.setSource(source);
         flowOfFunds.setCreateTime(LocalDate.now());
         flowOfFunds.setFundDesc("基金理财");
-        int i = userFundProductMapper.insertSelective(userFundProduct);
+        int i = userFundProductMapperPlus.insert(userFundProduct);
         if (i == 1) {
-            return flowOfFundsMapper.insertSelective(flowOfFunds);
+            return flowOfFundsMapperPlus.insert(flowOfFunds);
         } else {
             return 0;
         }

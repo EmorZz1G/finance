@@ -1,5 +1,7 @@
 package com.finance.service.impl.login;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.finance.mapper.plus.user.UserMapperPlus;
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.admin.AdminExample;
@@ -14,14 +16,14 @@ import java.util.List;
 @Service
 public class LoginByEmailServiceImpl implements LoginByEmailService {
     @Resource
-    UserMapper userMapper;
+    UserMapperPlus userMapperPlus;
 
     /**
      *  公用的处理方法，用于判断是否成功，且用于将List<xxx>转化为xxx并只取首个结果
      * @param example 要查询的example对象
      * @return 返回查询结果，成功返回查询结果中的首个结果，失败返回null
      */
-    private Object getObject(Object example){
+    /*private Object getObject(Object example){
         if (example instanceof UserExample){
             List<User> objs = userMapper.selectByExample((UserExample)example);
             if (objs!=null&&objs.size()==1){
@@ -29,7 +31,7 @@ public class LoginByEmailServiceImpl implements LoginByEmailService {
             }
         }
         return null;
-    }
+    }*/
 
     /**
      * 查询邮箱是否存在
@@ -38,10 +40,11 @@ public class LoginByEmailServiceImpl implements LoginByEmailService {
      */
     @Override
     public User loginVerifyUserEmail(String userEmail) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andEmailEqualTo(userEmail);
-        return (User) getObject(userExample);
+        return (User) getObject(userExample);*/
+        return userMapperPlus.selectOne(new QueryWrapper<User>().eq("email",userEmail));
     }
 
     /**
@@ -52,11 +55,13 @@ public class LoginByEmailServiceImpl implements LoginByEmailService {
      */
     @Override
     public User loginUserByEmail(String userEmail, String password) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andEmailEqualTo(userEmail);
         criteria.andPasswordEqualTo(password);
-        return (User) getObject(userExample);
+        return (User) getObject(userExample);*/
+        return userMapperPlus.selectOne(new QueryWrapper<User>().eq("email",userEmail)
+                .eq("password",password));
     }
 
     /**
@@ -67,7 +72,7 @@ public class LoginByEmailServiceImpl implements LoginByEmailService {
     @Override
     public int status2online(User user) {
         user.setStatus(1);
-        return userMapper.updateByPrimaryKeySelective(user);
+        return userMapperPlus.updateById(user);
     }
 
     /**
@@ -78,6 +83,6 @@ public class LoginByEmailServiceImpl implements LoginByEmailService {
     @Override
     public int status2Disconnected(User user) {
         user.setStatus(0);
-        return userMapper.updateByPrimaryKeySelective(user);
+        return userMapperPlus.updateById(user);
     }
 }

@@ -1,5 +1,8 @@
 package com.finance.common.utils;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -97,5 +100,60 @@ public class FuzzySearchUtils {
             }
         }
         return example;
+    }
+
+    /**
+     * 自动封装查询
+     * @param clazz QueryWrapper的类
+     * @param queries 查询的Query
+     * @return QueryWrapper类实例
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     */
+    public static <T> QueryWrapper<T> autoWrapper(QueryWrapper<T> wrapper, Map<String, Object> queries) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+
+        Set<String> strings = queries.keySet().stream()
+                .filter( s -> !s.startsWith("min-") && !s.startsWith("max-")).collect(Collectors.toSet());
+        System.out.println(strings);
+        for (String name : strings) {
+            if(name==null || name.trim().equals("")){
+                continue;
+            }else {
+                Object value = queries.get(name);
+                if(value instanceof String){
+                    wrapper.like(name,value);
+                }else {
+                    wrapper.eq(name,value);
+                }
+            }
+        }
+        strings = queries.keySet().stream()
+                .filter(s -> s.startsWith("min-") || s.startsWith("max-")).collect(Collectors.toSet());
+        if (strings.size() % 2 == 1) {
+            return wrapper;
+        }
+        Set<String> min_strings = strings.stream()
+                .filter(s -> s.startsWith("min-"))
+                .collect(Collectors.toSet());
+        Set<String> max_strings = strings.stream()
+                .filter(s -> s.startsWith("max-"))
+                .collect(Collectors.toSet());
+        if (min_strings.size() != max_strings.size()) {
+            throw new RuntimeException("插入的参数无法匹配，MIN-和MAX-的参数个数应该相同");
+        }
+
+        for (String key : min_strings) {
+            if (queries.get(key) == null
+                    || (queries.get(key) instanceof String) && ((String) queries.get(key)).trim().equals("")) {
+                continue;
+            }
+            String no_min_key = key.substring(4);
+            Object min = queries.get(key);
+            Object max = queries.get("max-" + no_min_key);
+            wrapper.between(no_min_key,min,max);
+        }
+        return wrapper;
     }
 }

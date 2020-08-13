@@ -1,9 +1,13 @@
 package com.finance.service.impl.user.personal.avatar;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.finance.mapper.plus.user.UserAvatarMapperPlus;
 import com.finance.mapper.user.UserAvatarMapper;
 import com.finance.pojo.user.UserAvatar;
 import com.finance.pojo.user.UserAvatarExample;
 import com.finance.service.user.personal.avatar.UserAvatarService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -29,11 +33,11 @@ import java.util.List;
 public class UserAvatarServiceImpl implements UserAvatarService, InitializingBean {
     @Value("${user.user-avatar}")
     String userAvatar;
-
-    private Logger log = LoggerFactory.getLogger(UserAvatarServiceImpl.class);
-
     @javax.annotation.Resource
     UserAvatarMapper userAvatarMapper;
+    @javax.annotation.Resource
+    UserAvatarMapperPlus userAvatarMapperPlus;
+    private Logger log = LoggerFactory.getLogger(UserAvatarServiceImpl.class);
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -101,7 +105,8 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
     @Override
     @Cacheable(cacheNames = "userAvatar", key = "#p0")
     public UserAvatar selectUserAvatarByUuid(String uuid) {
-        return userAvatarMapper.selectByPrimaryKey(uuid);
+//        return userAvatarMapper.selectByPrimaryKey(uuid);
+        return userAvatarMapperPlus.selectById(uuid);
     }
 
     @Override
@@ -109,23 +114,33 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
         avatar.setCreateTime(LocalDateTime.now());
         avatar.setLastUseTime(LocalDateTime.now());
         avatar.setStatus("1");
-        UserAvatarExample userAvatarExample = new UserAvatarExample();
+        /*UserAvatarExample userAvatarExample = new UserAvatarExample();
         UserAvatarExample.Criteria criteria = userAvatarExample.createCriteria();
         criteria.andStatusEqualTo("1");
-        criteria.andUserIdEqualTo(avatar.getUserId());
+        criteria.andUserIdEqualTo(avatar.getUserId());*/
         UserAvatar _updateAvatar = new UserAvatar();
         _updateAvatar.setStatus("0");
-        userAvatarMapper.updateByExampleSelective(_updateAvatar, userAvatarExample);
-        return userAvatarMapper.insertSelective(avatar);
+        userAvatarMapperPlus.update(_updateAvatar, new UpdateWrapper<UserAvatar>().lambda()
+                .eq(UserAvatar::getStatus, "1")
+                .eq(UserAvatar::getUserId, avatar.getUserId()));
+//        userAvatarMapper.updateByExampleSelective(_updateAvatar, userAvatarExample);
+//        return userAvatarMapper.insertSelective(avatar);
+        return userAvatarMapperPlus.insert(avatar);
     }
 
     @Override
     public UserAvatar getUsingAvatar(int userId) {
-        UserAvatarExample userAvatarExample = new UserAvatarExample();
+        /*UserAvatarExample userAvatarExample = new UserAvatarExample();
         UserAvatarExample.Criteria criteria = userAvatarExample.createCriteria();
         criteria.andUserIdEqualTo(userId);
-        criteria.andStatusEqualTo("1");
-        List<UserAvatar> userAvatars = userAvatarMapper.selectByExample(userAvatarExample);
+        criteria.andStatusEqualTo("1");*/
+        List<UserAvatar> userAvatars;
+        /*= userAvatarMapperPlus.selectList(new QueryWrapper<UserAvatar>()
+                .eq("userId", userId)
+                .eq("status", "1"));*/
+        userAvatars = userAvatarMapperPlus.selectList(new QueryWrapper<UserAvatar>().lambda()
+        .eq(UserAvatar::getUserId,userId)
+        .eq(UserAvatar::getStatus,"1"));
         if (userAvatars == null) {
             return null;
         } else if (userAvatars.size() > 1) {
@@ -139,31 +154,38 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
 
     @Override
     public List<UserAvatar> selectUserHistoryAvatars(int userId) {
-        UserAvatarExample userAvatarExample = new UserAvatarExample();
+        /*UserAvatarExample userAvatarExample = new UserAvatarExample();
         UserAvatarExample.Criteria criteria = userAvatarExample.createCriteria();
         criteria.andUserIdEqualTo(userId);
         criteria.andStatusEqualTo("0");
         userAvatarExample.setOrderByClause("createTime asc");
-        return userAvatarMapper.selectByExample(userAvatarExample);
+        return userAvatarMapper.selectByExample(userAvatarExample);*/
+        return userAvatarMapperPlus.selectList(new QueryWrapper<UserAvatar>()
+                .eq("userId", userId)
+                .eq("status", "0")
+                .orderByAsc("createTime"));
     }
 
     @Override
     @Transactional
     public boolean updateUserAvatar(int userId, String newAvatarUuid) {
-        UserAvatarExample userAvatarExample = new UserAvatarExample();
+        /*UserAvatarExample userAvatarExample = new UserAvatarExample();
         UserAvatarExample.Criteria criteria = userAvatarExample.createCriteria();
+        criteria.andStatusEqualTo("1");
+        criteria.andUserIdEqualTo(userId);*/
         UserAvatar userAvatar = new UserAvatar();
         userAvatar.setStatus("0");
-        criteria.andStatusEqualTo("1");
-        criteria.andUserIdEqualTo(userId);
-        int i = userAvatarMapper.updateByExampleSelective(userAvatar, userAvatarExample);
+        int i = userAvatarMapperPlus.update(userAvatar, new UpdateWrapper<UserAvatar>()
+        .eq("status","1")
+        .eq("userId",userId));
+
         if (i != 1) {
             throw new RuntimeException("用户头像数据库异常，用户ID为 " + userId);
         }
         userAvatar.setStatus("1");
         userAvatar.setUuid(newAvatarUuid);
         userAvatar.setLastUseTime(LocalDateTime.now());
-        return userAvatarMapper.updateByPrimaryKeySelective(userAvatar) == 1;
+        return userAvatarMapperPlus.updateById(userAvatar) == 1;
     }
 
 /*    @Override
@@ -182,7 +204,7 @@ public class UserAvatarServiceImpl implements UserAvatarService, InitializingBea
     @Override
     @CacheEvict(cacheNames = "userAvatar", key = "#p0")
     public int deleteUserAvatar(String deletedAvatarUuid) {
-        UserAvatar userAvatar = userAvatarMapper.selectByPrimaryKey(deletedAvatarUuid);
+        UserAvatar userAvatar = userAvatarMapperPlus.selectById(deletedAvatarUuid);
         if (userAvatar == null) {
             throw new RuntimeException("不存在这个主键，对于 " + deletedAvatarUuid);
         }

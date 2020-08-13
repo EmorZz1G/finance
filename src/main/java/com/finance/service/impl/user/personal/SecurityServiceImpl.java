@@ -1,6 +1,8 @@
 package com.finance.service.impl.user.personal;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.finance.mapper.plus.user.UserMapperPlus;
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserExample;
@@ -15,6 +17,8 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Resource
     UserMapper userMapper;
+    @Resource
+    UserMapperPlus userMapperPlus;
 
     /**
      * 修改密码
@@ -25,17 +29,20 @@ public class SecurityServiceImpl implements SecurityService {
      */
     @Override
     public int updateUserPassword(int id, String oldpwd, String newpwd) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andIdEqualTo(id);
         criteria.andPasswordEqualTo(oldpwd);
-        List<User> users = userMapper.selectByExample(userExample);
+        List<User> users = userMapper.selectByExample(userExample);*/
+        List<User> users = userMapperPlus.selectList(new QueryWrapper<User>().lambda()
+                .eq(User::getId, id)
+                .eq(User::getPassword, newpwd));
         if(users==null||users.size()<=0){
             return 0;
         }
         User user = new User();
         user.setId(id);
         user.setPassword(newpwd);
-        return userMapper.updateByPrimaryKeySelective(user);
+        return userMapperPlus.updateById(user);
     }
 }

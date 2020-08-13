@@ -2,6 +2,7 @@ package com.finance.service.impl.admin.finance;
 
 import com.finance.mapper.others.BankMapper;
 import com.finance.mapper.others.ChangeMoneyMapper;
+import com.finance.mapper.plus.others.ChangeMoneyMapperPlus;
 import com.finance.pojo.others.Bank;
 import com.finance.pojo.others.ChangeMoney;
 import com.finance.service.admin.finance.ChangeMoneyService;
@@ -16,13 +17,17 @@ public class ChangeMoneyServiceImpl implements ChangeMoneyService {
     @Resource
     private ChangeMoneyMapper changeMoneyMapper;
 
+    @Resource
+    private ChangeMoneyMapperPlus changeMoneyMapperPlus;
+
     /**
      * 查询所有零钱理财信息
      * @return
      */
     @Override
     public List<ChangeMoney> selectChangeMoneyAll(){
-        return changeMoneyMapper.selectByExample(null);
+//        return changeMoneyMapper.selectByExample(null);
+        return changeMoneyMapperPlus.selectList(null);
     }
 
     /**
@@ -32,7 +37,8 @@ public class ChangeMoneyServiceImpl implements ChangeMoneyService {
      */
     @Override
     public int insertChangeMoney(ChangeMoney changeMoney){
-        return changeMoneyMapper.insertSelective(changeMoney);
+//        return changeMoneyMapper.insertSelective(changeMoney);
+        return changeMoneyMapperPlus.insert(changeMoney);
     }
 
     /**
@@ -42,16 +48,20 @@ public class ChangeMoneyServiceImpl implements ChangeMoneyService {
      */
     @Override
     public ChangeMoney selectChangeMoneyById(int id) {
-        return changeMoneyMapper.selectByPrimaryKey(id);
+//        return changeMoneyMapper.selectByPrimaryKey(id);
+        return changeMoneyMapperPlus.selectById(id);
     }
 
     /**
      *更新零钱理财信息
-     * @param changeMoney
-     * @return
+     * @param changeMoney entity
+     * @return num
      */
     @Override
-    public int updateChangeMoney(ChangeMoney changeMoney) { return changeMoneyMapper.updateByPrimaryKeySelective(changeMoney); }
+    public int updateChangeMoney(ChangeMoney changeMoney) {
+//        return changeMoneyMapper.updateByPrimaryKeySelective(changeMoney);
+        return changeMoneyMapperPlus.updateById(changeMoney);
+    }
 
     /**
      *根据零钱理财id删除零钱理财信息
@@ -60,6 +70,7 @@ public class ChangeMoneyServiceImpl implements ChangeMoneyService {
      */
     @Override
     public int deleteChangeMoneyById(int id) {
-        return changeMoneyMapper.deleteByPrimaryKey(id);
+//        return changeMoneyMapper.deleteByPrimaryKey(id);
+        return changeMoneyMapperPlus.deleteById(id);
     }
 }

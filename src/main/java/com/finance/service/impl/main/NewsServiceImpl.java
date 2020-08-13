@@ -1,6 +1,6 @@
 package com.finance.service.impl.main;
 
-import com.finance.mapper.others.NewsMapper;
+import com.finance.mapper.plus.others.NewsMapperPlus;
 import com.finance.pojo.others.News;
 import com.finance.service.user.main.NewsService;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 public class NewsServiceImpl implements NewsService {
 
     @Resource
-    NewsMapper newsMapper;
+    NewsMapperPlus newsMapperPlus;
 
 
     /**
@@ -22,6 +22,6 @@ public class NewsServiceImpl implements NewsService {
      */
     @Override
     public List<News> selectNewsAll() {
-        return newsMapper.selectByExample(null);
+        return newsMapperPlus.selectList(null);
     }
 }

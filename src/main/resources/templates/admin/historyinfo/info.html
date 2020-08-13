@@ -74,7 +74,7 @@
                       <td th:text="${info.title}"></td>
                       <td th:text="${info.infoDesc}"></td>
                       <td th:text="${info.admin.username}"></td>
-                      <td th:text="${#dates.format(info.createTime, 'yyyy-MM-dd')}"></td>
+                      <td th:text="${#temporals.format(info.createTime, 'yyyy-MM-dd')}"></td>
                       <td th:if="${info.status==0}" th:text="未读"></td>
                       <td th:if="${info.status==1}" th:text="已读"></td>
                       <td th:if="${info.status==2}" th:text="删除"></td>

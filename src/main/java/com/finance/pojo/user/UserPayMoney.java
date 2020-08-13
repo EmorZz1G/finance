@@ -18,6 +18,30 @@ import java.io.Serializable;
 public class UserPayMoney implements Serializable {
 
     private static final long serialVersionUID=1L;
+    @TableField(exist = false)
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserPayMoney{" +
+                "user=" + user +
+                ", id=" + id +
+                ", userId=" + userId +
+                ", payId=" + payId +
+                ", startTime=" + startTime +
+                ", averYield=" + averYield +
+                ", profit=" + profit +
+                ", status=" + status +
+                '}';
+    }
 
     /**
      * 用户-工资理财 投资表id 主键自增
@@ -116,16 +140,4 @@ public class UserPayMoney implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "UserPayMoney{" +
-        "id=" + id +
-        ", userId=" + userId +
-        ", payId=" + payId +
-        ", startTime=" + startTime +
-        ", averYield=" + averYield +
-        ", profit=" + profit +
-        ", status=" + status +
-        "}";
-    }
 }

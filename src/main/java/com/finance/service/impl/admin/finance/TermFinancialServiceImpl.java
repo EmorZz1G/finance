@@ -1,6 +1,7 @@
 package com.finance.service.impl.admin.finance;
 
 import com.finance.mapper.others.TermFinancialMapper;
+import com.finance.mapper.plus.others.TermFinancialMapperPlus;
 import com.finance.pojo.others.TermFinancial;
 import com.finance.service.admin.finance.TermFinancialService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,15 @@ public class TermFinancialServiceImpl implements TermFinancialService {
 
     @Resource
     TermFinancialMapper termFinancialMapper;
-
+    @Resource
+    TermFinancialMapperPlus termFinancialMapperPlus;
     /**
      * 查询所有期限理财信息
      * @return
      */
     @Override
     public List<TermFinancial> selectAllTermFinancial() {
-        return termFinancialMapper.selectByExample(null);
+        return termFinancialMapperPlus.selectList(null);
     }
 
     /**
@@ -30,7 +32,7 @@ public class TermFinancialServiceImpl implements TermFinancialService {
      */
     @Override
     public int insertTermFinancial(TermFinancial termFinancial) {
-        return termFinancialMapper.insertSelective(termFinancial);
+        return termFinancialMapperPlus.insert(termFinancial);
     }
 
     /**
@@ -40,7 +42,7 @@ public class TermFinancialServiceImpl implements TermFinancialService {
      */
     @Override
     public TermFinancial selectTermFinancialById(int id) {
-        return termFinancialMapper.selectByPrimaryKey(id);
+        return termFinancialMapperPlus.selectById(id);
     }
 
     /**
@@ -50,7 +52,7 @@ public class TermFinancialServiceImpl implements TermFinancialService {
      */
     @Override
     public int updateTermFinancial(TermFinancial termFinancial) {
-        return termFinancialMapper.updateByPrimaryKeySelective(termFinancial);
+        return termFinancialMapperPlus.updateById(termFinancial);
     }
 
     /**
@@ -60,6 +62,6 @@ public class TermFinancialServiceImpl implements TermFinancialService {
      */
     @Override
     public int deleteTermFinancial(int id) {
-       return termFinancialMapper.deleteByPrimaryKey(id);
+       return termFinancialMapperPlus.deleteById(id);
     }
 }

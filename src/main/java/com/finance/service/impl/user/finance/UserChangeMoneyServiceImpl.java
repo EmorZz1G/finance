@@ -3,6 +3,9 @@ package com.finance.service.impl.user.finance;
 import com.finance.controller.user.finance.UserChangeMoneyController;
 import com.finance.mapper.others.ChangeMoneyMapper;
 import com.finance.mapper.others.FlowOfFundsMapper;
+import com.finance.mapper.plus.others.ChangeMoneyMapperPlus;
+import com.finance.mapper.plus.others.FlowOfFundsMapperPlus;
+import com.finance.mapper.plus.user.UserChangeMoneyMapperPlus;
 import com.finance.mapper.user.UserChangeMoneyMapper;
 import com.finance.pojo.others.ChangeMoney;
 import com.finance.pojo.others.FlowOfFunds;
@@ -28,6 +31,12 @@ public class UserChangeMoneyServiceImpl implements UserChangeMoneyService {
     private UserChangeMoneyMapper userChangeMoneyMapper;
     @Resource
     private FlowOfFundsMapper flowOfFundsMapper;
+    @Resource
+    private ChangeMoneyMapperPlus changeMoneyMapperPlus;
+    @Resource
+    private UserChangeMoneyMapperPlus userChangeMoneyMapperPlus;
+    @Resource
+    private FlowOfFundsMapperPlus flowOfFundsMapperPlus;
 
     /**
      * 查询所有零钱理财产品信息
@@ -35,7 +44,7 @@ public class UserChangeMoneyServiceImpl implements UserChangeMoneyService {
      */
     @Override
     public List<ChangeMoney> selectChangeMoneyAll() {
-        return changeMoneyMapper.selectByExample(null);
+        return changeMoneyMapperPlus.selectList(null);
     }
 
     /**
@@ -73,9 +82,9 @@ public class UserChangeMoneyServiceImpl implements UserChangeMoneyService {
         flowOfFunds.setSource(source);
         flowOfFunds.setCreateTime(LocalDate.now());
         flowOfFunds.setFundDesc("零钱理财");*/
-        int i = userChangeMoneyMapper.insertSelective(userChangeMoney);
+        int i = userChangeMoneyMapperPlus.insert(userChangeMoney);
         if (i == 1) {
-            return flowOfFundsMapper.insertSelective(flowOfFunds);
+            return flowOfFundsMapperPlus.insert(flowOfFunds);
         } else {
             return 0;
         }

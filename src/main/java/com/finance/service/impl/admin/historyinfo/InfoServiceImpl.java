@@ -1,11 +1,10 @@
 package com.finance.service.impl.admin.historyinfo;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.finance.common.utils.FuzzySearchUtils;
 import com.finance.mapper.others.InfoMapper;
-import com.finance.pojo.others.FlowOfFunds;
-import com.finance.pojo.others.FlowOfFundsExample;
-import com.finance.pojo.others.Info;
-import com.finance.pojo.others.InfoExample;
+import com.finance.mapper.plus.others.InfoMapperPlus;
+import com.finance.pojo.others.*;
 import com.finance.service.admin.historyinfo.InfoService;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,8 @@ import java.util.Map;
 public class InfoServiceImpl implements InfoService {
     @Resource
     InfoMapper infoMapper;
-
+    @Resource
+    InfoMapperPlus infoMapperPlus;
 
     /**
      * 查询所有历史消息
@@ -25,7 +25,7 @@ public class InfoServiceImpl implements InfoService {
      */
     @Override
     public List<Info> selectAllInfo() {
-        return infoMapper.selectByExample(null);
+        return infoMapperPlus.selectList(null);
     }
 
     /**
@@ -35,7 +35,7 @@ public class InfoServiceImpl implements InfoService {
      */
     @Override
     public int deleteInfoById(int id) {
-        return infoMapper.deleteByPrimaryKey(id);
+        return infoMapperPlus.deleteById(id);
     }
 
     /**
@@ -46,9 +46,11 @@ public class InfoServiceImpl implements InfoService {
     @Override
     public List<Info> selectInfoByQuery(Map<String, Object> query) {
         try {
-            InfoExample example = (InfoExample) FuzzySearchUtils.autoWrapper(InfoExample.class, query);
+            /*InfoExample example = (InfoExample) FuzzySearchUtils.autoWrapper(InfoExample.class, query);
             List<Info> infos= infoMapper.selectByExample(example);
-            return infos;
+            return infos;*/
+            QueryWrapper<Info> infoQueryWrapper = FuzzySearchUtils.autoWrapper(new QueryWrapper<Info>(), query);
+            return infoMapperPlus.selectList(infoQueryWrapper);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

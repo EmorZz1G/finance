@@ -48,7 +48,7 @@ public interface LoanMapperExt extends LoanMapper {
             @Result(column = "loanId",
                     javaType = User.class,
                     property = "user",
-                    one = @One(select = "com.finance.mapper.user.UserMapper.selectByPrimaryKey"))
+                    one = @One(select = "com.finance.mapper.plus.user.UserMapperPlus.selectById"))
     })
     List<Loan> selectLoanFuzzy(String username,Integer loanStatus);
 
@@ -62,7 +62,7 @@ public interface LoanMapperExt extends LoanMapper {
             @Result(column = "loanId",
                     javaType = User.class,
                     property = "user",
-                    one = @One(select = "com.finance.mapper.user.UserMapper.selectByPrimaryKey"))
+                    one = @One(select = "com.finance.mapper.plus.user.UserMapperPlus.selectById"))
     })
     List<Loan> selectLoanFuzzyHa(String username);
 

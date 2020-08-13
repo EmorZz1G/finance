@@ -1,6 +1,7 @@
 package com.finance.service.impl.admin.finance;
 
 import com.finance.mapper.others.PayMoneyMapper;
+import com.finance.mapper.plus.others.PayMoneyMapperPlus;
 import com.finance.pojo.others.PayMoney;
 import com.finance.service.admin.finance.PayMoneyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,16 @@ public class PayMoneyServiceImpl implements PayMoneyService {
     @Resource
     private PayMoneyMapper payMoneyMapper;
 
+    @Resource
+    private PayMoneyMapperPlus payMoneyMapperPlus;
+
     /**
      * 查询所有工资理财信息
      * @return
      */
     @Override
     public List<PayMoney> selectAllPayMoney() {
-        return payMoneyMapper.selectByExample(null);
+        return payMoneyMapperPlus.selectList(null);
     }
 
     /**
@@ -31,7 +35,8 @@ public class PayMoneyServiceImpl implements PayMoneyService {
      */
     @Override
     public int insertPayMoney(PayMoney payMoney) {
-        return payMoneyMapper.insertSelective(payMoney);
+//        return payMoneyMapper.insertSelective(payMoney);
+        return payMoneyMapperPlus.insert(payMoney);
     }
 
     /**
@@ -41,7 +46,8 @@ public class PayMoneyServiceImpl implements PayMoneyService {
      */
     @Override
     public PayMoney selectPayMoneyById(int id) {
-        return payMoneyMapper.selectByPrimaryKey(id);
+//        return payMoneyMapper.selectByPrimaryKey(id);
+        return payMoneyMapperPlus.selectById(id);
     }
 
     /**
@@ -51,7 +57,8 @@ public class PayMoneyServiceImpl implements PayMoneyService {
      */
     @Override
     public int updatePayMoney(PayMoney payMoney) {
-        return payMoneyMapper.updateByPrimaryKeySelective(payMoney);
+//        return payMoneyMapper.updateByPrimaryKeySelective(payMoney);
+        return payMoneyMapperPlus.updateById(payMoney);
     }
 
     /**
@@ -61,6 +68,7 @@ public class PayMoneyServiceImpl implements PayMoneyService {
      */
     @Override
     public int deletePayMoneyById(int id) {
-        return payMoneyMapper.deleteByPrimaryKey(id);
+//        return payMoneyMapper.deleteByPrimaryKey(id);
+        return payMoneyMapperPlus.deleteById(id);
     }
 }

@@ -1,9 +1,13 @@
 package com.finance.service.impl.admin.permission;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.finance.mapper.perms.UserPermsViewMapper;
+import com.finance.mapper.plus.perms.UserPermsViewMapperPlus;
+import com.finance.mapper.plus.user.UserPermissionsMapperPlus;
 import com.finance.mapper.user.UserPermissionsMapper;
 import com.finance.pojo.others.Permissions;
+import com.finance.pojo.perms.AdminPermsView;
 import com.finance.pojo.perms.UserPermsView;
 import com.finance.pojo.perms.UserPermsViewExample;
 import com.finance.pojo.user.User;
@@ -27,9 +31,13 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
 
     @Resource
     UserPermsViewMapper permsViewMapper;
+    @Resource
+    UserPermsViewMapperPlus permsViewMapperPlus;
 
     @Resource
     UserPermissionsMapper userPermissionsMapper;
+    @Resource
+    UserPermissionsMapperPlus userPermissionsMapperPlus;
 
     @Resource
     CommonPermissionService commonPermissionService;
@@ -113,19 +121,21 @@ public class UserPermissionsServiceImpl implements UserPermissionsService {
     @Override
     @Cacheable(cacheNames = "userPermsList", key = "#id")
     public List<UserPermsView> selectPermsByUserId(int id) {
-        UserPermsViewExample example = new UserPermsViewExample();
+        /*UserPermsViewExample example = new UserPermsViewExample();
         UserPermsViewExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(id);
-        return permsViewMapper.selectByExample(example);
+        return permsViewMapper.selectByExample(example);*/
+        return permsViewMapperPlus.selectList(new QueryWrapper<UserPermsView>().eq("userId",id));
     }
 
     @Override
     @Cacheable(cacheNames = "userPermsList", key = "#p0.id")
     public List<UserPermsView> selectPermsByUser(User user) {
-        UserPermsViewExample example = new UserPermsViewExample();
+       /* UserPermsViewExample example = new UserPermsViewExample();
         UserPermsViewExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(user.getId());
-        return permsViewMapper.selectByExample(example);
+        return permsViewMapper.selectByExample(example);*/
+        return permsViewMapperPlus.selectList(new QueryWrapper<UserPermsView>().eq("userId",user.getId()));
     }
 
     @Override

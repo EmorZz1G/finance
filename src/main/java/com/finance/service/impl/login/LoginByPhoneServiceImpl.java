@@ -1,5 +1,7 @@
 package com.finance.service.impl.login;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.finance.mapper.plus.user.UserMapperPlus;
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserExample;
@@ -13,7 +15,7 @@ import java.util.List;
 @Service
 public class LoginByPhoneServiceImpl implements LoginByPhoneService {
     @Resource
-    UserMapper userMapper;
+    UserMapperPlus userMapperPlus;
 
 
     /**
@@ -21,7 +23,7 @@ public class LoginByPhoneServiceImpl implements LoginByPhoneService {
      * @param example 要查询的example对象
      * @return 返回查询结果，成功返回查询结果中的首个结果，失败返回null
      */
-    public Object getObject(Object example){
+    /*public Object getObject(Object example){
         if (example instanceof UserExample){
             List<User> objs = userMapper.selectByExample((UserExample)example);
             if (objs!=null&&objs.size()==1){
@@ -29,7 +31,7 @@ public class LoginByPhoneServiceImpl implements LoginByPhoneService {
             }
         }
         return null;
-    }
+    }*/
 
 
     /**
@@ -39,10 +41,11 @@ public class LoginByPhoneServiceImpl implements LoginByPhoneService {
      */
     @Override
     public User loginVerifyUserPhone(String userPhone) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andPhoneEqualTo(userPhone);
-        return (User) getObject(userExample);
+        return (User) getObject(userExample);*/
+        return userMapperPlus.selectOne(new QueryWrapper<User>().eq("phone",userPhone));
     }
 
     /**
@@ -53,11 +56,13 @@ public class LoginByPhoneServiceImpl implements LoginByPhoneService {
      */
     @Override
     public User loginUserByPhone(String userPhone, String password) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andPhoneEqualTo(userPhone);
         criteria.andPasswordEqualTo(password);
-        return (User) getObject(userExample);
+        return (User) getObject(userExample);*/
+        return userMapperPlus.selectOne(new QueryWrapper<User>().eq("phone",userPhone)
+                .eq("password",password));
     }
 
 
@@ -69,7 +74,7 @@ public class LoginByPhoneServiceImpl implements LoginByPhoneService {
     @Override
     public int status2online(User user) {
         user.setStatus(1);
-        return userMapper.updateByPrimaryKeySelective(user);
+        return userMapperPlus.updateById(user);
     }
 
     /**
@@ -80,6 +85,6 @@ public class LoginByPhoneServiceImpl implements LoginByPhoneService {
     @Override
     public int status2Disconnected(User user) {
         user.setStatus(0);
-        return userMapper.updateByPrimaryKeySelective(user);
+        return userMapperPlus.updateById(user);
     }
 }

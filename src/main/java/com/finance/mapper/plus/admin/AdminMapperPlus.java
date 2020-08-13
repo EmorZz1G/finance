@@ -1,6 +1,6 @@
-package com.finance.mapper.plus.user;
+package com.finance.mapper.plus.admin;
 
-import com.finance.pojo.user.User;
+import com.finance.pojo.admin.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Emor
  * @since 2020-08-12
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface AdminMapperPlus extends BaseMapper<Admin> {
 
 }

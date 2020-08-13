@@ -2,6 +2,9 @@ package com.finance.service.impl.user.finance;
 
 import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.others.PayMoneyMapper;
+import com.finance.mapper.plus.others.FlowOfFundsMapperPlus;
+import com.finance.mapper.plus.others.PayMoneyMapperPlus;
+import com.finance.mapper.plus.user.UserPayMoneyMapperPlus;
 import com.finance.mapper.user.UserPayMoneyMapper;
 import com.finance.pojo.others.FlowOfFunds;
 import com.finance.pojo.others.PayMoney;
@@ -21,6 +24,12 @@ public class UserPayMoneyServiceImpl implements UserPayMoneyService {
     private UserPayMoneyMapper userPayMoneyMapper;
     @Resource
     private FlowOfFundsMapper flowOfFundsMapper;
+    @Resource
+    private PayMoneyMapperPlus payMoneyMapperPlus;
+    @Resource
+    private UserPayMoneyMapperPlus userPayMoneyMapperPlus;
+    @Resource
+    private FlowOfFundsMapperPlus flowOfFundsMapperPlus;
 
     /**
      * 查询所有工资理财产品信息
@@ -28,7 +37,7 @@ public class UserPayMoneyServiceImpl implements UserPayMoneyService {
      */
     @Override
     public List<PayMoney> selectAllUserPayMoney(){
-        return payMoneyMapper.selectByExample(null);
+        return payMoneyMapperPlus.selectList(null);
     }
 
     /**
@@ -38,7 +47,7 @@ public class UserPayMoneyServiceImpl implements UserPayMoneyService {
      */
     @Override
     public int insertUserPayMoney(UserPayMoney userPayMoney) {
-        return userPayMoneyMapper.insertSelective(userPayMoney);
+        return userPayMoneyMapperPlus.insert(userPayMoney);
     }
 
     /**
@@ -48,7 +57,7 @@ public class UserPayMoneyServiceImpl implements UserPayMoneyService {
      */
     @Override
     public PayMoney selectById(Integer id){
-        return payMoneyMapper.selectByPrimaryKey(id);
+        return payMoneyMapperPlus.selectById(id);
     }
 
     /**
@@ -58,7 +67,7 @@ public class UserPayMoneyServiceImpl implements UserPayMoneyService {
      */
     @Override
     public int insertFlowOfFunds(FlowOfFunds flowOfFunds){
-        return flowOfFundsMapper.insertSelective(flowOfFunds);
+        return flowOfFundsMapperPlus.insert(flowOfFunds);
     }
 
 

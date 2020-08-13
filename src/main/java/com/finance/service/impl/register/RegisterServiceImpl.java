@@ -1,5 +1,8 @@
 package com.finance.service.impl.register;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.finance.mapper.plus.user.UserMapperPlus;
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.user.User;
 import com.finance.pojo.user.UserExample;
@@ -13,7 +16,7 @@ import javax.annotation.Resource;
 public class RegisterServiceImpl implements RegisterService {
 
     @Resource
-    UserMapper userMapper;
+    UserMapperPlus userMapperPlus;
 
     /**
      * 向数据库中添加要注册的用户信息
@@ -22,15 +25,17 @@ public class RegisterServiceImpl implements RegisterService {
      */
     @Override
     public boolean register(User user) {
-        UserExample userExample = new UserExample();
+        /*UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(user.getUsername());
-        int i = userMapper.countByExample(userExample);
+        int i = userMapper.countByExample(userExample);*/
+
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        int i = userMapperPlus.selectCount((wrapper.eq("username",user.getUsername())));
         if(i>=1){
             return false;
         }
-        criteria.andPasswordEqualTo(user.getPassword());
-        criteria.andStatusEqualTo(0);
-        return userMapper.insertSelective(user)==1;
+        user.setStatus(0);
+        return userMapperPlus.insert(user)==1;
     }
 }

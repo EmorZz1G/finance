@@ -32,7 +32,7 @@ public class DisconnectedUserTask {
     @Autowired
     LoginService loginService;
 
-    @Resource
+    @Autowired
     AutoTaskMapper autoTaskMapper;
 
 

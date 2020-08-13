@@ -1,6 +1,6 @@
 package com.finance.mapper.plus.others;
 
-import com.finance.pojo.others.FlowOfFunds;
+import com.finance.pojo.others.FundProduct;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Emor
  * @since 2020-08-12
  */
-public interface FlowOfFundsMapper extends BaseMapper<FlowOfFunds> {
+public interface FundProductMapperPlus extends BaseMapper<FundProduct> {
 
 }

@@ -1,6 +1,7 @@
 package com.finance.service.impl.user.personal;
 
 
+import com.finance.mapper.plus.user.UserMapperPlus;
 import com.finance.mapper.user.UserMapper;
 import com.finance.pojo.user.User;
 import com.finance.service.user.personal.ProfileService;
@@ -13,14 +14,15 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Resource
     UserMapper userMapper;
-
+    @Resource
+    UserMapperPlus userMapperPlus;
     @Override
     public int updateUserProfile(User user) {
-        return userMapper.updateByPrimaryKeySelective(user);
+        return userMapperPlus.updateById(user);
     }
 
     @Override
     public User selectUserById(int id) {
-        return userMapper.selectByPrimaryKey(id);
+        return userMapperPlus.selectById(id);
     }
 }

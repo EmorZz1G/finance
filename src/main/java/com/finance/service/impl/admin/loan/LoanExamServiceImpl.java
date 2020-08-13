@@ -1,10 +1,14 @@
 package com.finance.service.impl.admin.loan;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.finance.common.utils.FuzzySearchUtils;
 import com.finance.mapper.ext.others.LoanMapperExt;
 import com.finance.mapper.others.FlowOfFundsMapper;
 import com.finance.mapper.others.InfoMapper;
 import com.finance.mapper.others.LoanMapper;
+import com.finance.mapper.plus.others.FlowOfFundsMapperPlus;
+import com.finance.mapper.plus.others.InfoMapperPlus;
+import com.finance.mapper.plus.others.LoanMapperPlus;
 import com.finance.pojo.admin.Admin;
 import com.finance.pojo.others.FlowOfFunds;
 import com.finance.pojo.others.Info;
@@ -24,19 +28,22 @@ import java.util.Map;
 public class LoanExamServiceImpl implements LoanExamService {
     @Resource
     private LoanMapper loanMapper;
-
+    @Resource
+    private LoanMapperPlus loanMapperPlus;
     @Resource
     LoanMapperExt loanMapperExt;
 
     @Resource
     InfoMapper infoMapper;
-
+    @Resource
+    InfoMapperPlus infoMapperPlus;
     @Resource
     FlowOfFundsMapper flowOfFundsMapper;
-
+    @Resource
+    FlowOfFundsMapperPlus flowOfFundsMapperPlus;
     @Override
     public List<Loan> selectAllLoanExam() {
-        return loanMapper.selectByExample(null);
+        return loanMapperPlus.selectList(null);
     }
 
     /**
@@ -53,7 +60,7 @@ public class LoanExamServiceImpl implements LoanExamService {
         info.setStatus(0);
         info.setCreateTime(LocalDate.now());
         info.setSendId(admin.getId());
-        Loan loan1 = loanMapper.selectByPrimaryKey(loan.getId());
+        Loan loan1 = loanMapperPlus.selectById(loan.getId());
         info.setReceiveId(loan1.getLoanId());
         String desc;
         if (type == 1) {
@@ -75,7 +82,7 @@ public class LoanExamServiceImpl implements LoanExamService {
                     "网贷",
                     new Date(),
                     "网贷");*/
-            flowOfFundsMapper.insertSelective(flowOfFunds);
+            flowOfFundsMapperPlus.insert(flowOfFunds);
         } else {
             loan.setApplyStatus(1);
             info.setTitle("网贷审核未通过");
@@ -83,9 +90,9 @@ public class LoanExamServiceImpl implements LoanExamService {
                     +"元网贷申请审核未通过！审核人为："+admin.getUsername();
         }
         info.setInfoDesc(desc);
-        int i = loanMapper.updateByPrimaryKeySelective(loan);
+        int i = loanMapperPlus.updateById(loan);
         if(i==1){
-            return infoMapper.insertSelective(info);
+            return infoMapperPlus.insert(info);
         }else {
             return 0;
         }
@@ -99,7 +106,7 @@ public class LoanExamServiceImpl implements LoanExamService {
      */
     @Override
     public int remindPay(Loan loan, Admin admin) {
-        Loan loan1 = loanMapper.selectByPrimaryKey(loan.getId());
+        Loan loan1 = loanMapperPlus.selectById(loan.getId());
         Info info = new Info();
         info.setTitle("还款通知");
         info.setSendId(admin.getId());
@@ -109,7 +116,7 @@ public class LoanExamServiceImpl implements LoanExamService {
                 + "申请的" + loan1.getAmount() + "元网贷该还款了！该提醒发送人为：" + admin.getUsername();
         info.setInfoDesc(desc);
         info.setStatus(0);
-        return infoMapper.insertSelective(info);
+        return infoMapperPlus.insert(info);
     }
 
     @Override
@@ -140,9 +147,11 @@ public class LoanExamServiceImpl implements LoanExamService {
     @Override
     public List<Loan> selectLoanByQuery(Map<String, Object> query) {
         try {
-            LoanExample example = (LoanExample) FuzzySearchUtils.autoWrapper(LoanExample.class, query);
+            /*LoanExample example = (LoanExample) FuzzySearchUtils.autoWrapper(LoanExample.class, query);
             List<Loan> loans = loanMapper.selectByExample(example);
-            return loans;
+            return loans;*/
+            QueryWrapper<Loan> loanQueryWrapper = FuzzySearchUtils.autoWrapper(new QueryWrapper<Loan>(), query);
+            return loanMapperPlus.selectList(loanQueryWrapper);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -56,6 +56,7 @@ public class BankcardController {
         model.addAttribute("bankcardPageInfo", bankcardPageInfo);
         model.addAttribute("query",query);
         model.addAttribute("bankcardList", bankcards);
+        System.out.println(bankcards);
         return "admin/userinfo/bankcard";
     }
     

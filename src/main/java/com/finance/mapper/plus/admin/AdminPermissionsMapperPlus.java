@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Emor
  * @since 2020-08-12
  */
-public interface AdminPermissionsMapper extends BaseMapper<AdminPermissions> {
+public interface AdminPermissionsMapperPlus extends BaseMapper<AdminPermissions> {
 
 }

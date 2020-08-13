@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.finance.pojo.admin.Admin;
+import com.finance.pojo.user.User;
+
 import java.io.Serializable;
 
 /**
@@ -17,6 +20,32 @@ import java.io.Serializable;
 public class Info implements Serializable {
 
     private static final long serialVersionUID=1L;
+    @TableField(exist = false)
+    private Admin admin;
+
+    @Override
+    public String toString() {
+        return "Info{" +
+                "admin=" + admin +
+                ", id=" + id +
+                ", sendId=" + sendId +
+                ", receiveId=" + receiveId +
+                ", createTime=" + createTime +
+                ", title='" + title + '\'' +
+                ", infoDesc='" + infoDesc + '\'' +
+                ", status=" + status +
+                ", infocol='" + infocol + '\'' +
+                '}';
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
 
     /**
      * 消息编号 主键自增
@@ -125,17 +154,4 @@ public class Info implements Serializable {
         this.infocol = infocol;
     }
 
-    @Override
-    public String toString() {
-        return "Info{" +
-        "id=" + id +
-        ", sendId=" + sendId +
-        ", receiveId=" + receiveId +
-        ", createTime=" + createTime +
-        ", title=" + title +
-        ", infoDesc=" + infoDesc +
-        ", status=" + status +
-        ", infocol=" + infocol +
-        "}";
-    }
 }

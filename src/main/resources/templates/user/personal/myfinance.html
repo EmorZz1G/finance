@@ -78,7 +78,7 @@
                                                     <td th:text="${ucmStat.index+1}"></td>
                                                     <td th:text="${ucm.changeMoney.name}"></td>
                                                     <td th:text="${#numbers.formatDecimal(ucm.changeMoney.invesMoney,1,2)}+'元'"></td>
-                                                    <td th:text="${#dates.format(ucm.startTime, 'yyyy-MM-dd')}"></td>
+                                                    <td th:text="${#temporals.format(ucm.startTime, 'yyyy-MM-dd')}"></td>
                                                     <td th:text="${ucm.changeMoney.invesTerm}"></td>
                                                     <td th:text="${#numbers.formatDecimal(ucm.profit,1,2)}+'元'"></td>
                                                     <td th:text="${#numbers.formatDecimal(ucm.averYield*100,1,2)}+'%'"></td>
@@ -139,7 +139,7 @@
                                                     <td th:if="${upm.payMoney.type==1}" th:text="国债"></td>
                                                     <td th:if="${upm.payMoney.type==2}" th:text="期货"></td>
                                                     <td th:text="${#numbers.formatDecimal(upm.payMoney.monthMoney,1,2)}+'元'"></td>
-                                                    <td th:text="${#dates.format(upm.startTime, 'yyyy-MM-dd')}"></td>
+                                                    <td th:text="${#temporals.format(upm.startTime, 'yyyy-MM-dd')}"></td>
                                                     <td th:text="${upm.payMoney.invesTerm}"></td>
                                                     <td th:text="${#numbers.formatDecimal(upm.profit,1,2)}+'元'"></td>
                                                     <td th:text="${#numbers.formatDecimal(upm.averYield*100,1,2)}+'%'"></td>
@@ -200,7 +200,7 @@
                                                     <td th:text="${utfStat.index+1}"></td>
                                                     <td th:text="${utf.termFinancial.name}"></td>
                                                     <td th:text="${#numbers.formatDecimal(utf.termFinancial.leastMoney,1,2)}+'元'"></td>
-                                                    <td th:text="${#dates.format(utf.startTime, 'yyyy-MM-dd')}"></td>
+                                                    <td th:text="${#temporals.format(utf.startTime, 'yyyy-MM-dd')}"></td>
                                                     <td th:text="${utf.termFinancial.invesTerm}"></td>
                                                     <td th:text="${#numbers.formatDecimal(utf.profit,1,2)}+'元'"></td>
                                                     <td th:text="${#numbers.formatDecimal(utf.averYield*100,1,2)}+'%'"></td>
@@ -261,7 +261,7 @@
                                                     <td th:text="${ufpStat.index+1}"></td>
                                                     <td th:text="${ufp.fundProduct.fundDesc}"></td>
                                                     <td th:text="${#numbers.formatDecimal(ufp.fundProduct.leastMoney,1,2)}+'元'"></td>
-                                                    <td th:text="${#dates.format(ufp.startTime, 'yyyy-MM-dd')}"></td>
+                                                    <td th:text="${#temporals.format(ufp.startTime, 'yyyy-MM-dd')}"></td>
                                                     <td th:text="${ufp.fundProduct.invesTerm}"></td>
                                                     <td th:text="${#numbers.formatDecimal(ufp.profit,1,2)}+'元'"></td>
                                                     <td th:text="${#numbers.formatDecimal(ufp.averYield*100,1,2)}+'%'"></td>

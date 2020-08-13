@@ -60,8 +60,7 @@ public class InfoController {
         query.put("min-createTime",min_Date);
         query.put("max-createTime",max_Date);
         query.put("infoDesc",username);
-        query.put("minDate",minDate);
-        query.put("maxDate",maxDate);
+
         if(!status.equals("")){
             query.put("status",Integer.parseInt(status));
         }
@@ -74,6 +73,8 @@ public class InfoController {
         if(status.equals("")){
             query.put("status","");
         }
+        query.put("minDate",minDate);
+        query.put("maxDate",maxDate);
         model.addAttribute("query",query);
         return "admin/historyinfo/info.html";
     }

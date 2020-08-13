@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finance.mapper.plus.user.UserChangeMoneyMapperPlus">
+  <resultMap id="BaseResultMap" type="com.finance.pojo.user.UserChangeMoney">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userId" jdbcType="INTEGER" property="userId" />
+    <result column="changeId" jdbcType="INTEGER" property="changeId" />
+    <result column="startTime" jdbcType="DATE" property="startTime" />
+    <result column="averYield" jdbcType="DECIMAL" property="averYield" />
+    <result column="profit" jdbcType="DECIMAL" property="profit" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="changeMoney"
+                 column="changeId"
+                 javaType="com.finance.pojo.others.ChangeMoney"
+                 select="com.finance.mapper.plus.others.ChangeMoneyMapperPlus.selectById">
+    </association>
+  </resultMap>
+</mapper>
